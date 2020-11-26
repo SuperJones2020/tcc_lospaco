@@ -1,0 +1,27 @@
+﻿@using TCC_LOSPACO.CustomHtmlHelper
+@model TCC_LOSPACO.Models.CartService
+
+@{
+    string value = System.Text.Encoding.UTF8.GetString(Model.Image);
+    var imgSrc = String.Format("data:image/png;base64,{0}", value);
+}
+
+<div data-name="@Model.Name" class="row justify-content-center cart-item">
+    <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
+        <div class="s-col-12" style="width: 80px; height: 70px;">
+            <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
+                @CustomHtmlHelper.SendRequest("", "/Cart/RemoveCartItem", new { name = Model.Name }, new { OnSuccess = "OnRemoveCartItem", OnFailure = "OnCartItemRemoveFailure", Loader = ".main-loader" }, "fas fa-times red")
+            </div>
+            <a href=@Url.Action("Service", "Home", new { nome=Model.Name })><img src="@CustomHtmlHelper.ImageSource(Model.Image)" class="max-size img-img" alt="@Model.Name"></a>
+        </div>
+        <div class="item-text s-col-6 fg-1">
+            <div class="m-x-3 s-m-x-none m-y-2-child">
+                <div class="item-header font-jos f-2">@Model.Name</div>
+                <div class="font-inc">R$ @Model.Price</div>
+            </div>
+        </div>
+        <div class="row justify-content-end item-qty s-col-6">
+            <input type="number" value='@Model.Quantity' data-input-manager="false" class="input-anim item-quantity-input text-align-center" required style="width: 70px;">
+        </div>
+    </div>
+</div>

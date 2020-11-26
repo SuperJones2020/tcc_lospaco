@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1169
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCC-LOSPACO", "TCC-LOSPACO\TCC-LOSPACO.csproj", "{4CABF6B3-F9DB-4C38-93C9-BCB7D6F2AE43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CABF6B3-F9DB-4C38-93C9-BCB7D6F2AE43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CABF6B3-F9DB-4C38-93C9-BCB7D6F2AE43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CABF6B3-F9DB-4C38-93C9-BCB7D6F2AE43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CABF6B3-F9DB-4C38-93C9-BCB7D6F2AE43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {032FAD9F-AAA3-4641-97B7-17F7DF0B3655}
+	EndGlobalSection
+EndGlobal

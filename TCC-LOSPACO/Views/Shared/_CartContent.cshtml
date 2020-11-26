@@ -1,0 +1,9 @@
+﻿@using TCC_LOSPACO.DAO
+@{
+    var list = CartDAO.GetList();
+    foreach (dynamic item in list) {
+        string name = Global.GetValue(item, "Name");
+        string type = Global.GetValue(item, "Type");
+        if (type == "SERVICO") {@Html.Partial("_ServiceCartItem", CartServiceDAO.GetByName((string)name))}// else if (type == "PACOTE") { @Html.Partial("_PackageCartItem", PackageDAO.GetByName(name));
+        }
+    }

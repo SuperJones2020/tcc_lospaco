@@ -1,0 +1,151 @@
+﻿@using TCC_LOSPACO.DAO
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&family=Inconsolata&family=Poiret+One&family=Comfortaa:wght@300;400;500;600;700&family=Josefin+Sans:wght@100;400&family=Montserrat+Alternates:wght@500&family=Hammersmith+One&family=Quicksand:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+          integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+    <title>@ViewBag.Title Lo'Spaço</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="toast-container"></div>
+    <div class="overflow-hidden">
+        <div class="nav nav-height bg-black max-w z-20 position-fixed"></div>
+        <nav class="container row center-elements position-fixed z-max nav">
+            <div class="main-loader position-absolute max-w bg-white overflow-hidden">
+                <div class="bar xxs-w max-h bg-black"></div>
+            </div>
+            <div class="row nav-height nav-content justify-content-between align-items-center xxl-w">
+                <div class="brand row center-elements">
+                    <h2><a class="f-5 d-l-none menu-text white font-jos" href=@Url.Action("Index", "Home")>Lo'Spaço</a></h2>
+                </div>
+                <div class="menu-btns row">
+                    <a href=@Url.Action("Profile", "Home")>
+                        <div data-follow-smoothly class="row z-max cursor-pointer p-3">
+                            <i class="white f-3 fas nav-btn-icon fa-user"></i>
+                        </div>
+                    </a>
+
+                    <div data-follow-smoothly class="cart-btn row z-max cursor-pointer p-3">
+                        <i class="white f-3 fas nav-btn-icon fa-shopping-cart"></i>
+                    </div>
+
+                    <div data-follow-smoothly class="menu-btn row z-max cursor-pointer p-3">
+                        <i class="nav-btn-icon nav-menu-icon white f-3 fas fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div data-open=false class="row center-elements position-fixed menu-container max-vh bg-white z-30">
+        <div class="menu-content cursor-pointer-child">
+            <a href=@Url.Action("Index", "Home")><div data-follow-smoothly class="area p-5"><div class="row center-elements"><h1 class="f-5">Home</h1></div></div></a>
+            <a href=@Url.Action("Services", "Home")><div data-follow-smoothly class="area p-5"><div class="row center-elements"><h1 class="f-5">Serviços</h1></div></div></a>
+        </div>
+    </div>
+    <div class="aside-cart-container close-aside position-fixed max-vh max-w" style="z-index: -1;">
+        <aside class="aside-cart position-fixed max-vh bg-white" style="transform: translateX(-100%);">
+            <div class="header row m-y-4 justify-content-center fg-0">
+                <div class="content xxl-w">
+                    <div class="row align-items-center justify-content-between">
+                        <h1 class="f-7 font-jos">Carrinho</h1>
+                        <i class="fas f-2 fa-times rotate-anim close-aside cursor-pointer z-1"></i>
+                    </div>
+                    <hr class="max-w bg-black" />
+                </div>
+            </div>
+            <div class="cart-items m-y-4-child fg-1" style="overflow-y: auto">
+                @Html.Partial("_CartContent")
+            </div>
+            <footer class="cart-footer fg-0 xxl-w p-y-3 row col-6-child bg-white center-x-absolute z-1 center-elements">
+                <div class="row center-elements">
+                    <h2 class="font-jos f-2"><span class='f-2 cart-price font-inc'>R$ @CartDAO.GetTotalPrice() </span></h2>
+                </div>
+                <a href="#" data-zoom="1.2, 1s" data-anim-to-white type="button" class="p-2 text-align-center bg-black white cursor-pointer">Comprar Serviços</a>
+            </footer>
+        </aside>
+    </div>
+    @RenderBody()
+    <footer class="main-footer">
+        <div class="row m-y-2 justify-content-center">
+            <div class="l-w s-xxl-w">
+                <div class="row l-col-12-child justify-content-between align-items-center max-w">
+                    <div class="info m-y-1">
+                        <h3 class="text-align-center font-jos">Lo'Spaço ©2020. Developed by Webber</h3>
+                    </div>
+                    <div class="row col-4-child text-align-center-child justify-content-center social-media">
+                        <div class="footer-icon"><i class="f-3 s-f-1 fab fa-instagram"></i></div>
+                        <div class="footer-icon"><i class="f-3 s-f-1 fab fa-facebook-f"></i></div>
+                        <div class="footer-icon"><i class="f-3 s-f-1 fab fa-youtube"></i></div>
+                    </div>
+                </div>
+                <hr class="max-w bg-black m-y-3" />
+                <div class="row justify-content-center max-w m-x-1-child">
+                    <div class="row p-x-2-child">
+                        <address class="col-4 l-col-6 s-col-12"><a class="f-0" target="_blank" href="https://goo.gl/maps/XuVeiA9GavF9FEK68"><i class="fas m-r-1 fa-map-marker-alt"></i>Moema, SP</a></address>
+                        <div class="col-4 l-col-6 s-col-12"><a class="f-0" href="tel:11934732016"><i class="fas m-r-1 fa-phone"></i>+55 11 934732016</a></div>
+                        <div class="col-4 l-col-12 s-col-12"><a class="f-0 row no-wrap" href="mailto:joaozitowebber1@gmail.com"><i class="fas m-r-1 fa-envelope"></i>joaozitowebber1@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/script")
+    <script>
+        verifyCartMessage();
+        function OnRemoveCartItem(response) {
+            removeCartItemFromHtml(response.name);
+            document.querySelector(".cart-price").innerHTML = response.price;
+            createToast(`${response.name} ${response.success}`, 1);
+        }
+
+        function OnCartItemRemoveFailure(response) {
+            createToast(response.failure, 2);
+        }
+
+        activeCartQuantityManager();
+        function activeCartQuantityManager() {
+            const cartItems = document.querySelectorAll(".cart-item");
+            for (let i = 0; i < cartItems.length; i++) {
+                const item = cartItems[i];
+                const input = item.querySelector(".item-quantity-input");
+                const im = input.getAttribute("data-input-manager");
+                const name = item.getAttribute("data-name");
+                let oldValue = input.value;
+                if (im === "false") {
+                    input.setAttribute("data-old-value", oldValue)
+                    input.setAttribute("data-input-manager", true);
+                    active(input, name);
+                }
+            }
+
+            function active(i, name) {
+                i.onchange = () => {
+                    let oldValue = i.getAttribute("data-old-value");
+                    if (i.value !== oldValue) {
+                        if (!i.value.match(/^([1-9]{1,2})$/)) {
+                            i.value = oldValue;
+                            createToast("Valor Inválido/Elevado", 1);
+                        } else {
+                            i.setAttribute("data-old-value", i.value);
+                            sendRequest("post", "/Cart/UpdateCartItemQuantity", { name, qty: i.value }, {
+                            OnSuccess: response => {
+                                createToast(response.success, 0);
+                                oldValue = response.itemQuantity;
+                                document.querySelector(".cart-price").innerHTML = response.price;}, Loader: ".main-loader"});
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

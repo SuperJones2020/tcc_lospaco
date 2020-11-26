@@ -1,0 +1,25 @@
+﻿@model TCC_LOSPACO.Models.Review
+<article class="review">
+    <header class="row align-items-center col-12-child s-max-w">
+        <span class="f-2 font-hammer row justify-content-start">@Model.CostumerName</span>
+        <div data-rating="@Model.Rating.ToString().Replace(',', '.')" data-stars-visualization class="rate-container row no-wrap">
+            <div class="star-item">
+                <div class="star"></div>
+            </div>
+            <div class="star-item">
+                <div class="star"></div>
+            </div>
+            <div class="star-item">
+                <div class="star"></div>
+            </div>
+            <div class="star-item">
+                <div class="star"></div>
+            </div>
+            <div class="star-item">
+                <div class="star"></div>
+            </div>
+        </div>
+    </header>
+    <p class="m-t-2 s-f-0 line-height-3">@Model.Comment</p>
+</article>
+

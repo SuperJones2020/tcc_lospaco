@@ -1,0 +1,27 @@
+﻿@using TCC_LOSPACO.DAO
+@model TCC_LOSPACO.Models.Package
+
+<div data-name="@Model.Name" class="row justify-content-center cart-item">
+    <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
+        <div class="s-col-12" style="width: 80px; height: 160px">
+            <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
+                <i class="fas fa-times red" style="font-size: .9rem;"></i>
+            </div>
+            <a href=@Url.Action("Package", "Home", new { nome=Model.Name })><img src="http://picsum.photos/450/201" class="max-size img-img" alt="@Model.Name"></a>
+        </div>
+        <div class="item-text fg-1">
+            <div class="m-x-3 s-m-x-none m-y-4-child">
+                <div class="item-header font-jos f-2">@Model.Name</div>
+                <ul class="m-y-1-child">
+                    @foreach(var s in PackageDAO.GetServices(Model.Name)) {
+                        @Html.Raw($"<li class='font-jos'><i class='fas f-0 fa-check'></i> {s}</li>");
+                    }
+                </ul>
+                <div class="price font-inc">R$ @Model.Price</div>
+            </div>
+        </div>
+        <div class="row justify-content-end item-qty">
+            <input type="number" value="@ViewBag.itemQuantity" class="input-anim text-align-center" required style="width: 70px;" min="0" name="item-quantity">
+        </div>
+    </div>
+</div>

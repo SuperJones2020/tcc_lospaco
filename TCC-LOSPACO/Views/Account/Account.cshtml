@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Conta";
+}
+<main class="max-vh row center-elements">
+    <div class="max-h container login-container row justify-content-center">
+        <div class="row col-6-child m-col-12-child max-w center-elements">
+            <div class="div-img max-size d-m-none"
+                 style="background-image: url('https://www.thewowstyle.com/wp-content/uploads/2015/02/Beautiful-Wallpapers-14.jpg');">
+            </div>
+            <div class="overflow-hidden">
+                <div class="row-login align-items-center" style="display: flex; transform: translateX(0)">
+                    <form action="/Account/Login" method="post" class="login-content justify-content-center form-login row" data-loader=".main-loader" data-form-validate="true" data-form-request-sender="true" data-on-success="OnLoginValidate">
+                        <h2 class="text-align-center login-txt m-y-7 f-5 font-poiret">Logar em sua Conta</h2>
+                        <div class="justify-content-center row xl-w col-6-child">
+                            <div class="row xl-col-12 p-r-0 xl-p-none">
+                                <div class="row customized-input max-w no-wrap">
+                                    <div class="col-2 row justify-content-center icon-input">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input data-val-email data-val-field="Email" class="col-10 row-input" type="text" name="email"
+                                           placeholder="Email" />
+                                </div>
+                            </div>
+                            <div class="row xl-col-12 p-l-0 xl-p-none">
+                                <div class="row max-w no-wrap customized-input">
+                                    <div class="col-2 row justify-content-center icon-input">
+                                        <i class="fas fa-key"></i>
+                                    </div>
+                                    <input data-val-password data-val-min-length="8" data-val-field="Senha" class="col-10 row-input" type="password" name="password"
+                                           placeholder="Senha" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl-w m-t-2 row no-wrap">
+                            <div class="customized-checkbox">
+                                <input name="remember_me" />
+                            </div>
+                            <span class="m-l-1">Lembrar de mim</span>
+                        </div>
+
+                        <div class="row xl-w col-12-child">
+                            <button data-anim-to="rgba(152, 212, 252, .75)" style="background-color: rgb(152, 212, 252);" type="submit" class="sub-btn cursor-pointer p-y-3 m-y-4">Entrar</button>
+                            <div>
+                                <h2 class="translate-1 d-inline-block cursor-pointer font-poiret">Esqueci minha senha</h2>
+                            </div>
+                        </div>
+                    </form>
+                    <!--<form method="post" action="/Query/AddReview" data-form-params='[["name", "Model.Name"]]' data-on-success="OnReviewAdded" data-on-failure="OnReviewAdditionFailure" data-request-sender="true" class="p-4 bg-white">-->
+                    <form action="/Account/Signup" method="post" class="login-content justify-content-center form-login row" data-loader=".main-loader">
+                        <div class="row center-elements no-wrap m-y-7">
+                            <button type="button" data-follow-smoothly
+                                    class="translate-0 p-2 bg-transparent m-r-2 cursor-pointer">
+                                <i class="fas fa-angle-left f-6"></i>
+                            </button>
+                            <h2 class="text-align-center login-txt f-5 font-poiret">Insira seu email</h2>
+                        </div>
+                        <div class="row col-12-child xl-w justify-content-center">
+                            <div class="row no-wrap customized-input">
+                                <div class="col-1 row justify-content-center icon-input">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input class="col-11 row-input" type="email" name="email-reset"
+                                       placeholder="Email" />
+                            </div>
+                            <button data-anim-to="rgba(155, 182, 137, .75)" style="background-color: rgb(155, 182, 137)" type="submit" class="sub-btn cursor-pointer m-y-4 p-y-3">Enviar nova senha</button>
+                        </div>
+                    </form>
+                    <!--<form method="post" action="/Query/AddReview" data-form-params='[["name", "Model.Name"]]' data-on-success="OnReviewAdded" data-on-failure="OnReviewAdditionFailure" data-request-sender="true" class="p-4 bg-white">-->
+                    <form action="/Account/Signup" method="post" data-form-validate="true" class="login-content justify-content-center form-login row" data-loader=".main-loader" data-form-request-sender="true" data-on-success="OnAccountInserted">
+                        <div class="row no-wrap center-elements m-y-7">
+                            <button type="button" data-follow-smoothly
+                                    class="translate-0 p-2 bg-transparent m-r-2 cursor-pointer">
+                                <i class="fas fa-angle-double-left f-6"></i>
+                            </button>
+                            <h2 class="text-align-center login-txt f-5 font-poiret">
+                                Criação de Conta
+                            </h2>
+                        </div>
+
+                        <div class="row center-elements xl-w">
+                            <div class="p-b-0 col-12">
+                                <div class="row no-wrap customized-input">
+                                    <div class="col-1 row justify-content-center icon-input">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input data-val-email data-val-field="Email" class="col-11 row-input" type="email" name="email"
+                                           placeholder="Email" />
+                                </div>
+                            </div>
+                            <div class="p-r-0 col-6">
+                                <div class="row no-wrap customized-input">
+                                    <div class="col-2 row justify-content-center icon-input">
+                                        <i class="fas fa-key"></i>
+                                    </div>
+                                    <input data-val-password data-val-min-length="8" data-val-equalto="#insert-account-confirm-password-field" data-val-field="Senha" class="col-10 row-input" type="password" name="password"
+                                           placeholder="Senha" />
+                                </div>
+                            </div>
+                            <div class="p-l-0 col-6">
+                                <div class="row no-wrap customized-input">
+                                    <div class="col-2 row justify-content-center icon-input">
+                                        <i class="fas fa-fingerprint"></i>
+                                    </div>
+                                    <input id="insert-account-confirm-password-field" class="col-10 row-input" type="password" name="confirm_password"
+                                           placeholder="Confirmar Senha" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <button data-anim-to="rgba(255, 183, 55, .75)" style="background-color: rgb(255, 183, 55)" type="submit" class="sub-btn cursor-pointer m-y-4 p-y-3 xl-w">Criar Conta</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row max-w center-elements position-absolute" style="bottom: 0; right: 0;">
+                <h2 class="translate-2 d-inline-block cursor-pointer text-align-center m-y-2 font-hammer">Criar uma conta</h2>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@section scripts{
+    <script>
+        function OnLoginValidate(response) {
+            if (response.isValid) window.location = response.url;
+            else createToast(response.message, response.type);
+        }
+
+        function OnAccountInserted(response) {
+            createToast(response.message, response.type);
+        }
+        activeLoginForm();
+    </script>
+}
+
+
+

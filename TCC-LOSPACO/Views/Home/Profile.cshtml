@@ -1,0 +1,1491 @@
+﻿@using TCC_LOSPACO.Models
+
+@{
+    ViewBag.Title = "Minha Conta -";
+}
+
+<main class="div-img" style="background-image: url('https://picsum.photos/id/615/1920/3240/?blur=5');">
+    <div class="options-container row col-4-child l-col-12-child max-w">
+        <div class="item">
+            <div class="arrow-pointer position-absolute"><i class="fas f-6 fa-long-arrow-alt-down"></i></div>
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-zoom="1.3, 1s" data-follow-smoothly
+                        class="open p-9 shadow-text-anim bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-fingerprint"><br /><span>Alterar Senha</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="row col-10 align-items-center l-col-12 col-12-child max-h content-container">
+                        <form action="/Query/UpdatePassword" method="post" data-form-validate="true" data-form-request-sender="true" data-on-success="(res) => {createToast(res.message, res.index)}" data-on-failure="(res) => {createToast(res.message, res.index)}">
+
+                            <h1 class="f-8 text-align-center profile-title">Senha</h1>
+                            <h2 class="f-4 m-y-3 label-title">Senha Atual</h2>
+                            <div class="row m-t-4 customized-input max-w no-wrap">
+                                <div class="col-1 row icon-input">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <input placeholder="Senha Atual" class="col-11" type="password" name="currentPassword" />
+                            </div>
+                            <h2 class="cursor-pointer m-t-2 font-hammer">Esqueci minha senha</h2>
+                            <div class="row m-t-4 customized-input max-w no-wrap">
+                                <div class="col-1 row icon-input">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <input data-val-password data-val-min-length="8" data-val-field="Senha" data-val-equalto="#confirm-new-password" placeholder="Nova Senha" class="col-11" type="password"
+                                       name="newPassword" />
+                            </div>
+                            <div class="row m-t-4 customized-input max-w no-wrap">
+                                <div class="col-1 row icon-input"><i class="fas fa-fingerprint"></i></div>
+                                <input id="confirm-new-password" placeholder="Confirmar Nova Senha" class="col-11" type="password"
+                                       name="confirmNewPassword" />
+                            </div>
+
+                            <input data-anim-to-black type="submit" value="Alterar Senha"
+                                   class="p-y-3 b-0 cursor-pointer m-t-4 max-w bg-white">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-info"><br /><span>Meus Dados</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="row col-10 l-col-12 max-h content-container">
+                        <div class="max-w row col-12-child align-items-center">
+                            <div>
+                                <h1 class="f-8 text-align-center profile-title">Dados</h1>
+                                <h2 class="f-4 label-title">Email atual</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-envelope"></i></div>
+                                    <input disabled class="col-9 edit-email-input" type="email" name="email"
+                                           value=@TCC_LOSPACO.Security.Context.GetUser() />
+                                    <button data-anim-to-black
+                                            class="col-1 cursor-pointer edit-btn row justify-content-center">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black
+                                            class="col-1 cursor-pointer save-btn row justify-content-center">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                                <h2 class="f-4 m-t-6 label-title">Nome de Exibição</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-signature"></i></div>
+                                    <input disabled class="col-9" type="text" name="name" value="João Webber" />
+                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                                <h2 class="f-4 m-t-6 label-title">CPF</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-id-card"></i></div>
+                                    <input disabled class="col-9" type="text" name="name" value="812741802" />
+                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-times"><br /><span>Sair</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="row col-10 l-col-12 max-h content-container">
+                        <div class="max-w row col-12-child align-items-center">
+                            <div class="row col-12-child">
+                                <h1 class="f-8 text-align-center profile-title">Deseja mesmo sair?</h1>
+                                <a href=@Url.Action("Logout", "Account") data-anim-to="var(--main-red)"
+                                   class="p-y-3 b-0 text-align-center cursor-pointer m-t-3 max-w bg-white">
+                                    <color>Sair!</color>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <div class="options-container row col-4-child l-col-12-child max-w">
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-users"><br /><span>Clientes</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Todos os Usuários
+                                        </h2>
+                                        <button data-zoom="1.3, 1s" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                        <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                        <input class="col-10" type="text" name="name"
+                                               placeholder="Procure por Nome ou CPF" />
+                                        <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                            <i class="f-3 fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var c in TCC_LOSPACO.DAO.CustomerDAO.GetList()) {
+                                        @Html.Partial("_CostumerProfileItem", c);
+                                    }
+                                </div>
+                            </div>
+                            <div class="row center-elements min-max-w max-size customer-profile-form">
+                                <div class="row col-10 l-col-12 col-12-child p-1 max-h content-container">
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                                </h2>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Nome</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-signature"></i>
+                                                </div>
+                                                <input disabled class="col-10 name" type="text" name="name" />
+                                            </div>
+                                            <div class="f-3 m-t-5 label-title">Email</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-envelope"></i>
+                                                </div>
+                                                <input disabled class="col-10 email" type="email" name="email" />
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">CPF</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-id-card"></i>
+                                                </div>
+                                                <input disabled class="col-10 cpf" type="number" name="cpf" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-users-cog"><br /><span>Funcionários</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Todos os Funcionários
+                                        </h2>
+                                        <button data-zoom="1.3, 1s" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                        </button>
+                                    </div>
+                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                        <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                        <input class="col-10" type="text" name="name"
+                                               placeholder="Procure por Nome ou CPF" />
+                                        <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                            <i class="f-3 fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var e in TCC_LOSPACO.DAO.EmployeeDAO.GetList()) {
+                                        @Html.Partial("_EmployeeProfileItem", e);
+                                    }
+                                </div>
+                            </div>
+                            <div class="row center-elements min-max-w max-size employee-profile-form">
+                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                                </h2>
+                                            </div>
+
+                                            <div class="row max-w col-6-child l-col-12-child">
+                                                <div class="p-r-1 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">Nome</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-signature"></i>
+                                                        </div>
+                                                        <input disabled class="col-9 name" type="text" name="name" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-l-1">
+                                                    <div class="f-3 m-t-5 label-title">Email</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-envelope"></i>
+                                                        </div>
+                                                        <input disabled class="col-9 email" type="email" name="email" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row max-w col-4-child l-col-12-child">
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">CPF</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-id-card"></i>
+                                                        </div>
+                                                        <input disabled class="col-6 cpf" type="text" name="cpf" />
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-x-2 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">RG</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-address-card"></i>
+                                                        </div>
+                                                        <input disabled class="col-6 rg" type="text" name="rg" />
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Número</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-phone-alt"></i>
+                                                        </div>
+                                                        <input disabled class="col-6 phone" type="text" name="phone" />
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row max-w col-6-child l-col-12-child">
+                                                <div class="p-r-1 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">Nascimento</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-birthday-cake"></i>
+                                                        </div>
+                                                        <input disabled class="col-9 date" type="date" name="birth" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-l-1">
+                                                    <div class="f-3 m-t-5 label-title">Gênero</div>
+                                                    <div class="customized-dropdown m-t-1 bg-white">
+                                                        <div class="row no-wrap max-size">
+                                                            <div class="col-1 row dropdown-icon icon-input">
+                                                                <i class="fas fa-venus-mars"></i>
+                                                            </div>
+                                                            <div class="col-9 row align-items-center genre dropdown-select-item" data-option=""
+                                                                 style="border: none;">Masculino</div>
+                                                            <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
+                                                                <i class="fas fa-chevron-down"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
+                                                             style="height: 0px; border-top: none; top: 100%;">
+                                                            @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem("Masculino", "M", "genre")
+                                                            @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem("Feminino", "F", "genre")
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Imagem de Perfil</div>
+                                            <div class="row max-w m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                                <input disabled class="col-9 file" type="file" name="image" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Salário</div>
+                                            <div class="row max-w m-t-1 customized-input max-w no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-money-bill-wave"></i>
+                                                </div>
+                                                <input disabled class="col-9 salary" type="text" name="salary" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-boxes"><br /><span>Pacotes</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Todos os Pacotes
+                                        </h2>
+                                        <button data-zoom="1.3, 1s" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                        </button>
+                                    </div>
+                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                        <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                        <input class="col-10" type="text" name="name"
+                                               placeholder="Procure por Nome ou CPF" />
+                                        <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                            <i class="f-3 fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var p in TCC_LOSPACO.DAO.PackageDAO.GetList()) {
+                                        @Html.Partial("_PackageProfileItem", p)
+                                    }
+                                </div>
+                            </div>
+                            <div class="row center-elements min-max-w max-size package-profile-form">
+                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                                </h2>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Nome</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-signature"></i>
+                                                </div>
+                                                <input disabled class="col-9 name" type="text" name="name" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                            <div class="f-3 m-t-5 label-title">Descrição</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap"
+                                                 style="height: auto !important;">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="fas fa-bookmark"></i>
+                                                </div>
+                                                <textarea disabled class="p-y-2 col-9 row desc" type="text" name="desc"
+                                                          style="resize: none;">Descrição com maiores detalhes do produto, ajudando o cliente a enteder melhor a proposta do mesmo!</textarea>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                            <div class="f-3 m-t-5 label-title">Preço</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-money-bill-wave"></i>
+                                                </div>
+                                                <input disabled class="col-9 price" type="text" name="price" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Imagem</div>
+                                            <div class="row max-w m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                                <input disabled class="col-9 image" type="file" name="image" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Serviços do Pacote</div>
+                                            <div class="row m-t-1 customized-input no-wrap"
+                                                 style="height: auto !important;">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-toolbox"></i>
+                                                </div>
+                                                <textarea disabled class="col-10 p-y-2 services-input" type="text"
+                                                          name="name" style="resize: none;"></textarea>
+                                            </div>
+
+                                            <div class="max-size package-select-service-container flex direction-column">
+                                                <div class="m-y-4 fg-0">
+                                                    <div class="row no-wrap center-elements m-b-1">
+                                                        <h2 class="f-5 text-align-center profile-title">
+                                                            Selecione os
+                                                            serviços para este pacote
+                                                        </h2>
+                                                    </div>
+                                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas f-3 fa-bullseye"></i>
+                                                        </div>
+                                                        <input class="col-10" type="text" name="name"
+                                                               placeholder="Procure por Nome" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="f-3 fas fa-chevron-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="table-content text-align-center-child max-w fg-1" data-selected-services="">
+                                                    @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
+                                                        @Html.Partial("_ServiceProfileItem", s);
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="options-container row col-4-child l-col-12-child max-w">
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-calendar-check"><br /><span>Agendamentos</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Todos os Agendamentos
+                                        </h2>
+                                        <button data-zoom="1.3, 1s" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                        </button>
+                                    </div>
+                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                        <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                        <input class="col-10" type="text" name="name"
+                                               placeholder="Procure Data ou Nome do Serviço" />
+                                        <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                            <i class="f-3 fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var s in TCC_LOSPACO.DAO.ScheduleDAO.GetList()) {
+                                        @Html.Partial("_ScheduleProfileItem", s)
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row center-elements min-max-w max-size schedule-profile-form">
+                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados do
+                                                    agendamento de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                                </h2>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Serviço</div>
+                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white">
+                                                <div class="row no-wrap max-size">
+                                                    <div class="col-1 row dropdown-icon icon-input">
+                                                        <i class="fas fa-toolbox"></i>
+                                                    </div>
+                                                    <div class=" col-10 row align-items-center dropdown-select-item service" data-option=""
+                                                         style="border: none;"></div>
+                                                    <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
+                                                        <i class="fas fa-chevron-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
+                                                     style="height: 0px; border-top: none; top: 100%;">
+                                                    @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
+                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(s.Name, s.Name, "service")
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Funcionário a realizar</div>
+                                            <div class="customized-dropdown max-w m-t-3 bg-white">
+                                                <div class="row no-wrap max-size">
+                                                    <div class="col-1 row dropdown-icon icon-input">
+                                                        <i class="fas fa-user-tie"></i>
+                                                    </div>
+                                                    <div class=" col-10 row align-items-center dropdown-select-item employee" data-option=""
+                                                         style="border: none;">Categoria #1</div>
+                                                    <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
+                                                        <i class="fas fa-chevron-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
+                                                     style="height: 0px; border-top: none; top: 100%;">
+                                                    @foreach (var e in TCC_LOSPACO.DAO.EmployeeDAO.GetList()) {
+                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(e.Name, e.Name, "employee")
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Data</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </div>
+                                                <input disabled class="col-9 date" type="date" name="date" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+
+                                            <div class="f-3 m-t-5 label-title">Hora</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-1 row icon-input"><i class="far fa-clock"></i></div>
+                                                <input disabled class="col-9 time" type="time" name="time" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-toolbox"><br /><span>Serviços</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Todos os Serviços
+                                        </h2>
+                                        <button data-zoom="1.3, 1s" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                        </button>
+                                    </div>
+                                    <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                        <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                        <input class="col-10" type="text" name="name"
+                                               placeholder="Procure por Nome" />
+                                        <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                            <i class="f-3 fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
+                                        @Html.Partial("_ServiceProfileItem", s);
+                                    }
+                                </div>
+                            </div>
+                            <div class="row center-elements min-max-w max-size service-profile-form">
+                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados sobre
+                                                    <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                                </h2>
+
+                                            </div>
+
+                                            <div class="row max-w col-6-child l-col-12-child">
+                                                <div class="p-r-1 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">Nome</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-signature"></i>
+                                                        </div>
+                                                        <input disabled class="col-9" id="name" type="text" name="name" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-l-1">
+                                                    <div class="f-3 m-t-5 label-title">
+                                                        Descrição&nbsp;Minificada
+                                                    </div>
+                                                    <div class="row max-w m-t-3 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="far fa-bookmark"></i>
+                                                        </div>
+                                                        <input disabled class="col-9" id="minified_desc" type="text" name="minified_desc" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Descrição Completa</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap"
+                                                 style="height: auto !important;">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="fas fa-bookmark"></i>
+                                                </div>
+                                                <textarea disabled class="p-y-2 col-9 row" id="desc" type="text" name="desc"
+                                                          style="resize: none;"></textarea>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="row max-w col-4-child l-col-12-child">
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Preço</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-money-bill-wave"></i>
+                                                        </div>
+                                                        <input disabled class="col-6" id="price" type="text" name="price" />
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-x-2 l-p-none max-w">
+                                                    <div class="f-3 m-t-5 label-title">Categoria</div>
+                                                    <div class="customized-dropdown m-t-3 bg-white">
+                                                        <div class="row no-wrap max-size">
+                                                            <div class="col-2 dropdown-icon row icon-input">
+                                                                <i class="fas fa-stream"></i>
+                                                            </div>
+                                                            <div class="col-8 row align-items-center dropdown-select-item" id="category" data-option=""
+                                                                 style="border: none;">Categoria #1</div>
+                                                            <div class="col-2 cursor-pointer dropdown-icon row open-dropdown justify-content-center icon-input">
+                                                                <i class="fas fa-chevron-down"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
+                                                             style="height: 0px; border-top: none; top: 100%;">
+                                                            @foreach (var c in TCC_LOSPACO.DAO.CategoryDAO.GetList()) {
+                                                                @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(c.Name, c.Name, "category")
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Tempo</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="far fa-clock"></i>
+                                                        </div>
+                                                        <input disabled class="col-6" id="time" type="text" name="time" />
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-2 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Vestimenta Adequada</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-tshirt"></i>
+                                                </div>
+                                                <input disabled class="col-9" id="propper_clothing" type="text" name="propper_clothing" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="row max-w col-4-child l-col-12-child">
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Relevância?</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-star"></i>
+                                                        </div>
+                                                        <input disabled class="col-10" type="text" name="name"
+                                                               value="80%" />
+                                                    </div>
+                                                </div>
+                                                <div class="p-x-2 l-p-none max-w">
+                                                    <div class="f-3 m-t-5 label-title">Total de Vendas</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-wallet"></i>
+                                                        </div>
+                                                        <input disabled class="col-10 total_sales" type="text" name="total_sales" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Máximo de Pessoas</div>
+                                                    <div class="row m-t-3 customized-input no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-users"></i>
+                                                        </div>
+                                                        <input disabled class="col-9 max_people" type="number" name="max_people"
+                                                               value="2" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Imagem do serviço</div>
+                                            <div class="row max-w m-t-3 customized-input no-wrap">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                                <input disabled class="col-9" id="image" type="file" name="image" />
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                            <div class="form-image-display" id="image_display" style="width: 200px; height:200px">
+                                                <img src="" class="img-img max-size">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="item">
+            <div class="nav-height"></div>
+            <div class="row center-elements" style="height: calc(100% - 5rem);">
+                <button class="close bg-transparent position-absolute">
+                    <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+                </button>
+                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-calendar-alt"><br /><span>Realizar Agendamentos</span></i>
+                </button>
+
+                <div class="row center-elements content col-10 l-col-12 max-h p-1">
+                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                        <div class="content-slider max-size">
+                            <div class="min-max-w max-size flex direction-column">
+                                <div class="header fg-0">
+                                    <div class="row no-wrap center-elements m-b-3">
+                                        <h2 class="f-8 text-align-center profile-title">
+                                            Items do Carrinho
+                                        </h2>
+                                    </div>
+                                    <div class="f-2 s-f-1 p-2 font-hammer">
+                                        Selecione o serviço para agendar o dia e hora,
+                                        escolhendo também o(a) funcionário(a) desejado para sua realização!
+                                    </div>
+                                </div>
+
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    <div class="data-item vertical-align-top">
+                                        <div data-zoom="1.02, .5s"
+                                             class="data-content cursor-pointer row center-elements bg-white max-size">
+                                            <div class="row col-12-child m-y-2-child">
+                                                <div class="f-3">Massagem com Pedras</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="data-item vertical-align-top">
+                                        <div data-zoom="1.02, .5s"
+                                             class="data-content cursor-pointer row center-elements bg-white max-size">
+                                            <div class="row col-12-child m-y-2-child">
+                                                <div class="f-3">Sauna Moderna</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row center-elements min-max-w max-size">
+                                <div class="row col-12 max-h p-1 content-container">
+                                    <popup data-id="date" class="z-5 p-2 l-w m-max-w"
+                                           style="background-color: rgba(0, 0, 0, .5);">
+                                        <div class="date-container bg-white shadow max-w b-0">
+                                            <div class="row max-w justify-content-end">
+                                                <i data-close-pop-up="date"
+                                                   class="f-4 p-2 rotate-anim cursor-pointer z-5 fas fa-times"></i>
+                                            </div>
+                                            <div class="date-ui justify-content-evenly row">
+                                                <div class="control max-w row justify-content-between align-items-center">
+                                                    <button type="button"
+                                                            class="cursor-pointer prev-container-date">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </button>
+                                                    <div class="months">
+                                                        <select style="border: none;"></select>
+                                                    </div>
+                                                    <button type="button"
+                                                            class="cursor-pointer next-container-date">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="text-align-center days-of-week"
+                                                     style="font-weight: bolder; padding: .5rem 0 .75rem 0; color: gray">
+                                                </div>
+                                            </div>
+                                            <div class="bg-black date-content overflow-hidden">
+                                                <div class="date-content-slider"></div>
+                                            </div>
+                                        </div>
+                                    </popup>
+                                    <div class="max-w row col-12-child align-items-center">
+                                        <div>
+                                            <div class="m-t-8 max-w row no-wrap center-elements">
+                                                <button data-follow-smoothly
+                                                        class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                                </button>
+                                                <h2 class="f-7 font-jos text-align-center profile-title">
+                                                    Dados sobre
+                                                    <b class="bolder font-jos f-7 profile-title">Item Name</b>
+                                                </h2>
+                                            </div>
+
+                                            <div class="row m-t-4 center-elements service-info col-12">
+                                                <div class="max-w p-x-3">
+                                                    <div class="align-items-center justify-content-between row">
+                                                        <h1 class="f-7 m-f-5 m-y-2 white font-jos">Service Name</h1>
+                                                        <div data-rating="4.33" data-stars-visualization
+                                                             class="rate-container align-items-center row no-wrap">
+                                                            <div class="star-item">
+                                                                <div class="star"></div>
+                                                            </div>
+                                                            <div class="star-item">
+                                                                <div class="star"></div>
+                                                            </div>
+                                                            <div class="star-item">
+                                                                <div class="star"></div>
+                                                            </div>
+                                                            <div class="star-item">
+                                                                <div class="star"></div>
+                                                            </div>
+                                                            <div class="star-item">
+                                                                <div class="star"></div>
+                                                            </div>
+                                                            <span class="rating-view m-l-1"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="m-y-2 font-inc f-5 white m-f-3">R$ 45.00</div>
+                                                    <div class="row max-w m-t-4">
+                                                        <div class="row max-w max-h no-wrap">
+                                                            <button data-open-pop-up="date"
+                                                                    class="col-2 bg-white cursor-pointer row center-elements b-0 icon-input"
+                                                                    style="border-right: none;">
+                                                                <i class="far fa-calendar"></i>
+                                                            </button>
+                                                            <input class="input-date bg-white p-3 col-10 row-input b-0"
+                                                                   disabled type="text" name="password"
+                                                                   placeholder="Clique no ícone para AGENDAR"
+                                                                   style="border-left: none;" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row white col-12-child m-t-3">
+                                                        <label class="m-y-1" for="employee">
+                                                            Funcionário para
+                                                            realização do serviço:
+                                                        </label>
+                                                        <div class="customized-input row no-wrap max-w">
+                                                            <div class="col-2 row icon-input">
+                                                                <i class="fas black fa-user-tie"></i>
+                                                            </div>
+                                                            <input class="col-10 p-3 input-employee-selection"
+                                                                   type="text" name="employee"
+                                                                   value="Selecione um Funcionário abaixo!" disabled
+                                                                   id="employee">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="employee-carousel m-t-3 carousel-container">
+                                                        <button type="button"
+                                                                class="white follow-smoothly prev-item p-3 m-l-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                                style="left: 0;">
+                                                            <i class="fas f-3 fa-chevron-left"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="white follow-smoothly prox-item p-3 m-r-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                                style="right: 0;">
+                                                            <i class="fas f-3 fa-chevron-right"></i>
+                                                        </button>
+                                                        <div class="carousel-slider" style="height: 300px">
+                                                            <div class="bg-white justify-content-around carousel-item row col-4-child">
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 data-employee-name="employee-name"
+                                                                                class="employee-name-selection text-align-center">
+                                                                                Employee Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 class="text-align-center">
+                                                                                Employee
+                                                                                Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 class="text-align-center">
+                                                                                Employee
+                                                                                Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="bg-white carousel-item justify-content-around row col-4-child">
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 class="text-align-center">
+                                                                                Employee
+                                                                                Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 class="text-align-center">
+                                                                                Employee
+                                                                                Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex direction-column employee-container">
+                                                                    <div class="fg-1">
+                                                                        <a href="#">
+                                                                            <img src="https://picsum.photos/600/300"
+                                                                                 class="img-img max-size"
+                                                                                 alt="employee-name">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="row center-elements">
+                                                                        <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                            <h2 class="text-align-center">
+                                                                                Employee
+                                                                                Name
+                                                                            </h2>
+                                                                            <div data-zoom="1.05, .6s"
+                                                                                 class="p-2 cursor-pointer">
+                                                                                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                        type="button">
+                                                                                    Selecionar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<remove-footer />
+
+@section scripts{
+    <script>
+        activeProfileUI();
+        activeEmployeeSelection();
+        activeDateInput();
+        activeCarousel({ prev: ".prev-item", next: ".prox-item", carousel: ".employee-carousel", time: .5, anim: "cubic-bezier(.73,.19,.14,.98)" });
+
+        function get(form, input) {
+            return form.querySelector(`#${input}`);
+        }
+
+        function customerDataTaken(res) {
+            const form = document.querySelector(".customer-profile-form");
+            const Customer = res.customer;
+            form.querySelector(".title-focus").innerHTML = Customer.Username;
+            get(form, "name").value = Customer.Username;
+            get(form, "email").value = Customer.Account.Email;
+            get(form, "cpf").value = Customer.CPF;
+        }
+
+        function employeeDataTaken(res) {
+            const form = document.querySelector(".employee-profile-form");
+            const Employee = res.employee;
+            form.querySelector(".title-focus").innerHTML = Employee.Name;
+            get(form, "name").value = Employee.Name;
+            get(form, "email").value = Employee.Account.Email;
+            get(form, "cpf").value = Employee.CPF;
+            get(form, "rg").value = Employee.RG + Employee.RGDig;
+            get(form, "phone").value = Employee.Phone;
+            get(form, "date").value = formatDateString(Employee.Birth.replace(" 00:00:00", '').trim());
+            get(form, "genre").setAttribute("data-option", Employee.Genre);
+            //get(form, "file").value = Employee.Image;
+
+            get(form, "file").addEventListener("change", () => {
+                /*var reader = new FileReader();
+                reader.onload = function () {
+                    var arrayBuffer = this.result,
+                        array = new Uint8Array(arrayBuffer),
+                        binaryString = String.fromCharCode.apply(null, array);
+                    console.log(binaryString);
+                }
+                reader.readAsArrayBuffer(this.files[0]);*/
+
+                var fileList = get(form, "file").files;
+                var fileReader = new FileReader();
+                console.log(fileList[0]);
+                if (fileReader && fileList && fileList.length) {
+                    fileReader.readAsArrayBuffer(fileList[0]);
+                    fileReader.onload = function () {
+                        var imageData = fileReader.result;
+                        console.log(imageData);
+                    };
+                }
+            });
+
+            get(form, "salary").value = Employee.Salary;
+
+        }
+
+        function packageDataTaken(res) {
+            const form = document.querySelector(".package-profile-form");
+            const Package = res.package;
+            const table = form.querySelector(".table-content");
+            form.querySelector(".title-focus").innerHTML = Package.Name;
+            get(form, "name").value = Package.Name;
+            get(form, "desc").value = Package.Description;
+            //get(form, "image").value = Package.Image;
+            get(form, "price").value = Package.Price;
+
+            const servicesObj = Object.values(Package.Services);
+            const services = [];
+            for (let i = 0; i < servicesObj.length; i++) services.push(servicesObj[i].Name);
+            table.setAttribute("data-selected-services", services);
+        }
+
+        function serviceDataTaken(res) {
+            //let imageData = null;
+            const form = document.querySelector(".service-profile-form");
+            const inputs = form.querySelectorAll(".customized-input");
+            let columns = [];
+            form.setAttribute("data-first-time", true);
+            const ids = ["abstract_id", "name", "price", "minified_desc", "desc", "category", "time", "image", "propper_clothing"];
+            sendRequest("post", "/Service/GetTableColumns", {}, { OnSuccess: response => columns = response.columns })
+            const data = [
+                { data: null },
+                { data: () => get(form, "name").value },
+                { data: () => get(form, "price").value },
+                { data: () => get(form, "minified_desc").value },
+                { data: () => get(form, "desc").innerHTML },
+                { data: () => get(form, "category").getAttribute("data-option") },
+                { data: () => get(form, "time").value },
+                { data: () => sendImage(Service.Id, "Service") },
+                { data: () => get(form, "propper_clothing").value }
+            ];
+            for (let i = 0; i < data.length; i++) data[i].id = ids[i];
+
+            get(form, "image").addEventListener("change", () => {
+                readImage(get(form, "image"), data => {
+                    get(form, "image_display").querySelector("img").setAttribute("src", data);
+
+                });
+            });
+
+            const Service = res.service;
+            form.querySelector(".title-focus").innerHTML = Service.Name;
+            get(form, "name").value = Service.Name;
+            get(form, "minified_desc").value = Service.MinifiedDesc;
+            get(form, "desc").innerHTML = Service.CompleteDesc;
+            get(form, "price").value = Service.Price;
+            get(form, "category").setAttribute("data-option", Service.Category.Name);
+            get(form, "propper_clothing").value = Service.PropperClothing;
+            get(form, "time").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;
+            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Service.Image));
+
+            inputs.forEach(i => {
+                const saveBtn = i.querySelector(".save-btn");
+                if (saveBtn !== null) {
+                    saveBtn.addEventListener("click", () => {
+                        const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("id") : i.querySelector("input").getAttribute("id");
+                        if (inputId === "image") data.filter(x => x.id === inputId)[0].data();
+                        else sendRequest("post", "/Service/Update", { id: Service.Id, column: columns[ids.indexOf(data.filter(x => x.id === inputId)[0].id)], value: data.filter(x => x.id === inputId)[0].data() }, { Loader: ".main-loader" });
+                    }, {onde: true});
+                }
+            });
+
+            function sendImage(id, object) {
+                readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === "image")[0].id)], value: imageData.split(",")[1] }, { Loader: ".main-loader" }));
+            }
+        }
+
+        function scheduleDataTaken(res) {
+            const form = document.querySelector(".schedule-profile-form");
+            const Schedule = res.schedule;
+            form.querySelector(".title-focus").innerHTML = Schedule.Date;
+            get(form, "service").setAttribute("data-option", Schedule.Service.Name);
+            get(form, "employee").setAttribute("data-option", Schedule.Employee.Name);
+        }
+
+        function formatDateString(data) {
+            var dia = data.split("/")[0];
+            var mes = data.split("/")[1];
+            var ano = data.split("/")[2];
+            return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
+        }
+
+    </script>
+}
