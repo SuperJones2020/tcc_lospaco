@@ -244,15 +244,15 @@
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Shared\_ServiceItem.cshtml" />
     <Content Include="Views\Shared\_ReviewItem.cshtml" />
-    <Content Include="Views\Shared\_CostumerProfileItem.cshtml" />
-    <Content Include="Views\Shared\_ServiceCartItem.cshtml" />
-    <Content Include="Views\Shared\_PackageCartItem.cshtml" />
-    <Content Include="Views\Shared\_CartContent.cshtml" />
+    <Content Include="Views\Shared\Profile\_Costumer.cshtml" />
+    <Content Include="Views\Shared\Cart\_Service.cshtml" />
+    <Content Include="Views\Shared\Cart\_Package.cshtml" />
+    <Content Include="Views\Shared\Cart\_Content.cshtml" />
     <Content Include="Views\Account\Account.cshtml" />
-    <Content Include="Views\Shared\_EmployeeProfileItem.cshtml" />
-    <Content Include="Views\Shared\_PackageProfileItem.cshtml" />
-    <Content Include="Views\Shared\_ServiceProfileItem.cshtml" />
-    <Content Include="Views\Shared\_ScheduleProfileItem.cshtml" />
+    <Content Include="Views\Shared\Profile\_Employee.cshtml" />
+    <Content Include="Views\Shared\Profile\_Package.cshtml" />
+    <Content Include="Views\Shared\Profile\_Service.cshtml" />
+    <Content Include="Views\Shared\Profile\_Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

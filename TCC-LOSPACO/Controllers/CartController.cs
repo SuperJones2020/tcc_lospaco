@@ -15,7 +15,7 @@ namespace TCC_LOSPACO.Controllers {
                 }
             }
             CartDAO.InsertItem(name, quantity);
-            if (!containsInCart) view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("_ServiceCartItem", CartServiceDAO.GetByName(name), ControllerContext);
+            if (!containsInCart) view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Service", CartServiceDAO.GetByName(name), ControllerContext);
 
             return Json(new {
                 contains = containsInCart,
@@ -29,13 +29,13 @@ namespace TCC_LOSPACO.Controllers {
 
         [HttpPost]
         public ActionResult RemoveCartItem(string name) {
-            CartDAO.RemoveItem(name);
-            return Json(new { name, success = "Removido", price = "R$ " + CartDAO.GetTotalPrice() });
+            object[] obj = CartDAO.RemoveItem(name);
+            return Json(new { type = obj[0], message = obj[1], name, price = "R$ " + CartDAO.GetTotalPrice() });
         }
         [HttpPost]
         public ActionResult UpdateCartItemQuantity(string name, byte qty) {
-            CartDAO.UpdateQuantity(name, qty);
-            return Json(new { success = "Quantidade Atualizada", price = "R$ " + CartDAO.GetTotalPrice() });
+            object[] obj = CartDAO.UpdateQuantity(name, qty);
+            return Json(new { type = obj[0], message = obj[1], price = "R$ " + CartDAO.GetTotalPrice() });
         }
 
         [HttpPost]

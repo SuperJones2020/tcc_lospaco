@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
 
@@ -8,9 +9,9 @@ namespace TCC_LOSPACO.Controllers {
             return View();
         }
 
-        public ActionResult Service(string nome) {
-            if (nome == null) return RedirectToAction("Services");
-            return View(ServiceDAO.GetByName(nome));
+        public ActionResult Service(ushort? id) {
+            if (id == null) return RedirectToAction("Services");
+            return View(ServiceDAO.GetById(Convert.ToUInt16(id)));
         }
 
         public ActionResult Services(string categoria, string ordenar_por, int? preco_inicial, int? preco_final) {

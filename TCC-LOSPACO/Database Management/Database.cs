@@ -25,7 +25,6 @@ public class Database {
     public static void ExecuteProcedure(string proc, params object[] str) {
         OpenConnection();
         MySqlCommand command = new MySqlCommand($"call {proc}({Global.FormatArray(str, 1)})", Connection);
-        string query = $"call {proc}({Global.FormatArray(str, 1)})";
         command.ExecuteNonQuery();
         CloseConnection();
     }

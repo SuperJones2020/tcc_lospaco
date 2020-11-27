@@ -217,11 +217,11 @@ function activeProfileUI() {
                 const dataItems = contentSlider.querySelector(".table-content").querySelectorAll(".data-item");
                 contentSlider.style.transition = "transform .7s var(--main-bezier)";
                 dataItems.forEach(item => item.onclick = () => {
-                    const objs = [{ obj: "Customer", action: "/Customer/Get", params: { email: item.getAttribute("data-id") }, onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
-                        { obj: "Employee", action: "/Employee/Get", params: { email: item.getAttribute("data-id") }, onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
-                        { obj: "Package", action: "/Package/Get", params: { name: item.getAttribute("data-id") }, onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
-                        { obj: "Service", action: "/Service/Get", params: { name: item.getAttribute("data-id") }, onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
-                        { obj: "Schedule", action: "/Schedule/Get", params: { date: item.getAttribute("data-id") }, onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },]
+                    const objs = [{ obj: "Customer", action: "/Customer/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
+                        { obj: "Employee", action: "/Employee/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
+                        { obj: "Package", action: "/Package/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
+                        { obj: "Service", action: "/Service/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
+                        { obj: "Schedule", action: "/Schedule/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },]
 
                     objs.forEach(o => {
                         if (item.getAttribute("data-table-of") === o.obj) sendRequest("post", o.action, o.params, { Loader: ".main-loader", OnSuccess: o.onSuccess, OnFailure: o.onFailure });
@@ -847,15 +847,24 @@ function activeRequestByForm() {
 }
 
 activeRequestByElement();
-function activeRequestByElement() {
-    const items = document.querySelectorAll("[data-element-request-sender]");
-    items.forEach(i => {
-        const action = i.getAttribute("action");
-        const params = i.getAttribute("data-params");
-        const onSuccess = i.getAttribute("data-on-success"), onFailure = i.getAttribute("data-on-failure");
-        const loader = i.getAttribute("data-loader");
-        i.addEventListener("click", () => sendRequest("post", action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure }));
-    });
+function activeRequestByElement(element) {
+    console.log("activeRequestByElement / element=\n");
+    console.log(element);
+    if (element !== null & element !== undefined) activeElementSender(element);
+    else {
+        const items = document.querySelectorAll("[data-element-request-sender]");
+        items.forEach(i => activeElementSender(i));
+    }
+
+    function activeElementSender(element) {
+        const action = element.getAttribute("action");
+        const params = element.getAttribute("data-params");
+        const onSuccess = element.getAttribute("data-on-success"), onFailure = element.getAttribute("data-on-failure");
+        const loader = element.getAttribute("data-loader");
+        element.addEventListener("click", () => {
+            sendRequest("post", action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure });
+        });
+    }
 }
 
 function readImage(element, callback) {
@@ -924,11 +933,11 @@ async function desactiveLoader(tag, loader) {
     }
 }
 
-function removeCartItemFromHtml(name) {
+function removeCartItemFromHtml(id) {
     const asideCart = document.querySelector(".aside-cart-container");
     const items = asideCart.querySelectorAll(".cart-item");
     items.forEach(i => {
-        if (i.getAttribute("data-name") === name) {
+        if (i.getAttribute("data-id") === id) {
             i.style.transition = "transform 1s var(--main-bezier)";
             i.style.transform = "translateX(-100%)";
             i.addEventListener("transitionend", () => {

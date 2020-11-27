@@ -66,7 +66,7 @@
                 <a href=@Url.Action("Services", "Home") class="path-item">Serviços</a><span class="m-x-1">
                     <i class="fas fa-grip-lines-vertical"></i>
                 </span>
-                <a href=@Url.Action("Services", "Home", new { categoria = @Model.Category }) class="path-item">@Model.Category</a><span class="m-x-1">
+                <a href=@Url.Action("Services", "Home", new { categoria = Model.Category.Id}) class="path-item">@Model.Category.Name</a><span class="m-x-1">
                     <i class="fas fa-grip-lines-vertical"></i>
                 </span>
                 <a href="#" class="path-item">@Model.Name</a>
@@ -117,10 +117,9 @@
                     </div>
 
                     <div class="m-b-2">
-                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["name", "@Model.Name"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="OnItemAdditionFailure" data-form-request-sender="true">
+                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["name", "@Model.Name"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true">
                             <div class="p-x-1 col-2">
-                                <input type="number" value="1" class="item-
-                                       input-anim max-h max-w text-align-center" required min="1" max="99" name="quantity" />
+                                <input type="number" value="1" class="item-input-anim max-h max-w text-align-center" required min="1" max="99" name="quantity" />
                             </div>
                             <input data-anim-to-white value="Adicionar ao Carrinho" type="submit"
                                    class="col-10 p-4 b-0 add-to-cart-btn cursor-pointer bg-black white">
@@ -163,28 +162,21 @@
     <script>
         function OnItemAdded(response) {
             const cart = document.querySelector(".cart-items");
-            const items = cart.querySelectorAll(".cart-item");
             document.querySelector(".cart-price").innerHTML = response.price;
-            if (!response.contains)
-                document.querySelector(".cart-items").innerHTML += response.htmlItem;
-            else {
-                items.forEach(item => {
-                    if (item.getAttribute("data-name") === response.itemName) {
-                        const input = item.querySelector(".item-quantity-input");
-                        input.setAttribute("data-old-value", response.itemQuantity);
-                        input.value = response.itemQuantity;
-                        console.log(response.itemQuantity + " response itemquantity");
-                    }
-                });
+            if (!response.contains) {
+                cart.innerHTML += response.htmlItem;
+                console.log("got here / " + response.itemName);
+                activeCartQuantityManager(response.itemName);
+                activeRequestByElement(cart.querySelector(`[data-id='${response.itemName}']`).querySelector(".delete-item-btn").children[0]);
             }
-            activeRequestByElement();
-            activeCartQuantityManager(response.itemName);
+            else {
+                const item = cart.querySelector(`[data-id='${response.itemName}']`);
+                const input = item.querySelector(".item-quantity-input");
+                input.setAttribute("data-old-value", response.itemQuantity);
+                input.value = response.itemQuantity;
+            }
             createToast(response.success, 0);
             verifyCartMessage();
-        }
-
-        function OnItemAdditionFailure(response) {
-            createToast(response.failure, 2);
         }
 
         function OnReviewInserted() {

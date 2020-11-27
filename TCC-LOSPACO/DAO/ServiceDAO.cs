@@ -5,7 +5,7 @@ using TCC_LOSPACO.Models;
 namespace TCC_LOSPACO.DAO {
     public abstract class ServiceDAO {
         private static string GetQuery(int index, string category, int? startPrice, int? endPrice) {
-            string cat = (category == null || category == "Tudo") ? "" : $"and CatName = '{category}'";
+            string cat = (category == null || category == "Tudo") ? "" : $"and CategoryId = '{category}'";
             startPrice = startPrice ?? 0;
             endPrice = endPrice ?? 99999;
             string defaultStr = $"select * from tbservices where (ServPrice > {startPrice} and ServPrice < {endPrice}) {cat} order by ServPrice";
@@ -30,6 +30,13 @@ namespace TCC_LOSPACO.DAO {
                      TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8]));
             });
             return list;
+        }
+
+        public static Service GetById(ushort id) {
+            object[] row = Database.ReaderRow(Database.ReturnCommand($"select * from tbservices where ServId = '{id}'"));
+            Service service = new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
+                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8]);
+            return service;
         }
 
         public static Service GetByName(string name) {

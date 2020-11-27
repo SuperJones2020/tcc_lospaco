@@ -33,7 +33,7 @@
                                      style="height: 0px; border-top: none; top: 100%;">
                                     @CustomHtmlHelper.DropdownItem("Tudo", "Tudo", "categoria")
                                     @foreach (var c in TCC_LOSPACO.DAO.CategoryDAO.GetList()) {
-                                        @CustomHtmlHelper.DropdownItem(c.Name, c.Name, "categoria");
+                                        @CustomHtmlHelper.DropdownItem(c.Name, c.Id, "categoria");
                                     }
 
                                 </div>

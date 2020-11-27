@@ -1,7 +1,7 @@
 ﻿@model TCC_LOSPACO.Models.Review
 <article class="review">
     <header class="row align-items-center col-12-child s-max-w">
-        <span class="f-2 font-hammer row justify-content-start">@Model.CostumerName</span>
+        <span class="f-2 font-hammer row justify-content-start">@Model.Customer.Username</span>
         <div data-rating="@Model.Rating.ToString().Replace(',', '.')" data-stars-visualization class="rate-container row no-wrap">
             <div class="star-item">
                 <div class="star"></div>

@@ -1,12 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
 
 namespace TCC_LOSPACO.Controllers {
     public class ServiceController : Controller {
 
         [HttpPost]
-        public ActionResult Get(string name) {
-            return Json(new { service = ServiceDAO.GetByName(name) });
+        public ActionResult Get(uint id) {
+            return Json(new { service = ServiceDAO.GetById(Convert.ToUInt16(id)) });
         }
 
         /*[HttpPost]

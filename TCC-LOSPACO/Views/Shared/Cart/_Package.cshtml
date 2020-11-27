@@ -1,7 +1,7 @@
 ﻿@using TCC_LOSPACO.DAO
 @model TCC_LOSPACO.Models.Package
 
-<div data-name="@Model.Name" class="row justify-content-center cart-item">
+<div data-id="@Model.Name" class="row justify-content-center cart-item">
     <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
         <div class="s-col-12" style="width: 80px; height: 160px">
             <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
@@ -13,7 +13,7 @@
             <div class="m-x-3 s-m-x-none m-y-4-child">
                 <div class="item-header font-jos f-2">@Model.Name</div>
                 <ul class="m-y-1-child">
-                    @foreach(var s in PackageDAO.GetServices(Model.Name)) {
+                    @foreach(var s in PackageDAO.GetServicesFromPackage(Convert.ToUInt16(Model.Id))) {
                         @Html.Raw($"<li class='font-jos'><i class='fas f-0 fa-check'></i> {s}</li>");
                     }
                 </ul>

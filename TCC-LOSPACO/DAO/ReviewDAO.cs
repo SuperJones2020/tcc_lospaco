@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TCC_LOSPACO.Models;
 
 namespace TCC_LOSPACO.DAO {
@@ -6,7 +7,7 @@ namespace TCC_LOSPACO.DAO {
         public static IEnumerable<Review> GetList(string service) {
             var list = new List<Review>();
             Database.ReaderRows(Database.ReturnProcedure("sp_SelectCommentsService", service), row => {
-                list.Add(new Review((decimal)row[0], (string)row[1], (string)row[2]));
+                list.Add(new Review((decimal)row[0], (string)row[1], CustomerDAO.GetById(Convert.ToUInt32(row[2]))));
             });
             return list;
         }

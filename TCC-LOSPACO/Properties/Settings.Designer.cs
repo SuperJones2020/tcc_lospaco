@@ -26,8 +26,8 @@ namespace TCC_LOSPACO.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=root;database=dbSPA;password=123456;persistsecurityinfo=" +
-            "True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=lospaco-server.mysql.database.azure.com;user id=ArcheExpressAdm@lospaco-se" +
+            "rver;password=Ivan123!;persistsecurityinfo=True;database=dbspa")]
         public string Connection {
             get {
                 return ((string)(this["Connection"]));

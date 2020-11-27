@@ -25,26 +25,22 @@ namespace TCC_LOSPACO.DAO {
 
         public static IEnumerable<Package> GetList() {
             var list = new List<Package>();
-            Database.ReaderRows(Database.ReturnCommand("select * from tbPackage"), row => {
-                List<Service> services = GetServicesFromPackage((string)row[1]).Select(s => ServiceDAO.GetByName(s)).ToList();
-                list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], services));
-            });
+            Database.ReaderRows(Database.ReturnCommand("select * from tbPackage"), row => list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], GetServicesFromPackage((ushort)row[0]))));
             return list;
         }
 
-        public static Package GetByName(string name) {
-            object[] row = Database.ReaderRow(Database.ReturnCommand($"select * from tbPackage where PackName = '{name}'"));
-            List<Service> services = GetServicesFromPackage((string)row[1]).Select(s => ServiceDAO.GetByName(s)).ToList();
-            Package package = new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], services);
+        public static Package GetById(ushort id) {
+            object[] row = Database.ReaderRow(Database.ReturnCommand($"select * from tbPackage where PackId = '{id}'"));
+            Package package = new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], GetServicesFromPackage((ushort)row[0]));
             return package;
         }
 
-        public static List<string> GetServicesFromPackage(string name) {
+        public static List<Service> GetServicesFromPackage(ushort id) {
             var list = new List<string>();
-            Database.ReaderRows(Database.ReturnCommand($"select * from vw_PackageItems where Nome_do_Pacote='{name}'"), row => {
-                list.Add((string)row[1]);
+            Database.ReaderRows(Database.ReturnCommand($"select * from vw_PackageItems where IdPacote='{id}'"), row => {
+                list.Add(((ushort)row[1]) + "");
             });
-            return list;
+            return list.Select(s => ServiceDAO.GetById(Convert.ToUInt16(s))).ToList();
         }
 
         /*public static string GetRating(string name) {
