@@ -309,6 +309,8 @@ hr{
 
 	.l-xxl-vw{width:90vw !important}.l-xl-vw{width:80vw !important}.l-l-vw{width:70vw !important}.l-m-vw{width:60vw !important}.l-s-vw{width:50vw !important}.l-xs-vw{width:40vw !important}.l-xxs-vw{width:30vw !important}.l-max-vw{width:100vw !important}
 	.l-max-w{width:100% !important}.l-max-size{width: 100% !important; height: 100% !important;}.l-min-max-w{min-width: 100% !important;}.l-xxl-w{width:90% !important}.l-xl-w{width:80% !important}.l-l-w{width:70% !important}.l-m-w{width:60% !important}.l-s-w{width:50% !important}.l-xs-w{width:40% !important}.l-xxs-w{width:30% !important}
+    .l-xxl-vh{height:90vw !important}.l-xl-vh{height:80vw !important}.l-l-vh{height:70vw !important}.l-m-vh{height:60vw !important}.l-s-vh{width:50vw !important}.l-xs-vh{height:40vw !important}.l-xxs-vh{height:30vw !important}.l-max-vh{height:100vw !important}
+	.l-max-h{height:100% !important}.l-min-max-h{min-height: 100% !important;}.l-xxl-h{height:90% !important}.l-xl-h{height:80% !important}.l-l-h{height:70% !important}.l-m-h{height:60% !important}.l-s-h{height:50% !important}.l-xs-h{height:40% !important}.l-xxs-h{height:30% !important}
 
     .l-f-0 {
         font-size: .835rem !important

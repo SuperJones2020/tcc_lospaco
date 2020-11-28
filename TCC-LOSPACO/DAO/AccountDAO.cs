@@ -4,13 +4,13 @@ namespace TCC_LOSPACO.DAO {
     public abstract class AccountDAO {
         public static Account GetByEmail(string email) {
             var row = Database.ReaderRow(Database.ReturnCommand($"select * from tbLogin where LoginEmail = '{email}'"));
-            Account account = new Account((uint)row[0], (string)row[1], (string)row[2]);
+            Account account = new Account((uint)row[0], (string)row[1], (string)row[2], RoleDAO.GetById((byte)row[3]));
             return account;
         }
 
         public static Account GetById(uint id) {
             var row = Database.ReaderRow(Database.ReturnCommand($"select * from tbLogin where LoginId = '{id}'"));
-            Account account = new Account((string)row[1], (string)row[2]);
+            Account account = new Account((uint)row[0], (string)row[1], (string)row[2], RoleDAO.GetById((byte)row[3]));
             return account;
         }
 
@@ -28,12 +28,12 @@ namespace TCC_LOSPACO.DAO {
         }
 
         public static dynamic UpdatePassword(string currentPassword, string newPassword) {
-            string query = $"select LoginPass from vw_Login where LoginEmail = '{Security.Context.GetUser()}'";
+            string query = $"select LoginPass from vw_Login where LoginEmail = '{Security.Authentication.GetUser()}'";
             string currentPasswordHashFromDB = (string)Database.ReaderValue(Database.ReturnCommand(query));
             bool passwordMatches = BCrypt.Net.BCrypt.Verify(currentPassword, currentPasswordHashFromDB);
             if (passwordMatches) {
                 string newPasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword, 12);
-                Database.ExecuteCommand($"update tbLogin set LoginPass='{newPasswordHash}' where LoginEmail='{Security.Context.GetUser()}'");
+                Database.ExecuteCommand($"update tbLogin set LoginPass='{newPasswordHash}' where LoginEmail='{Security.Authentication.GetUser()}'");
                 return new { message = "Senha atualizada com sucesso!", index = 0 };
             } else {
                 return new { message = "Senha atual incorreta!", index = 2 };

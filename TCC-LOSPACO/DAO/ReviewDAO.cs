@@ -13,7 +13,7 @@ namespace TCC_LOSPACO.DAO {
         }
 
         public static void Insert(string name, string review, float rating) {
-            Database.ExecuteProcedure("sp_InsertComment", Security.Context.GetUser(), name, review, rating);
+            Database.ExecuteProcedure("sp_InsertComment", Security.Authentication.GetUser(), name, review, rating);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace TCC_LOSPACO.Controllers {
         }
 
         public ActionResult Profile() {
-            if (!Security.Context.IsSigned()) return Redirect("/Account/Account");
+            if (!Security.Authentication.IsSigned()) return Redirect("/Account/Account");
             return View();
         }
     }

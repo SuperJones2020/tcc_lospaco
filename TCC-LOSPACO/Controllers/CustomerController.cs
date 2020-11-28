@@ -7,5 +7,10 @@ namespace TCC_LOSPACO.Controllers {
         public ActionResult Get(uint id) {
             return Json(new { customer = CustomerDAO.GetById(id) });
         }
+
+        [HttpPost]
+        public ActionResult GetTableColumns() {
+            return Json(new { columns = Database.ReaderColumns("tbcustomer") });
+        }
     }
 }

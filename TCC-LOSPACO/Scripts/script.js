@@ -495,17 +495,17 @@ function activeInputManager() {
         const editBtn = inputDiv.querySelector(".edit-btn");
         const saveBtn = inputDiv.querySelector(".save-btn");
         if (editBtn !== null && saveBtn !== null) {
-            editBtn.onclick = () => {
+            editBtn.addEventListener("click", () => {
                 input.setAttribute("data-status", "editing");
                 input.removeAttribute("disabled");
                 editBtn.classList.add("main-red");
-            }
-            saveBtn.onclick = () => {
+            });
+            saveBtn.addEventListener("click", () => {
                 if (input.getAttribute("data-status") === "editing") {
                     input.setAttribute("disabled", "true");
                     editBtn.classList.remove("main-red");
                 }
-            }
+            });
         }
     });
 }
@@ -567,9 +567,7 @@ function activeDropDown() {
                     input.setAttribute("data-open", false);
                     content.style.height = 0;
                     icon.style.transform = "rotateX(0)";
-                    items.forEach(i => {
-                        if (i.getAttribute("data-option") === newOption) input.innerHTML = i.innerHTML;
-                    });
+                    items.forEach(i => { if (i.getAttribute("data-option") === newOption) input.innerHTML = i.innerHTML; });
                 }
             });
         });

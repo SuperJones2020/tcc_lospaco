@@ -19,7 +19,7 @@
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="row col-10 align-items-center l-col-12 col-12-child max-h content-container">
+                    <div class="row col-11 align-items-center l-col-12 col-12-child max-h content-container">
                         <form action="/Query/UpdatePassword" method="post" data-form-validate="true" data-form-request-sender="true" data-on-success="(res) => {createToast(res.message, res.index)}" data-on-failure="(res) => {createToast(res.message, res.index)}">
 
                             <h1 class="f-8 text-align-center profile-title">Senha</h1>
@@ -35,12 +35,12 @@
                                 <div class="col-1 row icon-input">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <input data-val-password data-val-min-length="8" data-val-field="Senha" data-val-equalto="#confirm-new-password" placeholder="Nova Senha" class="col-11" type="password"
+                                <input data-val-password data-val-min-length="8" data-val-field="Senha" data-val-equalto="[data-id=confirm-new-password]" placeholder="Nova Senha" class="col-11" type="password"
                                        name="newPassword" />
                             </div>
                             <div class="row m-t-4 customized-input max-w no-wrap">
                                 <div class="col-1 row icon-input"><i class="fas fa-fingerprint"></i></div>
-                                <input id="confirm-new-password" placeholder="Confirmar Nova Senha" class="col-11" type="password"
+                                <input data-id="confirm-new-password" placeholder="Confirmar Nova Senha" class="col-11" type="password"
                                        name="confirmNewPassword" />
                             </div>
 
@@ -63,7 +63,7 @@
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="row col-10 l-col-12 max-h content-container">
+                    <div class="row col-11 l-col-12 max-h content-container">
                         <div class="max-w row col-12-child align-items-center">
                             <div>
                                 <h1 class="f-8 text-align-center profile-title">Dados</h1>
@@ -71,7 +71,7 @@
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-envelope"></i></div>
                                     <input disabled class="col-9 edit-email-input" type="email" name="email"
-                                           value=@TCC_LOSPACO.Security.Context.GetUser() />
+                                           value=@TCC_LOSPACO.Security.Authentication.GetUser() />
                                     <button data-anim-to-black
                                             class="col-1 cursor-pointer edit-btn row justify-content-center">
                                         <i class="fas fa-pen"></i>
@@ -123,7 +123,7 @@
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="row col-10 l-col-12 max-h content-container">
+                    <div class="row col-11 l-col-12 max-h content-container">
                         <div class="max-w row col-12-child align-items-center">
                             <div class="row col-12-child">
                                 <h1 class="f-8 text-align-center profile-title">Deseja mesmo sair?</h1>
@@ -146,13 +146,13 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
                         class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
-                    <i class="f-10 fas fa-users"><br /><span>Clientes</span></i>
+                    <i class="f-10 fas fa-users"><br /><span>Usuários</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -160,10 +160,6 @@
                                         <h2 class="f-8 text-align-center profile-title">
                                             Todos os Usuários
                                         </h2>
-                                        <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
-                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
-                                        </button>
                                     </div>
 
                                     <div class="row customized-input no-wrap" style="width: 99.5%;">
@@ -182,8 +178,8 @@
                                     }
                                 </div>
                             </div>
-                            <div class="row center-elements min-max-w max-size customer-profile-form">
-                                <div class="row col-10 l-col-12 col-12-child p-1 max-h content-container">
+                            <div data-form="customer" class="row center-elements min-max-w max-size">
+                                <div class="row col-11 l-col-12 col-12-child p-1 max-h content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
@@ -201,14 +197,14 @@
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-signature"></i>
                                                 </div>
-                                                <input disabled class="col-10 name" type="text" name="name" />
+                                                <input disabled class="col-10" data-id="name" type="text" />
                                             </div>
                                             <div class="f-3 m-t-5 label-title">Email</div>
                                             <div class="row m-t-3 customized-input no-wrap">
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-envelope"></i>
                                                 </div>
-                                                <input disabled class="col-10 email" type="email" name="email" />
+                                                <input disabled class="col-10" data-id="email" type="email" />
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">CPF</div>
@@ -216,7 +212,7 @@
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-id-card"></i>
                                                 </div>
-                                                <input disabled class="col-10 cpf" type="number" name="cpf" />
+                                                <input disabled class="col-10" data-id="cpf" type="number" />
                                             </div>
                                         </div>
 
@@ -235,13 +231,13 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
                         class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-users-cog"><br /><span>Funcionários</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -269,8 +265,8 @@
                                     }
                                 </div>
                             </div>
-                            <div class="row center-elements min-max-w max-size employee-profile-form">
-                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                            <div data-form="employee" class="row center-elements min-max-w max-size">
+                                <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
@@ -290,7 +286,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9 name" type="text" name="name" />
+                                                        <input disabled class="col-9" data-id="name" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -307,7 +303,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-envelope"></i>
                                                         </div>
-                                                        <input disabled class="col-9 email" type="email" name="email" />
+                                                        <input disabled class="col-9" data-id="email" type="email" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -327,7 +323,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-id-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6 cpf" type="text" name="cpf" />
+                                                        <input disabled class="col-6" data-id="cpf" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -344,7 +340,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-address-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6 rg" type="text" name="rg" />
+                                                        <input disabled class="col-6" data-id="rg" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -361,7 +357,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-phone-alt"></i>
                                                         </div>
-                                                        <input disabled class="col-6 phone" type="text" name="phone" />
+                                                        <input disabled class="col-6" data-id="phone" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -381,7 +377,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-birthday-cake"></i>
                                                         </div>
-                                                        <input disabled class="col-9 date" type="date" name="birth" />
+                                                        <input disabled class="col-9" data-id="birth" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -394,12 +390,12 @@
                                                 </div>
                                                 <div class="p-l-1">
                                                     <div class="f-3 m-t-5 label-title">Gênero</div>
-                                                    <div class="customized-dropdown m-t-1 bg-white">
+                                                    <div class="customized-dropdown m-t-1 bg-white" data-id="genre">
                                                         <div class="row no-wrap max-size">
                                                             <div class="col-1 row dropdown-icon icon-input">
                                                                 <i class="fas fa-venus-mars"></i>
                                                             </div>
-                                                            <div class="col-9 row align-items-center genre dropdown-select-item" data-option=""
+                                                            <div class="col-9 row align-items-center dropdown-select-item" data-option=""
                                                                  style="border: none;">Masculino</div>
                                                             <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
                                                                 <i class="fas fa-chevron-down"></i>
@@ -419,7 +415,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9 file" type="file" name="image" />
+                                                <input disabled class="col-9" data-id="image" type="file" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -435,7 +431,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9 salary" type="text" name="salary" />
+                                                <input disabled class="col-9" data-id="salary" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -461,13 +457,13 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
                         class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-boxes"><br /><span>Pacotes</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -496,8 +492,8 @@
                                     }
                                 </div>
                             </div>
-                            <div class="row center-elements min-max-w max-size package-profile-form">
-                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                            <div data-form="package" class="row center-elements min-max-w max-size">
+                                <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
@@ -515,7 +511,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-signature"></i>
                                                 </div>
-                                                <input disabled class="col-9 name" type="text" name="name" />
+                                                <input disabled class="col-9" data-id="name" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -531,7 +527,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row desc" type="text" name="desc"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="desc" type="text"
                                                           style="resize: none;">Descrição com maiores detalhes do produto, ajudando o cliente a enteder melhor a proposta do mesmo!</textarea>
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
@@ -547,7 +543,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9 price" type="text" name="price" />
+                                                <input disabled class="col-9" data-id="price" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -563,7 +559,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9 image" type="file" name="image" />
+                                                <input disabled class="col-9" data-id="image" type="file" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -580,8 +576,8 @@
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-toolbox"></i>
                                                 </div>
-                                                <textarea disabled class="col-10 p-y-2 services-input" type="text"
-                                                          name="name" style="resize: none;"></textarea>
+                                                <textarea disabled class="col-10 p-y-2" data-id="services-input" type="text"
+                                                          style="resize: none;"></textarea>
                                             </div>
 
                                             <div class="max-size package-select-service-container flex direction-column">
@@ -596,7 +592,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas f-3 fa-bullseye"></i>
                                                         </div>
-                                                        <input class="col-10" type="text" name="name"
+                                                        <input class="col-10" type="text"
                                                                placeholder="Procure por Nome" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
@@ -628,13 +624,13 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
+                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
                         class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-calendar-check"><br /><span>Agendamentos</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -664,8 +660,8 @@
                                 </div>
                             </div>
 
-                            <div class="row center-elements min-max-w max-size schedule-profile-form">
-                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                            <div data-form="schedule" class="row center-elements min-max-w max-size">
+                                <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
@@ -680,12 +676,12 @@
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Serviço</div>
-                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white">
+                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white" data-id="service">
                                                 <div class="row no-wrap max-size">
                                                     <div class="col-1 row dropdown-icon icon-input">
                                                         <i class="fas fa-toolbox"></i>
                                                     </div>
-                                                    <div class=" col-10 row align-items-center dropdown-select-item service" data-option=""
+                                                    <div class=" col-10 row align-items-center dropdown-select-item" data-option=""
                                                          style="border: none;"></div>
                                                     <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
                                                         <i class="fas fa-chevron-down"></i>
@@ -700,13 +696,13 @@
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Funcionário a realizar</div>
-                                            <div class="customized-dropdown max-w m-t-3 bg-white">
+                                            <div class="customized-dropdown max-w m-t-3 bg-white" data-id="employee">
                                                 <div class="row no-wrap max-size">
                                                     <div class="col-1 row dropdown-icon icon-input">
                                                         <i class="fas fa-user-tie"></i>
                                                     </div>
-                                                    <div class=" col-10 row align-items-center dropdown-select-item employee" data-option=""
-                                                         style="border: none;">Categoria #1</div>
+                                                    <div class=" col-10 row align-items-center dropdown-select-item" data-option=""
+                                                         style="border: none;"></div>
                                                     <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
                                                         <i class="fas fa-chevron-down"></i>
                                                     </div>
@@ -724,7 +720,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </div>
-                                                <input disabled class="col-9 date" type="date" name="date" />
+                                                <input disabled class="col-9" data-id="date" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -739,7 +735,7 @@
                                             <div class="f-3 m-t-5 label-title">Hora</div>
                                             <div class="row m-t-3 customized-input max-w no-wrap">
                                                 <div class="col-1 row icon-input"><i class="far fa-clock"></i></div>
-                                                <input disabled class="col-9 time" type="time" name="time" />
+                                                <input disabled class="col-9" data-id="time" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -772,7 +768,7 @@
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -802,7 +798,14 @@
                                 </div>
                             </div>
                             <div data-form="service" class="row center-elements min-max-w max-size">
-                                <div class="row col-10 l-col-12 max-h p-1 content-container">
+                                <popup data-id="display_image" class="max-size p-4 z-10 row center-elements">
+                                    <div data-close-pop-up="display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
+                                    <div class="form-image-display b-3" id="image_display">
+                                        <img src="" class="img-img max-size">
+                                    </div>
+                                </popup>
+
+                                <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
@@ -824,7 +827,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" id="name" type="text" name="name" />
+                                                        <input disabled class="col-9" data-id="name" type="text" name="name" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -843,7 +846,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="far fa-bookmark"></i>
                                                         </div>
-                                                        <input disabled class="col-9" id="minified_desc" type="text" name="minified_desc" />
+                                                        <input disabled class="col-9" data-id="minified_desc" type="text" name="minified_desc" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -862,7 +865,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" id="desc" type="text" name="desc"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="desc" type="text" name="desc"
                                                           style="resize: none;"></textarea>
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
@@ -881,7 +884,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-money-bill-wave"></i>
                                                         </div>
-                                                        <input disabled class="col-6" id="price" type="text" name="price" />
+                                                        <input disabled class="col-6" data-id="price" type="text" name="price" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -894,12 +897,12 @@
                                                 </div>
                                                 <div class="p-x-2 l-p-none max-w">
                                                     <div class="f-3 m-t-5 label-title">Categoria</div>
-                                                    <div class="customized-dropdown m-t-3 bg-white">
+                                                    <div class="customized-dropdown m-t-3 bg-white" data-id="category">
                                                         <div class="row no-wrap max-size">
                                                             <div class="col-2 dropdown-icon row icon-input">
                                                                 <i class="fas fa-stream"></i>
                                                             </div>
-                                                            <div class="col-8 row align-items-center dropdown-select-item" id="category" data-option=""
+                                                            <div class="col-8 row align-items-center dropdown-select-item" data-option=""
                                                                  style="border: none;">Categoria #1</div>
                                                             <div class="col-2 cursor-pointer dropdown-icon row open-dropdown justify-content-center icon-input">
                                                                 <i class="fas fa-chevron-down"></i>
@@ -908,7 +911,7 @@
                                                         <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
                                                              style="height: 0px; border-top: none; top: 100%;">
                                                             @foreach (var c in TCC_LOSPACO.DAO.CategoryDAO.GetList()) {
-                                                                @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(c.Name, c.Name, "category")
+                                                                @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(c.Name, c.Id, "category")
                                                             }
                                                         </div>
                                                     </div>
@@ -919,7 +922,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="far fa-clock"></i>
                                                         </div>
-                                                        <input disabled class="col-6" id="time" type="text" name="time" />
+                                                        <input disabled class="col-6" data-id="time" type="text" name="time" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -937,7 +940,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-tshirt"></i>
                                                 </div>
-                                                <input disabled class="col-9" id="propper_clothing" type="text" name="propper_clothing" />
+                                                <input disabled class="col-9" data-id="propper_clothing" type="text" name="propper_clothing" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -993,7 +996,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" id="image" type="file" name="image" />
+                                                <input disabled class="col-9" data-id="image" type="file" name="image" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -1003,13 +1006,9 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
-                                            <div class="form-image-display" id="image_display" style="width: 200px; height:200px">
-                                                <img src="" class="img-img max-size">
-                                            </div>
+                                            <button data-open-pop-up="display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -1030,7 +1029,7 @@
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
-                    <div class="overflow-hidden col-9 l-col-12 max-h">
+                    <div class="overflow-hidden max-size">
                         <div class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
@@ -1065,7 +1064,7 @@
                                 </div>
                             </div>
                             <div class="row center-elements min-max-w max-size">
-                                <div class="row col-12 max-h p-1 content-container">
+                                <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <popup data-id="date" class="z-5 p-2 l-w m-max-w"
                                            style="background-color: rgba(0, 0, 0, .5);">
                                         <div class="date-container bg-white shadow max-w b-0">
@@ -1351,27 +1350,32 @@
 
         const containers = [
             {
-                id: "customer", do: () => {
+                id: "customer",
+                do: () => {
 
                 }
             },
             {
-                id: "employee", do: () => {
+                id: "employee",
+                do: () => {
 
                 }
             },
             {
-                id: "package", do: () => {
+                id: "package",
+                do: () => {
 
                 }
             },
             {
-                id: "schedule", do: () => {
+                id: "schedule",
+                do: () => {
 
                 }
             },
             {
-                id: "service", do: form => {
+                id: "service",
+                do: form => {
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
                     let columns = [];
@@ -1379,38 +1383,61 @@
                     sendRequest("post", "/Service/GetTableColumns", {}, { OnSuccess: response => columns = response.columns })
                     const data = [
                         { data: null },
-                        { data: () => get(form, "name").value },
+                        {
+                            data: () => {
+                                const newName = get(form, "name").value;
+                                form.querySelector(".title-focus").innerHTML = newName;
+                                return newName;
+                            }
+                        },
                         { data: () => get(form, "price").value },
                         { data: () => get(form, "minified_desc").value },
                         { data: () => get(form, "desc").innerHTML },
-                        { data: () => get(form, "category").getAttribute("data-option") },
+                        { data: null },
                         { data: () => get(form, "time").value },
                         { data: () => sendImage(objectId(), "Service") },
                         { data: () => get(form, "propper_clothing").value }
                     ];
                     for (let i = 0; i < data.length; i++) data[i].id = ids[i];
                     get(form, "image").addEventListener("change", () => readImage(get(form, "image"), data => get(form, "image_display").querySelector("img").setAttribute("src", data)));
-
                     function sendImage(id, object) {
-                        readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === "image")[0].id)], value: imageData.split(",")[1] }, { Loader: ".main-loader" }));
+                        readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === get(form, "image").getAttribute("id"))[0].id)], value: imageData.split(",")[1] }, { Loader: ".main-loader" }));
                     }
+
+                    const dropdown = get(form, "category");
+                    const dropContent = dropdown.querySelector(".dropdown-content").querySelectorAll("label");
+                    dropContent.forEach(o => {
+                        const dataOption = o.getAttribute("data-option")
+                        o.addEventListener("click", () => {
+                            sendRequest("post", "/Service/Update", {
+                                id: objectId(),
+                                column: columns[ids.indexOf(data.filter(x => x.id === dropdown.getAttribute("id"))[0].id)],
+                                value: dataOption
+                            }, { Loader: ".main-loader" })
+                        });
+                    });
 
                     inputs.forEach(i => {
                         const saveBtn = i.querySelector(".save-btn");
+                        const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
                         if (saveBtn !== null) {
                             saveBtn.addEventListener("click", () => {
-                                const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("id") : i.querySelector("input").getAttribute("id");
-                                if (inputId === "image") data.filter(x => x.id === inputId)[0].data();
-                                else sendRequest("post", "/Service/Update",
-                                    {
-                                        id: objectId(),
-                                        column: columns[ids.indexOf(data.filter(x => x.id === inputId)[0].id)], value: data.filter(x => x.id === inputId)[0].data()
-                                    }, { Loader: ".main-loader" });
+                                const dataStatus = el.getAttribute("data-status");
+                                console.log(dataStatus);
+                                if (dataStatus === "editing") {
+                                    el.setAttribute("data-status", "idle");
+                                    const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("id") : i.querySelector("input").getAttribute("id");
+                                    if (inputId === "image") data.filter(x => x.id === inputId)[0].data();
+                                    else sendRequest("post", "/Service/Update",
+                                        {
+                                            id: objectId(),
+                                            column: columns[ids.indexOf(data.filter(x => x.id === inputId)[0].id)],
+                                            value: data.filter(x => x.id === inputId)[0].data()
+                                        }, { Loader: ".main-loader" });
+                                }
                             });
                         }
                     });
-
-
                 }
             }];
 
@@ -1426,14 +1453,14 @@
         });
 
 
-
         function get(form, input) {
-            return form.querySelector(`#${input}`);
+            return form.querySelector(`[data-id='${input}']`);
         }
 
         function customerDataTaken(res) {
-            const form = document.querySelector(".customer-profile-form");
+            const form = document.querySelector("[data-form=customer]");
             const Customer = res.customer;
+            //form.setAttribute("data-object-id", Customer.Id);
             form.querySelector(".title-focus").innerHTML = Customer.Username;
             get(form, "name").value = Customer.Username;
             get(form, "email").value = Customer.Account.Email;
@@ -1441,8 +1468,9 @@
         }
 
         function employeeDataTaken(res) {
-            const form = document.querySelector(".employee-profile-form");
+            const form = document.querySelector("[data-form=employee]");
             const Employee = res.employee;
+            form.setAttribute("data-object-id", Employee.Id);
             form.querySelector(".title-focus").innerHTML = Employee.Name;
             get(form, "name").value = Employee.Name;
             get(form, "email").value = Employee.Account.Email;
@@ -1451,15 +1479,14 @@
             get(form, "phone").value = Employee.Phone;
             get(form, "date").value = formatDateString(Employee.Birth.replace(" 00:00:00", '').trim());
             get(form, "genre").setAttribute("data-option", Employee.Genre);
-
-
             get(form, "salary").value = Employee.Salary;
 
         }
 
         function packageDataTaken(res) {
-            const form = document.querySelector(".package-profile-form");
+            const form = document.querySelector("[data-form=package]");
             const Package = res.package;
+            form.setAttribute("data-object-id", Package.Id);
             const table = form.querySelector(".table-content");
             form.querySelector(".title-focus").innerHTML = Package.Name;
             get(form, "name").value = Package.Name;
@@ -1473,7 +1500,7 @@
         }
 
         function serviceDataTaken(res) {
-            const form = document.querySelector("[data-form]");
+            const form = document.querySelector("[data-form=service]");
             const Service = res.service;
             form.setAttribute("data-object-id", Service.Id);
             form.querySelector(".title-focus").innerHTML = Service.Name;
@@ -1481,14 +1508,14 @@
             get(form, "minified_desc").value = Service.MinifiedDesc;
             get(form, "desc").innerHTML = Service.CompleteDesc;
             get(form, "price").value = Service.Price;
-            get(form, "category").setAttribute("data-option", Service.Category.Name);
             get(form, "propper_clothing").value = Service.PropperClothing;
             get(form, "time").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;
             get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Service.Image));
+            get(form, "category").querySelector(".dropdown-select-item").setAttribute("data-option", Service.Category.Id);
         }
 
         function scheduleDataTaken(res) {
-            const form = document.querySelector(".schedule-profile-form");
+            const form = document.querySelector("[data-form=schedule]");
             const Schedule = res.schedule;
             form.querySelector(".title-focus").innerHTML = Schedule.Date;
             get(form, "service").setAttribute("data-option", Schedule.Service.Name);

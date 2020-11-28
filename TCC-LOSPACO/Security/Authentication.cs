@@ -2,10 +2,10 @@
 using System.Web;
 
 namespace TCC_LOSPACO.Security {
-    public static class Context {
-        public static void SignIn(string value) {
+    public static class Authentication {
+        public static void SignIn(object value) {
             if (!IsSigned()) {
-                HttpCookie cookie = new HttpCookie("user", value) {
+                HttpCookie cookie = new HttpCookie("user", value + "") {
                     Expires = DateTime.MaxValue
                 };
                 HttpContext.Current.Response.Cookies.Add(cookie);
