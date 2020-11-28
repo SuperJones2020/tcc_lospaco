@@ -22,7 +22,7 @@ namespace TCC_LOSPACO.DAO {
             });
             return list;
         }
-
+         
         public static List<Service> GetList() {
             var list = new List<Service>();
             Database.ReaderRows(Database.ReturnCommand("select * from vw_services"), row => {
