@@ -11,9 +11,9 @@ namespace TCC_LOSPACO.Models {
         public TimeSpan Time { get; private set; }
         public byte[] Image { get; private set; }
         public string PropperClothing { get; private set; }
-        public decimal StarRating { get; private set; }
+        public decimal? StarRating { get; private set; }
 
-        public Service(ushort id, string name, decimal price, string minifiedDesc, string completeDesc, Category category, TimeSpan time, byte[] image, string propperClothing, decimal starRating) {
+        public Service(ushort id, string name, decimal price, string minifiedDesc, string completeDesc, Category category, TimeSpan time, byte[] image, string propperClothing, decimal? starRating) {
             Id = id;
             Name = name;
             Price = price;

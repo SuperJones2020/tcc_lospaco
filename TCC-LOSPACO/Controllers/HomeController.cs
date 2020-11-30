@@ -18,8 +18,7 @@ namespace TCC_LOSPACO.Controllers {
             ordenar_por = ordenar_por ?? "Relevancia";
             string[] orderByString = { "Relevancia", "Menor Para Maior", "Maior Para Menor" };
             int index = orderByString.ToList().IndexOf(orderByString.ToList().Where(i => i == ordenar_por).First());
-            var list = ServiceDAO.GetList(index, categoria, preco_inicial, preco_final);
-            return View(list);
+            return View(ServiceDAO.GetList(index, categoria, preco_inicial, preco_final));
         }
 
         public ActionResult Profile() {

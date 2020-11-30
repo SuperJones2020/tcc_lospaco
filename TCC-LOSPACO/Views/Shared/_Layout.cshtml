@@ -64,7 +64,7 @@
             </div>
             <footer class="cart-footer fg-0 xxl-w p-y-3 row col-6-child bg-white center-x-absolute z-1 center-elements">
                 <div class="row center-elements">
-                    <h2 class="font-jos f-2"><span class='f-2 cart-price font-inc'>R$ @CartDAO.GetTotalPrice() </span></h2>
+                    <h2 class="font-jos f-2"><span class='f-2 cart-price font-inc'>R$ @{ if (TCC_LOSPACO.Security.Authentication.IsSigned()){ @CartDAO.GetTotalPrice(); } } </span></h2>
                 </div>
                 <a href="#" data-zoom="1.2, 1s" data-anim-to-white type="button" class="p-2 text-align-center bg-black white cursor-pointer">Comprar Serviços</a>
             </footer>
@@ -112,7 +112,6 @@
 
         activeCartQuantityManager();
         function activeCartQuantityManager(dataId) {
-            console.log("activeCartQuantityManager / dataId=" + dataId);
             if (dataId !== "" & dataId !== null & dataId !== undefined) {
                 const item = document.querySelector(".aside-cart-container").querySelector(`[data-id='${dataId}']`);
                 const input = item.querySelector(".item-quantity-input");

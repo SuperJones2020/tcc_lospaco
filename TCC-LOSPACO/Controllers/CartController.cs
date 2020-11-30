@@ -1,10 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
 
 namespace TCC_LOSPACO.Controllers {
     public class CartController : Controller {
         [HttpPost]
-        public ActionResult AddItemToCart(string name, byte quantity) {
+        public ActionResult AddItemToCart(string id, byte quantity) {
+            string name = ServiceDAO.GetById(Convert.ToUInt16(id)).Name;
             var data = CartDAO.GetList();
             bool containsInCart = false;
             string view = null;

@@ -6,47 +6,33 @@ using System.Data;
 using System.Linq;
 
 public class Database {
-    private static readonly MySqlConnection Connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["TCC_LOSPACO.Properties.Settings.Connection"].ConnectionString);
+    private readonly MySqlConnection Connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["TCC_LOSPACO.Properties.Settings.Connection"].ConnectionString);
 
-    static Database() {
-        OpenConnection();
-    }
-
-    private static void OpenConnection() {
+    private void OpenConnection() {
         if (Connection.State == ConnectionState.Closed)
             Connection.Open();
     }
 
-    private static void CloseConnection() {
+    private void CloseConnection() {
         if (Connection.State == ConnectionState.Open)
             Connection.Close();
     }
 
-    public static void ExecuteProcedure(string proc, params object[] str) {
+    public void ExecuteProcedure(string proc, params object[] str) {
         OpenConnection();
-        MySqlCommand command = new MySqlCommand($"call {proc}({Global.FormatArray(str, 1)})", Connection);
-        command.ExecuteNonQuery();
+        ReturnProcedure(proc, str).ExecuteNonQuery();
+        CloseConnection();
+    }
+    public MySqlCommand ReturnProcedure(string proc, params object[] str) => new MySqlCommand($"call {proc}({Global.FormatArray(str, 1)})", Connection);
+    public MySqlCommand ReturnCommand(string str) => new MySqlCommand(str, Connection);
+    public void ExecuteCommand(string str) {
+        OpenConnection();
+        ReturnCommand(str).ExecuteNonQuery();
         CloseConnection();
     }
 
-    public static MySqlCommand ReturnProcedure(string proc, params object[] str) {
-        MySqlCommand command = new MySqlCommand($"call {proc}({Global.FormatArray(str, 1)})", Connection);
-        return command;
-    }
 
-    public static void ExecuteCommand(string str) {
-        OpenConnection();
-        MySqlCommand command = new MySqlCommand(str, Connection);
-        command.ExecuteNonQuery();
-        CloseConnection();
-    }
-
-    public static MySqlCommand ReturnCommand(string str) {
-        MySqlCommand command = new MySqlCommand(str, Connection);
-        return command;
-    }
-
-    public static string[] ReaderColumns(string table) {
+    public string[] ReaderColumns(string table) {
         List<string> columns = new List<string>();
         ReaderRows(ReturnCommand($"describe {table}"), row => {
             columns.Add((string)row[0]);
@@ -54,7 +40,7 @@ public class Database {
         return columns.ToArray();
     }
 
-    public static string ReaderColumn(MySqlCommand command) {
+    public string ReaderColumn(MySqlCommand command) {
         OpenConnection();
         MySqlDataReader reader = command.ExecuteReader();
         string column = reader.GetName(0);
@@ -63,7 +49,7 @@ public class Database {
         return column;
     }
 
-    public static void ReaderRows(MySqlCommand command, Action<object[]> function) {
+    public void ReaderRows(MySqlCommand command, Action<object[]> function) {
         OpenConnection();
         int currentRow = 0;
         List<List<object>> rows = new List<List<object>>();
@@ -74,11 +60,11 @@ public class Database {
             currentRow++;
         }
         reader.Close();
-        rows.Select(r => r.ToArray()).ToList().ForEach(row => function(row));
         CloseConnection();
+        rows.Select(r => r.ToArray()).ToList().ForEach(row => function(row));
     }
 
-    public static object[] ReaderAllValue(MySqlCommand command) {
+    public object[] ReaderAllValue(MySqlCommand command) {
         OpenConnection();
         MySqlDataReader reader = command.ExecuteReader();
         string column = reader.GetName(0);
@@ -89,14 +75,14 @@ public class Database {
         return new object[] { column, value };
     }
 
-    public static object ReaderValue(MySqlCommand command) {
+    public object ReaderValue(MySqlCommand command) {
         OpenConnection();
         object value = command.ExecuteScalar();
         CloseConnection();
         return value;
     }
 
-    public static object[] ReaderRow(MySqlCommand command) {
+    public object[] ReaderRow(MySqlCommand command) {
         OpenConnection();
         List<object> row = new List<object>();
         MySqlDataReader reader = command.ExecuteReader();

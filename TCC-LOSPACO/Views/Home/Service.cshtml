@@ -1,5 +1,9 @@
 ﻿@using TCC_LOSPACO.DAO
 @using TCC_LOSPACO.CustomHtmlHelper
+@using TCC_LOSPACO.Models
+@using System.Threading.Tasks
+@using System
+
 @model TCC_LOSPACO.Models.Service
 @{
     ViewBag.Title = Model.Name + " -";
@@ -66,7 +70,7 @@
                 <a href=@Url.Action("Services", "Home") class="path-item">Serviços</a><span class="m-x-1">
                     <i class="fas fa-grip-lines-vertical"></i>
                 </span>
-                <a href=@Url.Action("Services", "Home", new { categoria = Model.Category.Id}) class="path-item">@Model.Category.Name</a><span class="m-x-1">
+                <a href=@Url.Action("Services", "Home", new { categoria = Model.Category.Id }) class="path-item">@Model.Category.Name</a><span class="m-x-1">
                     <i class="fas fa-grip-lines-vertical"></i>
                 </span>
                 <a href="#" class="path-item">@Model.Name</a>
@@ -78,7 +82,7 @@
                 <div class="col-10 xl-col-12 s-col-11">
                     <div class="align-items-center justify-content-between row">
                         <h1 class="f-7 m-f-5 m-r-2 font-jos">@Model.Name</h1>
-                        <div data-rating="@Model.StarRating" data-stars-visualization
+                        <div data-rating="@Model.StarRating.ToString().Replace(',', '.')" data-stars-visualization
                              class="rate-container m-y-2 align-items-center row no-wrap">
                             <div class="star-item">
                                 <div class="star"></div>
@@ -144,12 +148,16 @@
                 </button>
             </header>
             <div class="reviews max-w m-y-3">
-                @if (ReviewDAO.GetList(Model.Name).Count() == 0) {@Html.Raw("<h2 class='f-6 font-hammer m-f-3 m-y-4'>Nenhuma Avaliação Deixada!</h2>");
+                @{
+                    List<Review> reviewList = ReviewDAO.GetList(Model.Id);
+                }
+
+                @if (reviewList.Count() == 0) {@Html.Raw("<h2 class='f-6 font-hammer m-f-3 m-y-4'>Nenhuma Avaliação Deixada!</h2>");
             }
-                @for (int i = 0; i < ReviewDAO.GetList(Model.Name).Count(); i++) {
-                    var r = ReviewDAO.GetList(Model.Name).ElementAt(i);
+                @for (int i = 0; i < reviewList.Count(); i++) {
+                    var r = reviewList.ElementAt(i);
                     @Html.Partial("_ReviewItem", r);
-                    if (i < ReviewDAO.GetList(Model.Name).Count() - 1) {@Html.Raw("<hr class='max-w m-y-4 bg-black' />");
+                    if (i < reviewList.Count() - 1) {@Html.Raw("<hr class='max-w m-y-4 bg-black' />");
                 }
             }
 

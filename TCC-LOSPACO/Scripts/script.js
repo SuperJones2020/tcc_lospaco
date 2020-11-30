@@ -393,8 +393,8 @@ function activeRating() {
                 const entireRV = Math.floor(ratingValue);
                 const ei = entireRV === 5 ? 0 : 1;
                 for (let i = 0; i < entireRV + ei; i++) {
-                    const star = starItems[i].children[0];
-                    if (star !== undefined) {
+                    if (starItems[i] !== undefined) {
+                        const star = starItems[i].children[0];
                         const width = i === entireRV ? `${(ratingValue - entireRV) * 100}%` : "100%";
                         star.style.setProperty("--data-star-value-width", width);
                     }
@@ -836,8 +836,9 @@ function activeRequestByForm() {
                 if (getCookie("user") !== "") sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
                 else createToast("Você deve estar logado!", 2);
             } else {
-                if (f.getAttribute("data-form-is-valid") === "true")
-                sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
+                if (f.getAttribute("data-form-is-valid") === "true") {
+                    sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
+                }
             }
             evt.preventDefault();
         });
@@ -846,8 +847,6 @@ function activeRequestByForm() {
 
 activeRequestByElement();
 function activeRequestByElement(element) {
-    console.log("activeRequestByElement / element=\n");
-    console.log(element);
     if (element !== null & element !== undefined) activeElementSender(element);
     else {
         const items = document.querySelectorAll("[data-element-request-sender]");
@@ -878,7 +877,7 @@ function readImage(element, callback) {
     reader.onloadend = function (evt) {
         if (evt.target.readyState == FileReader.DONE) {
             const base64Data = evt.target.result;
-            callback(base64Data);
+            callback(base64Data.split(",")[1]);
         }
     };
 }
@@ -887,8 +886,8 @@ function readImageFromDatabase(byteArray) {
     return "data:image/png;base64," + new TextDecoder("utf-8").decode(new Uint8Array(byteArray));
 }
 
-function sendRequest(method, url, data, info) {
-    requestSender(method, url, data, info).then(response => { try { eval(info.OnSuccess)(response) } catch{ } }).catch(response => { try { eval(info.OnFailure)(response) } catch{ } });
+async function sendRequest(method, url, data, info) {
+    await requestSender(method, url, data, info).then(response => { try { eval(info.OnSuccess)(response) } catch{ } }).catch(response => { try { eval(info.OnFailure)(response) } catch{ } });
 }
 
 async function requestSender(method, url, data, info) {
@@ -900,6 +899,14 @@ async function requestSender(method, url, data, info) {
         if (data) if (info && !info.formRequest) {
             if (typeof (data) === "object") data = JSON.stringify(data);
             xhr.setRequestHeader("Content-Type", "application/json");
+        }
+
+        if (info.ContentHeaders) {
+            for (let i = 0; i < info.ContentHeaders.length; i++){
+                const h = info.ContentHeaders[i];
+                console.log(h);
+                xhr.setRequestHeader(h.Key, h.Value);
+            }
         }
         xhr.onload = () => {
             if (xhr.status >= 400) {

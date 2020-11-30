@@ -71,7 +71,7 @@
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-envelope"></i></div>
                                     <input disabled class="col-9 edit-email-input" type="email" name="email"
-                                           value=@TCC_LOSPACO.Security.Authentication.GetUser() />
+                                           value=@TCC_LOSPACO.Security.Authentication.GetUser().Email />
                                     <button data-anim-to-black
                                             class="col-1 cursor-pointer edit-btn row justify-content-center">
                                         <i class="fas fa-pen"></i>
@@ -486,11 +486,11 @@
                                     </div>
                                 </div>
 
-                                <div class="table-content text-align-center-child max-w fg-1">
-                                    @foreach (var p in TCC_LOSPACO.DAO.PackageDAO.GetList()) {
-                                        @Html.Partial("Profile/_Package", p)
+                                <!--<div class="table-content text-align-center-child max-w fg-1">
+                                     foreach (var p in TCC_LOSPACO.DAO.PackageDAO.GetList()) {
+                                        Html.Partial("Profile/_Package", p)
                                     }
-                                </div>
+                                </div>-->
                             </div>
                             <div data-form="package" class="row center-elements min-max-w max-size">
                                 <div class="row col-11 l-col-12 max-h p-1 content-container">
@@ -800,7 +800,7 @@
                             <div data-form="service" class="row center-elements min-max-w max-size">
                                 <popup data-id="display_image" class="max-size p-4 z-10 row center-elements">
                                     <div data-close-pop-up="display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
-                                    <div class="form-image-display b-3" id="image_display">
+                                    <div class="b-3" data-id="image_display">
                                         <img src="" class="img-img max-size">
                                     </div>
                                 </popup>
@@ -1375,12 +1375,13 @@
             },
             {
                 id: "service",
-                do: form => {
+                do: async form => {
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
-                    let columns = [];
+                    const columns = await getTableColumnsAsync("Service");
+                    const token = await getSJWTAsync();
                     const ids = ["abstract_id", "name", "price", "minified_desc", "desc", "category", "time", "image", "propper_clothing"];
-                    sendRequest("post", "/Service/GetTableColumns", {}, { OnSuccess: response => columns = response.columns })
+                    
                     const data = [
                         { data: null },
                         {
@@ -1401,8 +1402,9 @@
                     for (let i = 0; i < data.length; i++) data[i].id = ids[i];
                     get(form, "image").addEventListener("change", () => readImage(get(form, "image"), data => get(form, "image_display").querySelector("img").setAttribute("src", data)));
                     function sendImage(id, object) {
-                        readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === get(form, "image").getAttribute("id"))[0].id)], value: imageData.split(",")[1] }, { Loader: ".main-loader" }));
+                        readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === get(form, "image").getAttribute("data-id"))[0].id)], value: imageData }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: token }] }));
                     }
+
 
                     const dropdown = get(form, "category");
                     const dropContent = dropdown.querySelector(".dropdown-content").querySelectorAll("label");
@@ -1411,9 +1413,9 @@
                         o.addEventListener("click", () => {
                             sendRequest("post", "/Service/Update", {
                                 id: objectId(),
-                                column: columns[ids.indexOf(data.filter(x => x.id === dropdown.getAttribute("id"))[0].id)],
+                                column: columns[ids.indexOf(data.filter(x => x.id === dropdown.getAttribute("data-id"))[0].id)],
                                 value: dataOption
-                            }, { Loader: ".main-loader" })
+                            }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
                         });
                     });
 
@@ -1423,17 +1425,16 @@
                         if (saveBtn !== null) {
                             saveBtn.addEventListener("click", () => {
                                 const dataStatus = el.getAttribute("data-status");
-                                console.log(dataStatus);
                                 if (dataStatus === "editing") {
                                     el.setAttribute("data-status", "idle");
-                                    const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("id") : i.querySelector("input").getAttribute("id");
+                                    const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("data-id") : i.querySelector("input").getAttribute("data-id");
                                     if (inputId === "image") data.filter(x => x.id === inputId)[0].data();
                                     else sendRequest("post", "/Service/Update",
                                         {
                                             id: objectId(),
                                             column: columns[ids.indexOf(data.filter(x => x.id === inputId)[0].id)],
                                             value: data.filter(x => x.id === inputId)[0].data()
-                                        }, { Loader: ".main-loader" });
+                                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] });
                                 }
                             });
                         }
@@ -1441,6 +1442,17 @@
                 }
             }];
 
+        async function getTableColumnsAsync(object) {
+            let columns = [];
+            await sendRequest("post", `/${object}/GetTableColumns`, {}, { OnSuccess: response => columns = response.columns });
+            return columns;
+        }
+
+        async function getSJWTAsync() {
+            let token = null;
+            await sendRequest("post", "/SJWT/Get", {}, { OnSuccess: res => token = res.token });
+            return token;
+        }
 
         const items = document.querySelectorAll(".item");
         items.forEach(c => {

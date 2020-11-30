@@ -95,6 +95,7 @@
                 @Html.Partial("_ServiceItem", service);
             }
         </div>
-            @if (Model.Count() == 0) { @Html.Raw("<h2 class='max-w font-hammer text-align-center m-b-4 f-7 m-f-4'>Nenhum Serviço encontrado!</h2>"); }
+        @if (Model.Count() == 0) {@Html.Raw("<h2 class='max-w font-hammer text-align-center m-b-4 f-7 m-f-4'>Nenhum Serviço encontrado!</h2>");
+    }
     </div>
 </section>

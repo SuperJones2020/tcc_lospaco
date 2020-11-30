@@ -5,6 +5,7 @@ using TCC_LOSPACO.Models;
 
 namespace TCC_LOSPACO.DAO {
     public abstract class PackageDAO {
+        private static Database db = new Database();
         private static string GetQuery(int index, string category, int? startPrice, int? endPrice) {
             string cat = (category == null || category == "Tudo") ? "" : $"and CatName = '{category}'";
             startPrice = startPrice ?? 0;
@@ -14,48 +15,48 @@ namespace TCC_LOSPACO.DAO {
             return OrderingQueries[index];
         }
 
-        /*public static IEnumerable<Package> GetList(int orderIndex, string category, int? sp, int? ep) {
+        public static List<Package> GetList(int orderIndex, string category, int? sp, int? ep) {
             var list = new List<Package>();
             string query = GetQuery(orderIndex, category, sp, ep);
-            Database.ReaderRows(Database.ReturnCommand(query), row => {
-                list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (string)row[3], (decimal)row[4]));
+            db.ReaderRows(db.ReturnCommand(query), row => {
+                //list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (string)row[3], (decimal)row[4]));
             });
             return list;
-        }*/
+        }
 
-        public static IEnumerable<Package> GetList() {
+        public static List<Package> GetList() {
             var list = new List<Package>();
-            Database.ReaderRows(Database.ReturnCommand("select * from tbPackage"), row => list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], GetServicesFromPackage((ushort)row[0]))));
+            db.ReaderRows(db.ReturnCommand("select * from tbPackage"), row => list.Add(new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], GetServicesFromPackage((ushort)row[0]))));
             return list;
         }
 
         public static Package GetById(ushort id) {
-            object[] row = Database.ReaderRow(Database.ReturnCommand($"select * from tbPackage where PackId = '{id}'"));
+            object[] row = db.ReaderRow(db.ReturnCommand($"select * from tbPackage where PackId = '{id}'"));
             Package package = new Package((ushort)row[0], (string)row[1], (string)row[2], (byte[])row[3], (decimal)row[4], GetServicesFromPackage((ushort)row[0]));
             return package;
         }
 
         public static List<Service> GetServicesFromPackage(ushort id) {
             var list = new List<string>();
-            Database.ReaderRows(Database.ReturnCommand($"select * from vw_PackageItems where IdPacote='{id}'"), row => {
+            db.ReaderRows(db.ReturnCommand($"select * from vw_PackageItems where IdPacote='{id}'"), row => {
                 list.Add(((ushort)row[1]) + "");
             });
             return list.Select(s => ServiceDAO.GetById(Convert.ToUInt16(s))).ToList();
         }
 
-        /*public static string GetRating(string name) {
-            object rating = Database.ReaderValue(Database.ReturnProcedure("sp_getAverageStarRatingService", name)) ?? "";
+        public static string GetRating(string name) {
+            object rating = db.ReaderValue(db.ReturnProcedure("sp_getAverageStarRatingService", name)) ?? "";
             return rating.ToString().Replace(",", ".");
-        }*/
+        }
 
         public static int GetMaxPrice() {
-            decimal price = (decimal)Database.ReaderValue(Database.ReturnCommand("select PackPrice from tbpackage order by PackPrice desc limit 1;"));
-            return (int)Math.Truncate(price) + 5;
+            object price = db.ReaderValue(db.ReturnCommand("select PackPrice from tbpackage order by PackPrice desc limit 1;"));
+            return (int)Math.Truncate(Convert.ToDecimal(price)) + 5;
         }
 
         public static int GetMinPrice() {
-            decimal price = (decimal)Database.ReaderValue(Database.ReturnCommand("select PackPrice from tbpackage order by PackPrice limit 1;"));
-            return (int)Math.Truncate(price); ;
+            object price = db.ReaderValue(db.ReturnCommand("select PackPrice from tbpackage order by PackPrice limit 1;"));
+            return (int)Math.Truncate(Convert.ToDecimal(price)); ;
         }
     }
 }

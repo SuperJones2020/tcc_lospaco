@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
     public class ServiceController : Controller {
-
+        private static Database db = new Database();
         [HttpPost]
         public ActionResult Get(uint id) {
             return Json(new { service = ServiceDAO.GetById(Convert.ToUInt16(id)) });
@@ -19,13 +20,15 @@ namespace TCC_LOSPACO.Controllers {
 
         [HttpPost]
         public ActionResult GetTableColumns() {
-            return Json(new { columns = Database.ReaderColumns("tbservices") });
+            return Json(new { columns = db.ReaderColumns("tbservices") });
         }
 
         [HttpPost]
-        public void Update(ushort id, string column, string value) {
+        public ActionResult Update(ushort id, string column, string value) {
+            if (!Authentication.VerifyToken()) return Json(new { Error = "Not Authenticated" });
             string query = $"update tbservices set {column}='{value}' where servid='{id}'";
-            Database.ExecuteCommand(query);
+            db.ExecuteCommand(query);
+            return Json(new { Success = "Success" });
         }
     }
 }
