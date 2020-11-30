@@ -6,7 +6,7 @@ namespace TCC_LOSPACO.DAO {
 
         public static List<dynamic> GetList(ushort id) {
             List<dynamic> list = new List<dynamic>();
-            db.ReaderRows(db.ReturnCommand($"select itemname, itemtype, ItemQnt, ItemImage, ItemPrice from vw_cart where LoginId='{id}'"), row => list.Add(new { Name = row[0], Type = row[1], Qnt = row[2], Price = row[3], Image = row[4], }));
+            db.ReaderRows(db.ReturnCommand($"select itemname, itemtype, ItemQnt, ItemImage, ItemPrice from vw_cart where LoginId='{id}'"), row => list.Add(new { Name = row[0], Type = row[1], Qnt = row[2], Price = row[3], Image = row[4] }));
             return list;
         }
 
