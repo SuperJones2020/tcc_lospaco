@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
     public class CartController : Controller {
         [HttpPost]
         public ActionResult AddItemToCart(string id, byte quantity) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
             string name = ServiceDAO.GetById(Convert.ToUInt16(id)).Name;
             var data = CartDAO.GetList();
             bool containsInCart = false;
@@ -17,9 +19,9 @@ namespace TCC_LOSPACO.Controllers {
                 }
             }
             CartDAO.InsertItem(name, quantity);
-            if (!containsInCart) view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Service", CartServiceDAO.GetByName(name), ControllerContext);
+            if (!containsInCart) view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Service", new { Object = ServiceDAO.GetCartServiceByName(name) }, ControllerContext);
 
-            return Json(new {
+            JsonResult json = Json(new {
                 contains = containsInCart,
                 itemQuantity = CartDAO.GetQuantity(name),
                 price = "R$ " + CartDAO.GetTotalPrice(),
@@ -27,21 +29,29 @@ namespace TCC_LOSPACO.Controllers {
                 htmlItem = view,
                 success = "Adicionado!"
             });
+            json.MaxJsonLength = int.MaxValue;
+
+            return json;
         }
 
         [HttpPost]
         public ActionResult RemoveCartItem(string name) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
             object[] obj = CartDAO.RemoveItem(name);
             return Json(new { type = obj[0], message = obj[1], name, price = "R$ " + CartDAO.GetTotalPrice() });
         }
         [HttpPost]
         public ActionResult UpdateCartItemQuantity(string name, byte qty) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
             object[] obj = CartDAO.UpdateQuantity(name, qty);
             return Json(new { type = obj[0], message = obj[1], price = "R$ " + CartDAO.GetTotalPrice() });
         }
 
         [HttpPost]
-        public ActionResult IsCartEmpty() => Json(new { isEmpty = CartDAO.IsCartEmpty() });
+        public ActionResult IsCartEmpty() {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            return Json(new { isEmpty = CartDAO.IsCartEmpty() });
+        }
 
     }
 }

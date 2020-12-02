@@ -121,17 +121,7 @@
 
 
 @section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha256.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-base64.min.js"></script>
     <script>
-        const Header = {alg:"SHA256",type:"SJ2020"}
-        const Payload = { id: "", email: "" }
-        
-        var hash = CryptoJS.HmacSHA256("Message", "secret");
-        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-        document.write(hashInBase64);
-
     function OnLoginValidate(response) {
     if (response.isValid) window.location = response.url;
     else createToast(response.message, response.type);

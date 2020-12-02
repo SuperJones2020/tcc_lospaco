@@ -1,11 +1,22 @@
 ﻿using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
     public class ScheduleController : Controller {
+        Database db = new Database();
         [HttpPost]
         public ActionResult Get(uint id) {
-            return Json(new { schedule = ScheduleDAO.GetById(id) });
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            return Json(new { Object = ScheduleDAO.GetById(id) });
+        }
+
+        [HttpPost]
+        public ActionResult Update(ushort id, string column, string value) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            string query = $"update vw_schedulescustomer set {column}='{value}' where schedid='{id}'";
+            db.ExecuteCommand(query);
+            return Json(new { Success = "Success" });
         }
     }
 }

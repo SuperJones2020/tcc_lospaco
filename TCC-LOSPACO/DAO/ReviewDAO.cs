@@ -13,7 +13,7 @@ namespace TCC_LOSPACO.DAO {
             return list;
         }
 
-        public static void Insert(string name, string review, float rating) => db.ExecuteProcedure("sp_InsertComment", Security.Authentication.GetUser().Email, name, review, rating);
+        public static void Insert(string name, string review, float rating) => db.ExecuteProcedure("sp_InsertComment", Security.Authentication.GetUser().Account.Email, name, review, rating);
 
     }
 }

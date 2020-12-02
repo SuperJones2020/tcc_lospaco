@@ -6,14 +6,20 @@ namespace TCC_LOSPACO.DAO {
         private static Database db = new Database();
         public static List<Customer> GetList() {
             var list = new List<Customer>();
-            db.ReaderRows(db.ReturnCommand("select * from tbCustomer"), row => list.Add(new Customer((uint)row[0], AccountDAO.GetById((uint)row[0]), (string)row[1], (string)row[2], row[3] + "")));
+            db.ReaderRows(db.ReturnCommand("select * from tbCustomer"), row => list.Add(new Customer(AccountDAO.GetById((uint)row[0]), (string)row[1], (string)row[2], (string)row[3], row[4] + "")));
             return list;
         }
 
         public static Customer GetById(uint id) {
-            var row = db.ReaderRow(db.ReturnCommand($"select * from tbCustomer where LoginId = '{id}'"));
-            if (row.Length == 0) return new Customer();
-            Customer customer = new Customer((uint)row[0], AccountDAO.GetById(id), (string)row[1], (string)row[2], row[3] + "");
+            string value = AccountDAO.RegistrationCompleted(id) ? "tbCustomer" : "tblogin";
+            Customer customer = null;
+            if (AccountDAO.RegistrationCompleted(id)) {
+                var row = db.ReaderRow(db.ReturnCommand($"select * from tbcustomer where LoginId = '{id}'"));
+                customer = new Customer(AccountDAO.GetById(id), (string)row[1], (string)row[2], (string)row[3], row[4] + "");
+            } else {
+                var row = db.ReaderRow(db.ReturnCommand($"select * from tblogin where LoginId = '{id}'"));
+                customer = new Customer(AccountDAO.GetById(id), "", "", "", "");
+            }
             return customer;
         }
 

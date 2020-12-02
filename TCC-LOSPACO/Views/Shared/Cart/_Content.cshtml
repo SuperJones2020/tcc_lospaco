@@ -9,7 +9,7 @@
         foreach (dynamic item in list) {
             string name = Global.GetValue(item, "Name");
             string type = Global.GetValue(item, "Type");
-            if (type == "SERVICO") { @Html.Partial("Cart/_Service", CartServiceDAO.GetByName((string)name))}// else if (type == "PACOTE") { @Html.Partial("Cart/_Package", PackageDAO.GetByName(name));
+            if (type == "SERVICO") { @Html.Partial("Cart/_Service", new { Object = ServiceDAO.GetCartServiceByName(name) }); }// else if (type == "PACOTE") { @Html.Partial("Cart/_Package", PackageDAO.GetByName(name));
+        }
     }
-}
 }

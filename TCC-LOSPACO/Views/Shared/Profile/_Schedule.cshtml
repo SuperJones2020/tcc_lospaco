@@ -1,11 +1,15 @@
 ﻿@model TCC_LOSPACO.Models.Schedule
 
+@{
+    string v = Model.IsPerformed ? "main-bg-gray" : "";
+}
+
 <div class="data-item vertical-align-top" data-id="@Model.Id" data-table-of="Schedule">
     <div data-zoom="1.02, .5s"
-         class="data-content cursor-pointer row center-elements bg-white max-size">
+         class="data-content cursor-pointer row center-elements bg-white max-size @v">
         <div class="row col-12-child m-y-2-child">
-            <div class="f-3">@Model.Date</div>
-            <div class="f-2">@Model.Service.Name</div>
+            <div class="f-3 date">@Model.Date</div>
+            <div class="f-2 service-name">@Model.Service.Name</div>
         </div>
     </div>
 </div>

@@ -164,25 +164,29 @@ function activeProfileUI() {
             const selectServiceContainer = content.querySelector(".package-select-service-container");
             if (selectServiceContainer !== null) {
                 const tableContent = selectServiceContainer.querySelector(".table-content");
-                const serviceItems = selectServiceContainer.querySelectorAll(".data-item");
-                const inputServices = pop.querySelector(".services-input");
+                const serviceItems = tableContent.querySelectorAll(".data-item");
+                const inputServices = pop.querySelector("[data-id=services-input]");
                 let selectedServices = tableContent.getAttribute("data-selected-services").split(",");
 
                 var observer = new MutationObserver(function (mutations) {
                     mutations.forEach(function (mutation) {
                         if (mutation.type == "attributes" & mutation.attributeName == "data-selected-services") {
                             selectedServices = tableContent.getAttribute("data-selected-services").split(",");
+                            const servicesName = [];
                             serviceItems.forEach(s => {
-                                const serviceName = s.getAttribute("data-id");
+                                const servId = s.getAttribute("data-id");
                                 for (let j = 0; j < selectedServices.length; j++) {
                                     const ss = selectedServices[j];
-                                    if (ss !== serviceName & s.getAttribute("data-selected") === "true") s.setAttribute("data-selected", false);
+                                    if (ss !== servId & s.getAttribute("data-selected") === "true") s.setAttribute("data-selected", false);
                                 }
                                 for (let j = 0; j < selectedServices.length; j++) {
                                     const ss = selectedServices[j];
-                                    if (ss === serviceName) s.setAttribute("data-selected", true);
+                                    if (ss === servId) {
+                                        s.setAttribute("data-selected", true)
+                                        servicesName.push(s.getAttribute("data-name"));
+                                    };
                                 }
-                                inputServices.innerHTML = selectedServices.join(", ");
+                                inputServices.innerHTML = servicesName.join(", ");
                                 if (s.getAttribute("data-selected") === "true") {
                                     s.children[0].classList.add("main-bg-green");
                                 } else if (s.getAttribute("data-selected") === "false") {
@@ -195,19 +199,17 @@ function activeProfileUI() {
                 observer.observe(tableContent, { attributes: true });
 
                 serviceItems.forEach(s => {
-                    const serviceName = s.getAttribute("data-id");
+                    const serviceId = s.getAttribute("data-id");
                     s.onclick = () => {
                         const selected = s.getAttribute("data-selected");
                         if (selected === "false") {
-                            selectedServices.push(serviceName);
-                            inputServices.innerHTML = selectedServices.join(", ");
-                            s.setAttribute("data-selected", "true")
-                            s.children[0].classList.add("main-bg-green");
+                            const curSelected = tableContent.getAttribute("data-selected-services").split(",");
+                            curSelected.push(serviceId)
+                            tableContent.setAttribute("data-selected-services", curSelected);
                         } else {
-                            selectedServices = selectedServices.filter(i => i !== serviceName);
-                            inputServices.innerHTML = selectedServices.join(", ");
-                            s.setAttribute("data-selected", "false")
-                            s.children[0].classList.remove("main-bg-green");
+                            let curSelected = tableContent.getAttribute("data-selected-services").split(",");
+                            curSelected = curSelected.filter(x => x !== serviceId);
+                            tableContent.setAttribute("data-selected-services", curSelected);
                         }
                     }
                 })
@@ -217,14 +219,19 @@ function activeProfileUI() {
                 const dataItems = contentSlider.querySelector(".table-content").querySelectorAll(".data-item");
                 contentSlider.style.transition = "transform .7s var(--main-bezier)";
                 dataItems.forEach(item => item.onclick = () => {
-                    const objs = [{ obj: "Customer", action: "/Customer/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
-                        { obj: "Employee", action: "/Employee/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
-                        { obj: "Package", action: "/Package/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
-                        { obj: "Service", action: "/Service/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
-                        { obj: "Schedule", action: "/Schedule/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },]
+                    generateNewSignature().then(v => {
+                        const objs = [{ obj: "Customer", action: "/Customer/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
+                            { obj: "Employee", action: "/Employee/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
+                            { obj: "Package", action: "/Package/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
+                            { obj: "Service", action: "/Service/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
+                            { obj: "Schedule", action: "/Schedule/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },]
 
-                    objs.forEach(o => {
-                        if (item.getAttribute("data-table-of") === o.obj) sendRequest("post", o.action, o.params, { Loader: ".main-loader", OnSuccess: o.onSuccess, OnFailure: o.onFailure });
+                        objs.forEach(o => {
+                            if (item.getAttribute("data-table-of") === o.obj) sendRequest("post", o.action, o.params, {
+                                Loader: ".main-loader", OnSuccess: o.onSuccess, OnFailure: o.onFailure,
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+                            });
+                        });
                     });
                     contentSlider.style.transform = "translateX(-100%)";
                 });
@@ -491,21 +498,23 @@ function activeInputManager() {
     const inputs = document.querySelectorAll(".customized-input");
     inputs.forEach(inputDiv => {
         const input = inputDiv.querySelector("input") || inputDiv.querySelector("textarea");
-        input.setAttribute("data-status", "idle");
-        const editBtn = inputDiv.querySelector(".edit-btn");
-        const saveBtn = inputDiv.querySelector(".save-btn");
-        if (editBtn !== null && saveBtn !== null) {
-            editBtn.addEventListener("click", () => {
-                input.setAttribute("data-status", "editing");
-                input.removeAttribute("disabled");
-                editBtn.classList.add("main-red");
-            });
-            saveBtn.addEventListener("click", () => {
-                if (input.getAttribute("data-status") === "editing") {
-                    input.setAttribute("disabled", "true");
-                    editBtn.classList.remove("main-red");
-                }
-            });
+        if (input !== null) {
+            input.setAttribute("data-status", "idle");
+            const editBtn = inputDiv.querySelector(".edit-btn");
+            const saveBtn = inputDiv.querySelector(".save-btn");
+            if (editBtn !== null && saveBtn !== null) {
+                editBtn.addEventListener("click", () => {
+                    input.setAttribute("data-status", "editing");
+                    input.removeAttribute("disabled");
+                    editBtn.classList.add("main-red");
+                });
+                saveBtn.addEventListener("click", () => {
+                    if (input.getAttribute("data-status") === "editing") {
+                        input.setAttribute("disabled", "true");
+                        editBtn.classList.remove("main-red");
+                    }
+                });
+            }
         }
     });
 }
@@ -602,6 +611,39 @@ function activeDropDown() {
                 content.style.height = fixedHeight;
             }
         }
+    });
+}
+
+activeBooleanInput();
+function activeBooleanInput() {
+    const customizedBooleanType = document.querySelectorAll(".boolean-type");
+    customizedBooleanType.forEach(b => {
+        const btns = b.children;
+        btns[0].addEventListener("click", () => b.setAttribute("data-bool", false));
+        btns[1].addEventListener("click", () => b.setAttribute("data-bool", true));
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.type == "attributes" & mutation.attributeName == "data-bool") {
+                    const bool = b.getAttribute("data-bool");
+                    if (bool === "true") {
+                        btns[0].removeAttribute("selected");
+                        btns[1].setAttribute("selected", "");
+                        btns[0].style.filter = "";
+                        btns[1].style.filter = "invert(1)";
+                    }
+                    else {
+                        btns[0].setAttribute("selected", "");
+                        btns[1].removeAttribute("selected");
+                        btns[0].style.filter = "invert(1)";
+                        btns[1].style.filter = "";
+                    }
+                }
+            });
+        });
+
+        observer.observe(b, {
+            attributes: true
+        });
     });
 }
 
@@ -821,7 +863,7 @@ function activeFormValidate() {
 activeRequestByForm();
 function activeRequestByForm() {
     const forms = document.querySelectorAll("[data-form-request-sender]");
-    forms.forEach(f => {
+    forms.forEach((f) => {
         f.addEventListener("submit", evt => {
             const method = f.getAttribute("method"), action = f.getAttribute("action");
             const onSuccess = f.getAttribute("data-on-success"), onFailure = f.getAttribute("data-on-failure");
@@ -833,7 +875,7 @@ function activeRequestByForm() {
             });
             const formIsValid = f.getAttribute("data-form-is-valid");
             if (f.hasAttribute("data-if-is-signed") & formIsValid === "true" | f.hasAttribute("data-if-is-signed") & formIsValid === null) {
-                if (getCookie("user") !== "") sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
+                if (isSigned()) sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
                 else createToast("Você deve estar logado!", 2);
             } else {
                 if (f.getAttribute("data-form-is-valid") === "true") {
@@ -854,12 +896,13 @@ function activeRequestByElement(element) {
     }
 
     function activeElementSender(element) {
-        const action = element.getAttribute("action");
+        const action = element.getAttribute("data-action");
         const params = element.getAttribute("data-params");
+        const method = element.getAttribute("data-method");
         const onSuccess = element.getAttribute("data-on-success"), onFailure = element.getAttribute("data-on-failure");
         const loader = element.getAttribute("data-loader");
         element.addEventListener("click", () => {
-            sendRequest("post", action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure });
+            sendRequest(method, action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure });
         });
     }
 }
@@ -904,7 +947,6 @@ async function requestSender(method, url, data, info) {
         if (info.ContentHeaders) {
             for (let i = 0; i < info.ContentHeaders.length; i++){
                 const h = info.ContentHeaders[i];
-                console.log(h);
                 xhr.setRequestHeader(h.Key, h.Value);
             }
         }
@@ -960,7 +1002,7 @@ function verifyCartMessage() {
             isCartEmpty = Boolean(response.isEmpty);
             const cart = document.querySelector(".cart-items");
 
-            if (getCookie("user") === "") addMessage("Você precisa estar logado!");
+            if (!isSigned()) addMessage("Você precisa estar logado!");
             else {
                 if (isCartEmpty) addMessage("Carrinho vazio...");
                 else removeMessage();
@@ -1456,4 +1498,22 @@ function maskString(mask, str) {
         }
     }
     return maskArray.join("");
+}
+
+async function isSigned() {
+    const isSigned = false;
+    await sendRequest("post", "/Account/IsSigned", {}, { OnSuccess: res => isSigned = res.isSigned });
+    return isSigned;
+}
+
+async function getTableColumnsAsync(object, token) {
+    let columns = [];
+    await sendRequest("post", `/${object}/GetTableColumns`, {}, { OnSuccess: response => columns = response.columns, ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] });
+    return columns;
+}
+
+async function generateNewSignature(id, email) {
+    let token = null;
+    await sendRequest("post", "/SJWT/GenerateSignature", { id, email }, { OnSuccess: res => token = res.token, Loader: ".main-loader" });
+    return token;
 }

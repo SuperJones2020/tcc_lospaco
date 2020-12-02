@@ -121,7 +121,7 @@
                     </div>
 
                     <div class="m-b-2">
-                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["name", "@Model.Name"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true">
+                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["id", "@Model.Id"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true">
                             <div class="p-x-1 col-2">
                                 <input type="number" value="1" class="item-input-anim max-h max-w text-align-center" required min="1" max="99" name="quantity" />
                             </div>

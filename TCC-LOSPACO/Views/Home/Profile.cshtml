@@ -1,7 +1,9 @@
 ﻿@using TCC_LOSPACO.Models
+@using TCC_LOSPACO.CustomHtmlHelper
 
 @{
     ViewBag.Title = "Minha Conta -";
+    var user = TCC_LOSPACO.Security.Authentication.GetUser();
 }
 
 <main class="div-img" style="background-image: url('https://picsum.photos/id/615/1920/3240/?blur=5');">
@@ -70,8 +72,8 @@
                                 <h2 class="f-4 label-title">Email atual</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-envelope"></i></div>
-                                    <input disabled class="col-9 edit-email-input" type="email" name="email"
-                                           value=@TCC_LOSPACO.Security.Authentication.GetUser().Email />
+                                    <input disabled class="col-9 edit-email-input" data-id="email" type="email"
+                                           value=@user.Account.Email />
                                     <button data-anim-to-black
                                             class="col-1 cursor-pointer edit-btn row justify-content-center">
                                         <i class="fas fa-pen"></i>
@@ -81,10 +83,21 @@
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </div>
+                                <h2 class="f-4 m-t-6 label-title">Nome Completo</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-file-contract"></i></div>
+                                    <input disabled class="col-9" type="text" data-id="name" value="@user.FullName" />
+                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
                                 <h2 class="f-4 m-t-6 label-title">Nome de Exibição</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-signature"></i></div>
-                                    <input disabled class="col-9" type="text" name="name" value="João Webber" />
+                                    <input disabled class="col-9" type="text" data-id="username" value="@user.Username" />
                                     <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
                                         <i class="fas fa-pen"></i>
                                     </button>
@@ -95,7 +108,7 @@
                                 <h2 class="f-4 m-t-6 label-title">CPF</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-id-card"></i></div>
-                                    <input disabled class="col-9" type="text" name="name" value="812741802" />
+                                    <input disabled class="col-9" type="number" data-id="cpf" value="@user.CPF" />
                                     <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
                                         <i class="fas fa-pen"></i>
                                     </button>
@@ -103,12 +116,23 @@
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </div>
+
+                                <h2 class="f-4 m-t-6 label-title">Número</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-id-card"></i></div>
+                                    <input disabled class="col-9" type="text" data-id="number" value="@user.Phone" />
+                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="item">
@@ -153,7 +177,7 @@
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="overflow-hidden max-size">
-                        <div class="content-slider max-size">
+                        <div data-content="customer" class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
                                     <div class="row no-wrap center-elements m-b-3">
@@ -173,12 +197,12 @@
                                 </div>
 
                                 <div class="table-content text-align-center-child max-w fg-1">
-                                    @foreach (var c in TCC_LOSPACO.DAO.CustomerDAO.GetList()) {
+                                    @foreach (var c in TCC_LOSPACO.DAO.AccountDAO.GetList()) {
                                         @Html.Partial("Profile/_Costumer", c);
                                     }
                                 </div>
                             </div>
-                            <div data-form="customer" class="row center-elements min-max-w max-size">
+                            <div class="form row center-elements min-max-w max-size">
                                 <div class="row col-11 l-col-12 col-12-child p-1 max-h content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
@@ -192,7 +216,14 @@
                                                 </h2>
                                             </div>
 
-                                            <div class="f-3 m-t-5 label-title">Nome</div>
+                                            <div class="f-3 m-t-5 label-title">Nome de Exibição</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-signature"></i>
+                                                </div>
+                                                <input disabled class="col-10" data-id="username" type="text" />
+                                            </div>
+                                            <div class="f-3 m-t-5 label-title">Nome Completo</div>
                                             <div class="row m-t-3 customized-input no-wrap">
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-signature"></i>
@@ -214,8 +245,16 @@
                                                 </div>
                                                 <input disabled class="col-10" data-id="cpf" type="number" />
                                             </div>
-                                        </div>
 
+                                            <div class="f-3 m-t-5 label-title">Número</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-phone-alt"></i>
+                                                </div>
+                                                <input disabled class="col-10" data-id="number" type="number" />
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +267,7 @@
         <div class="item">
             <div class="nav-height"></div>
             <div class="row center-elements" style="height: calc(100% - 5rem);">
-                <button class="close bg-transparent position-absolute">
+                <button class="close bg-transparent position-absolute" data-close-pop-up="employee_display_image">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
                 <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
@@ -238,7 +277,7 @@
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="overflow-hidden max-size">
-                        <div class="content-slider max-size">
+                        <div data-content="employee" class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
                                     <div class="row no-wrap center-elements m-b-3">
@@ -265,7 +304,13 @@
                                     }
                                 </div>
                             </div>
-                            <div data-form="employee" class="row center-elements min-max-w max-size">
+                            <div class="form row center-elements min-max-w max-size">
+                                <popup data-id="employee_display_image" class="max-size p-4 z-10 row center-elements">
+                                    <div data-close-pop-up="employee_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
+                                    <div class="b-3" data-id="image_display">
+                                        <img src="" class="img-img max-size">
+                                    </div>
+                                </popup>
                                 <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
@@ -286,7 +331,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="name" type="text" />
+                                                        <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -300,18 +345,10 @@
                                                 <div class="p-l-1">
                                                     <div class="f-3 m-t-5 label-title">Email</div>
                                                     <div class="row m-t-1 customized-input no-wrap">
-                                                        <div class="col-1 row icon-input">
+                                                        <div class="col-2 row icon-input">
                                                             <i class="fas fa-envelope"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="email" type="email" />
-                                                        <button data-anim-to-black
-                                                                class="col-1 cursor-pointer edit-btn row">
-                                                            <i class="fas fa-pen"></i>
-                                                        </button>
-                                                        <button data-anim-to-black
-                                                                class="col-1 cursor-pointer save-btn row">
-                                                            <i class="fas fa-check"></i>
-                                                        </button>
+                                                        <input disabled class="col-10" data-id="email" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +360,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-id-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="cpf" type="text" />
+                                                        <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -340,7 +377,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-address-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="rg" type="text" />
+                                                        <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -357,7 +394,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-phone-alt"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="phone" type="text" />
+                                                        <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -377,7 +414,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-birthday-cake"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="birth" type="text" />
+                                                        <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -390,7 +427,7 @@
                                                 </div>
                                                 <div class="p-l-1">
                                                     <div class="f-3 m-t-5 label-title">Gênero</div>
-                                                    <div class="customized-dropdown m-t-1 bg-white" data-id="genre">
+                                                    <div class="customized-dropdown m-t-1 bg-white" data-id="empgender" data-sub-id="tbemployee">
                                                         <div class="row no-wrap max-size">
                                                             <div class="col-1 row dropdown-icon icon-input">
                                                                 <i class="fas fa-venus-mars"></i>
@@ -415,7 +452,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="image" type="file" />
+                                                <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -425,13 +462,14 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
+                                            <button data-open-pop-up="employee_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
 
                                             <div class="f-3 m-t-5 label-title">Salário</div>
                                             <div class="row max-w m-t-1 customized-input max-w no-wrap">
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="salary" type="text" />
+                                                <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -464,7 +502,7 @@
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="overflow-hidden max-size">
-                        <div class="content-slider max-size">
+                        <div data-content="package" class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
                                     <div class="row no-wrap center-elements m-b-3">
@@ -486,13 +524,19 @@
                                     </div>
                                 </div>
 
-                                <!--<div class="table-content text-align-center-child max-w fg-1">
-                                     foreach (var p in TCC_LOSPACO.DAO.PackageDAO.GetList()) {
-                                        Html.Partial("Profile/_Package", p)
+                                <div class="table-content text-align-center-child max-w fg-1">
+                                    @foreach (var p in TCC_LOSPACO.DAO.PackageDAO.GetList()) {
+                                        @Html.Partial("Profile/_Package", p)
                                     }
-                                </div>-->
+                                </div>
                             </div>
-                            <div data-form="package" class="row center-elements min-max-w max-size">
+                            <div class="form row center-elements min-max-w max-size">
+                                <popup data-id="package_display_image" class="max-size p-4 z-10 row center-elements">
+                                    <div data-close-pop-up="package_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
+                                    <div class="b-3" data-id="image_display">
+                                        <img src="" class="img-img max-size">
+                                    </div>
+                                </popup>
                                 <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
@@ -511,7 +555,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-signature"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="name" type="text" />
+                                                <input disabled class="col-9" data-id="packname" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -527,7 +571,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" data-id="desc" type="text"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="packdescr" type="text"
                                                           style="resize: none;">Descrição com maiores detalhes do produto, ajudando o cliente a enteder melhor a proposta do mesmo!</textarea>
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
@@ -543,7 +587,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="price" type="text" />
+                                                <input disabled class="col-9" data-id="packprice" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -559,7 +603,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="image" type="file" />
+                                                <input disabled class="col-9" data-id="packimage" type="file" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -569,6 +613,7 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
+                                            <button data-open-pop-up="package_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
 
                                             <div class="f-3 m-t-5 label-title">Serviços do Pacote</div>
                                             <div class="row m-t-1 customized-input no-wrap"
@@ -631,7 +676,7 @@
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="overflow-hidden max-size">
-                        <div class="content-slider max-size">
+                        <div data-content="schedule" class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
                                     <div class="row no-wrap center-elements m-b-3">
@@ -660,7 +705,7 @@
                                 </div>
                             </div>
 
-                            <div data-form="schedule" class="row center-elements min-max-w max-size">
+                            <div class="form row center-elements min-max-w max-size">
                                 <div class="row col-11 l-col-12 max-h p-1 content-container">
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
@@ -676,7 +721,7 @@
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Serviço</div>
-                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white" data-id="service">
+                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white" data-id="servid">
                                                 <div class="row no-wrap max-size">
                                                     <div class="col-1 row dropdown-icon icon-input">
                                                         <i class="fas fa-toolbox"></i>
@@ -690,13 +735,13 @@
                                                 <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
                                                      style="height: 0px; border-top: none; top: 100%;">
                                                     @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
-                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(s.Name, s.Name, "service")
+                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(s.Name, s.Id, "service")
                                                     }
                                                 </div>
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Funcionário a realizar</div>
-                                            <div class="customized-dropdown max-w m-t-3 bg-white" data-id="employee">
+                                            <div class="customized-dropdown max-w m-t-3 bg-white" data-id="employeeloginid">
                                                 <div class="row no-wrap max-size">
                                                     <div class="col-1 row dropdown-icon icon-input">
                                                         <i class="fas fa-user-tie"></i>
@@ -710,44 +755,67 @@
                                                 <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
                                                      style="height: 0px; border-top: none; top: 100%;">
                                                     @foreach (var e in TCC_LOSPACO.DAO.EmployeeDAO.GetList()) {
-                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(e.Name, e.Name, "employee")
+                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(e.Customer.FullName, e.Customer.Account.Id, "employee")
                                                     }
                                                 </div>
                                             </div>
 
-                                            <div class="f-3 m-t-5 label-title">Data</div>
-                                            <div class="row m-t-3 customized-input max-w no-wrap">
-                                                <div class="col-1 row icon-input">
-                                                    <i class="fas fa-calendar-alt"></i>
+                                            <div class="row max-w col-6-child l-col-12-child">
+                                                <div class="p-r-1 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">Data</div>
+                                                    <div class="row m-t-3 customized-input max-w no-wrap">
+                                                        <div class="col-1 row icon-input">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                        </div>
+                                                        <input disabled class="col-9" data-id="date" type="text" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <input disabled class="col-9" data-id="date" type="text" />
-                                                <button data-anim-to-black
-                                                        class="col-1 cursor-pointer edit-btn row">
-                                                    <i class="fas fa-pen"></i>
-                                                </button>
-                                                <button data-anim-to-black
-                                                        class="col-1 cursor-pointer save-btn row">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+
+                                                <div class="p-l-1">
+                                                    <div class="f-3 m-t-5 label-title">Hora</div>
+                                                    <div class="row m-t-3 customized-input max-w no-wrap">
+                                                        <div class="col-1 row icon-input"><i class="far fa-clock"></i></div>
+                                                        <input disabled class="col-9" data-id="time" type="text" />
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer edit-btn row">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                        <button data-anim-to-black
+                                                                class="col-1 cursor-pointer save-btn row">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
 
-
-                                            <div class="f-3 m-t-5 label-title">Hora</div>
+                                            <div class="f-3 m-t-5 label-title">Cliente</div>
                                             <div class="row m-t-3 customized-input max-w no-wrap">
-                                                <div class="col-1 row icon-input"><i class="far fa-clock"></i></div>
-                                                <input disabled class="col-9" data-id="time" type="text" />
+                                                <div class="col-2 row icon-input"><i class="fas fa-user"></i></div>
+                                                <input disabled class="col-10" data-id="customer" type="text" />
+                                            </div>
+
+                                            <div class="f-3 m-t-5 label-title">Realizado</div>
+                                            <div class="row m-t-3 p-x-5-child customized-input boolean-type no-wrap" style="border: none !important" data-bool="false" data-id="performed">
                                                 <button data-anim-to-black
-                                                        class="col-1 cursor-pointer edit-btn row">
-                                                    <i class="fas fa-pen"></i>
+                                                        class="cursor-pointer row">
+                                                    <i class="fas fa-times"></i>
                                                 </button>
                                                 <button data-anim-to-black
-                                                        class="col-1 cursor-pointer save-btn row">
+                                                        class="cursor-pointer row">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
+
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -759,7 +827,7 @@
         <div class="item">
             <div class="nav-height"></div>
             <div class="row center-elements" style="height: calc(100% - 5rem);">
-                <button class="close bg-transparent position-absolute">
+                <button class="close bg-transparent position-absolute" data-close-pop-up="service_display_image">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
                 <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
@@ -769,7 +837,7 @@
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="overflow-hidden max-size">
-                        <div class="content-slider max-size">
+                        <div data-content="service" class="content-slider max-size">
                             <div class="min-max-w max-size flex direction-column">
                                 <div class="header fg-0">
                                     <div class="row no-wrap center-elements m-b-3">
@@ -797,9 +865,9 @@
                                     }
                                 </div>
                             </div>
-                            <div data-form="service" class="row center-elements min-max-w max-size">
-                                <popup data-id="display_image" class="max-size p-4 z-10 row center-elements">
-                                    <div data-close-pop-up="display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
+                            <div class="form row center-elements min-max-w max-size">
+                                <popup data-id="service_display_image" class="max-size p-4 z-10 row center-elements">
+                                    <div data-close-pop-up="service_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
                                     <div class="b-3" data-id="image_display">
                                         <img src="" class="img-img max-size">
                                     </div>
@@ -827,7 +895,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="name" type="text" name="name" />
+                                                        <input disabled class="col-9" data-id="servname" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -846,7 +914,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="far fa-bookmark"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="minified_desc" type="text" name="minified_desc" />
+                                                        <input disabled class="col-9" data-id="servsmalldesc" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -865,7 +933,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" data-id="desc" type="text" name="desc"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="servdescr" type="text"
                                                           style="resize: none;"></textarea>
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
@@ -884,7 +952,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-money-bill-wave"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="price" type="text" name="price" />
+                                                        <input disabled class="col-6" data-id="servprice" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -897,7 +965,7 @@
                                                 </div>
                                                 <div class="p-x-2 l-p-none max-w">
                                                     <div class="f-3 m-t-5 label-title">Categoria</div>
-                                                    <div class="customized-dropdown m-t-3 bg-white" data-id="category">
+                                                    <div class="customized-dropdown m-t-3 bg-white" data-id="categoryid">
                                                         <div class="row no-wrap max-size">
                                                             <div class="col-2 dropdown-icon row icon-input">
                                                                 <i class="fas fa-stream"></i>
@@ -922,7 +990,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="far fa-clock"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="time" type="text" name="time" />
+                                                        <input disabled class="col-6" data-id="servtime" type="text" />
                                                         <button data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -940,7 +1008,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-tshirt"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="propper_clothing" type="text" name="propper_clothing" />
+                                                <input disabled class="col-9" data-id="servclothing" type="text" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -996,7 +1064,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="image" type="file" name="image" />
+                                                <input disabled class="col-9" data-id="servimage" type="file" />
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -1006,7 +1074,7 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
-                                            <button data-open-pop-up="display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
+                                            <button data-open-pop-up="service_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1350,195 +1418,431 @@
 
         const containers = [
             {
-                id: "customer",
-                do: () => {
-
-                }
-            },
-            {
                 id: "employee",
-                do: () => {
+                do: async (tableContent, form) => {
+                    const ObjectType = "Employee";
+                    const inputs = form.querySelectorAll(".customized-input");
+                    const objectId = () => form.getAttribute("data-object-id");
 
+                    const data = [
+                        { id: "custfullname", data: () => get(form, data[0].id).value },
+                        { id: "custcpf", data: () => get(form, data[1].id).value },
+                        { id: "empbirthdate", data: () => formatDateString(get(form, data[2].id).value) },
+                        { id: "emprg", data: () => get(form, data[3].id).innerHTML },
+                        { id: "empsalary", data: () => get(form, data[4].id).value },
+                        { id: "custphonenumber", data: () => get(form, data[5].id).value },
+                        { id: "empimage", data: () => sendImage() }
+                    ];
+
+                    get(form, "empimage").addEventListener("change", () => readImage(get(form, "empimage"), data => get(form, "image_display").querySelector("img").setAttribute("src", "data:image/png;base64," + data)));
+                    async function sendImage() {
+                        const token = await generateNewSignature();
+                        readImage(get(form, "empimage"), imageData => sendRequest("post", `/${ObjectType}/Update`, {
+                            table: get(form, "empimage").getAttribute("data-sub-id"),
+                            id: objectId(),
+                            column: get(form, "empimage").getAttribute("data-id"),
+                            value: imageData
+                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] }));
+                    }
+
+                    setDropdownOnClick(get(form, "empgender"), async dataOption => {
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`, {
+                            table: get(form, "empgender").getAttribute("data-sub-id"),
+                            id: objectId(),
+                            column: get(form, "empgender").getAttribute("data-id"),
+                            value: dataOption
+                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
+                    });
+
+                    setInputs(inputs, async inputId => {
+                        const dataValue = data.filter(x => x.id === inputId)[0].data;
+                        if (inputId === "empimage") dataValue();
+                        else {
+                            const token = await generateNewSignature();
+                            sendRequest("post", `/${ObjectType}/Update`,
+                                {
+                                    table: form.querySelector(`[data-id=${inputId}]`).getAttribute("data-sub-id"),
+                                    id: objectId(),
+                                    column: inputId,
+                                    value: dataValue()
+                                }, {
+                                    Loader: ".main-loader",
+                                    ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                    OnSuccess: () => {
+                                        if (inputId === "scheddatetime") {
+                                            searchTableItem(tableContent, objectId(), x => x.querySelector(".cpf").innerHTML = dataValue());
+                                        } else if (inputId === "custfullname") {
+                                            form.querySelector(".title-focus").innerHTML = dataValue();
+                                            searchTableItem(tableContent, objectId(), x => x.querySelector(".name").innerHTML = dataValue());
+                                        }
+                                    }
+                                });
+                        }
+                    });
                 }
             },
             {
                 id: "package",
-                do: () => {
+                do: async (tableContent, form) => {
+                    const ObjectType = "Package";
+                    const inputs = form.querySelectorAll(".customized-input");
+                    const objectId = () => form.getAttribute("data-object-id");
 
+                    const data = [
+                        { id: "packname", data: () => get(form, data[0].id).value },
+                        { id: "packdescr", data: () => get(form, data[1].id).value },
+                        { id: "packprice", data: () => get(form, data[2].id).value },
+                        { id: "servdescr", data: () => get(form, data[3].id).innerHTML },
+                        { id: "packimage", data: () => sendImage() }
+                    ];
+
+                    get(form, "packimage").addEventListener("change", () => readImage(get(form, "packimage"), data => get(form, "image_display").querySelector("img").setAttribute("src", "data:image/png;base64," + data)));
+                    async function sendImage() {
+                        const token = await generateNewSignature();
+                        readImage(get(form, "packimage"), imageData => sendRequest("post", `/${ObjectType}/Update`,
+                            {
+                                id: objectId(),
+                                column: get(form, "packimage").getAttribute("data-id"),
+                                value: imageData
+                            }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] }));
+                    }
+
+                    setInputs(inputs, async inputId => {
+                        const dataValue = data.filter(x => x.id === inputId)[0].data;
+                        if (inputId === "packimage") dataValue();
+                        else {
+                            const token = await generateNewSignature();
+                            sendRequest("post", `/${ObjectType}/Update`,
+                                {
+                                    id: objectId(),
+                                    column: inputId,
+                                    value: dataValue()
+                                }, {
+                                    Loader: ".main-loader",
+                                    ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                    OnSuccess: () => {
+                                        if (inputId === "packname") {
+                                            form.querySelector(".title-focus").innerHTML = dataValue();
+                                            searchTableItem(tableContent, objectId(), x => x.querySelector(".name").innerHTML = dataValue());
+                                        }
+                                    }
+                                });
+                        }
+                    });
+
+                    const container = document.querySelector(".package-select-service-container");
+                    const tc = container.querySelector(".table-content");
+                    const items = tc.querySelectorAll(".data-item");
+                    items.forEach(x => {
+                        x.addEventListener("click", async () => {
+                            const isSelected = x.getAttribute("data-selected");
+                            const token = await generateNewSignature();
+                            if (isSelected === "true") {
+                                sendRequest("post", `/${ObjectType}/InsertService`, {
+                                    id: objectId(),
+                                    servId: x.getAttribute("data-id")
+                                }, {
+                                        Loader: ".main-loader",
+                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+                                    });
+                            } else {
+                                sendRequest("post", `/${ObjectType}/RemoveService`, {
+                                    id: objectId(),
+                                    servId: x.getAttribute("data-id")
+                                }, {
+                                        Loader: ".main-loader",
+                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+                                    });
+                            }
+                        });
+                    });
                 }
             },
             {
                 id: "schedule",
-                do: () => {
+                do: async (tableContent, form) => {
+                    const ObjectType = "Schedule";
+                    const inputs = form.querySelectorAll(".customized-input");
+                    const objectId = () => form.getAttribute("data-object-id");
 
+                    const data = [
+                        { id: "employeeloginid", data: () => get(form, data[0].id).value },
+                        { id: "servid", data: () => get(form, data[1].id).value },
+                        {
+                            id: "scheddatetime", data: () => {
+                                const dateTime = get(form, "date").value;
+                                return formatDateString(dateTime) + " " + get(form, "time").value;
+                            }
+                        },
+                        { id: "performed", data: () => get(form, data[3].id).getAttribute("data-bool") }
+                    ];
+
+                    setDropdownOnClick(get(form, "servid"), async dataOption => {
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`, {
+                            id: objectId(),
+                            column: get(form, "servid").getAttribute("data-id"),
+                            value: dataOption
+                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
+                    });
+
+                    setDropdownOnClick(get(form, "employeeloginid"), async dataOption => {
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`, {
+                            id: objectId(),
+                            column: get(form, "employeeloginid").getAttribute("data-id"),
+                            value: dataOption
+                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
+                    });
+
+                    const boolType = get(form, "performed");
+                    boolType.addEventListener("click", async () => {
+                        const dataValue = data.filter(x => x.id === boolType.getAttribute("data-id"))[0].data;
+                        const v = dataValue() === "true" ? 1 : 0;
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`,
+                            {
+                                id: objectId(),
+                                column: boolType.getAttribute("data-id"),
+                                value: v
+                            }, {
+                                Loader: ".main-loader",
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                OnSuccess: () => {
+                                    if (dataValue() === "true") searchTableItem(tableContent, objectId(), x => x.querySelector(".data-content").classList.add("main-bg-gray"));
+                                    else searchTableItem(tableContent, objectId(), x => x.querySelector(".data-content").classList.remove("main-bg-gray"));
+                                }
+                            });
+                    })
+
+                    setInputs(inputs, async inputId => {
+                        if (inputId === "date" | inputId === "time") inputId = "scheddatetime";
+                        const dataValue = data.filter(x => x.id === inputId)[0].data;
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`,
+                            {
+                                id: objectId(),
+                                column: inputId,
+                                value: dataValue()
+                            }, {
+                                Loader: ".main-loader",
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                OnSuccess: () => {
+                                    if (inputId === "scheddatetime") {
+                                        const date = standardizeDateString(dataValue());
+                                        const time = dataValue().split(' ')[1];
+                                        form.querySelector(".title-focus").innerHTML = date + " " + time;
+                                        searchTableItem(tableContent, objectId(), x => x.querySelector(".date").innerHTML = date + " " + time);
+                                    }
+                                }
+                            });
+                    });
                 }
             },
             {
                 id: "service",
-                do: async form => {
+                do: async (tableContent, form) => {
+                    const ObjectType = "Service";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
-                    const columns = await getTableColumnsAsync("Service");
-                    const token = await getSJWTAsync();
-                    const ids = ["abstract_id", "name", "price", "minified_desc", "desc", "category", "time", "image", "propper_clothing"];
-                    
+
                     const data = [
-                        { data: null },
-                        {
-                            data: () => {
-                                const newName = get(form, "name").value;
-                                form.querySelector(".title-focus").innerHTML = newName;
-                                return newName;
-                            }
-                        },
-                        { data: () => get(form, "price").value },
-                        { data: () => get(form, "minified_desc").value },
-                        { data: () => get(form, "desc").innerHTML },
-                        { data: null },
-                        { data: () => get(form, "time").value },
-                        { data: () => sendImage(objectId(), "Service") },
-                        { data: () => get(form, "propper_clothing").value }
+                        { id: "servname", data: () => get(form, data[0].id).value },
+                        { id: "servprice", data: () => get(form, data[1].id).value },
+                        { id: "servsmalldesc", data: () => get(form, data[2].id).value },
+                        { id: "servdescr", data: () => get(form, data[3].id).innerHTML },
+                        { id: "servtime", data: () => get(form, data[4].id).value },
+                        { id: "servimage", data: () => sendImage() },
+                        { id: "servclothing", data: () => get(form, data[6].id).value }
                     ];
-                    for (let i = 0; i < data.length; i++) data[i].id = ids[i];
-                    get(form, "image").addEventListener("change", () => readImage(get(form, "image"), data => get(form, "image_display").querySelector("img").setAttribute("src", data)));
-                    function sendImage(id, object) {
-                        readImage(get(form, "image"), imageData => sendRequest("post", `/${object}/Update`, { id, column: columns[ids.indexOf(data.filter(x => x.id === get(form, "image").getAttribute("data-id"))[0].id)], value: imageData }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: token }] }));
+
+                    get(form, "servimage").addEventListener("change", () => readImage(get(form, "servimage"), data => get(form, "image_display").querySelector("img").setAttribute("src", "data:image/png;base64," + data)));
+                    async function sendImage() {
+                        const token = await generateNewSignature();
+                        readImage(get(form, "servimage"), imageData => sendRequest("post", `/${ObjectType}/Update`,
+                            {
+                                id: objectId(),
+                                column: get(form, "servimage").getAttribute("data-id"),
+                                value: imageData
+                            }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] }));
                     }
 
-
-                    const dropdown = get(form, "category");
-                    const dropContent = dropdown.querySelector(".dropdown-content").querySelectorAll("label");
-                    dropContent.forEach(o => {
-                        const dataOption = o.getAttribute("data-option")
-                        o.addEventListener("click", () => {
-                            sendRequest("post", "/Service/Update", {
-                                id: objectId(),
-                                column: columns[ids.indexOf(data.filter(x => x.id === dropdown.getAttribute("data-id"))[0].id)],
-                                value: dataOption
-                            }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
-                        });
+                    setDropdownOnClick(get(form, "categoryid"), async dataOption => {
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`, {
+                            id: objectId(),
+                            column: get(form, "categoryid").getAttribute("data-id"),
+                            value: dataOption
+                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
                     });
 
-                    inputs.forEach(i => {
-                        const saveBtn = i.querySelector(".save-btn");
-                        const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
-                        if (saveBtn !== null) {
-                            saveBtn.addEventListener("click", () => {
-                                const dataStatus = el.getAttribute("data-status");
-                                if (dataStatus === "editing") {
-                                    el.setAttribute("data-status", "idle");
-                                    const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("data-id") : i.querySelector("input").getAttribute("data-id");
-                                    if (inputId === "image") data.filter(x => x.id === inputId)[0].data();
-                                    else sendRequest("post", "/Service/Update",
-                                        {
-                                            id: objectId(),
-                                            column: columns[ids.indexOf(data.filter(x => x.id === inputId)[0].id)],
-                                            value: data.filter(x => x.id === inputId)[0].data()
-                                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] });
-                                }
-                            });
+                    setInputs(inputs, async inputId => {
+                        const dataValue = data.filter(x => x.id === inputId)[0].data;
+                        if (inputId === "servimage") dataValue();
+                        else {
+                            const token = await generateNewSignature();
+                            sendRequest("post", `/${ObjectType}/Update`,
+                                {
+                                    id: objectId(),
+                                    column: inputId,
+                                    value: dataValue()
+                                }, {
+                                    Loader: ".main-loader",
+                                    ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                    OnSuccess: () => {
+                                        if (inputId === "servname") {
+                                            form.querySelector(".title-focus").innerHTML = dataValue();
+                                            searchTableItem(tableContent, objectId(), x => x.querySelector(".name").innerHTML = dataValue());
+                                        }
+                                    }
+                                });
                         }
                     });
                 }
             }];
 
-        async function getTableColumnsAsync(object) {
-            let columns = [];
-            await sendRequest("post", `/${object}/GetTableColumns`, {}, { OnSuccess: response => columns = response.columns });
-            return columns;
-        }
-
-        async function getSJWTAsync() {
-            let token = null;
-            await sendRequest("post", "/SJWT/Get", {}, { OnSuccess: res => token = res.token });
-            return token;
-        }
-
         const items = document.querySelectorAll(".item");
         items.forEach(c => {
             const button = c.querySelector("[data-item-button]");
-            const form = c.querySelector("[data-form]");
-            if (form !== null) {
-                const container = form.getAttribute("data-form");
-                button.addEventListener("click", () => containers.filter(c => c.id === container)[0].do(form));
+            const content = c.querySelector("[data-content]");
+            if (content !== null) {
+                const form = content.querySelector(".form");
+                const tableContent = content.querySelector(".table-content");
+                const container = content.getAttribute("data-content");
+                if (containers.filter(c => c.id === container).length !== 0)
+                    button.addEventListener("click", () => containers.filter(c => c.id === container)[0].do(tableContent, form), { once: true });
             }
         });
 
+        function searchTableItem(tableContent, id, callback) {
+            const items = tableContent.querySelectorAll(".data-item");
+            items.forEach(x => {
+                if (x.getAttribute("data-id") === id) callback(x);
+            });
+        }
 
-        function get(form, input) {
-            return form.querySelector(`[data-id='${input}']`);
+        async function setDropdownOnClick(dropdown, callback) {
+            const dropContent = dropdown.querySelector(".dropdown-content").querySelectorAll("label");
+            dropContent.forEach(o => {
+                const dataOption = o.getAttribute("data-option")
+                o.addEventListener("click", () => {
+                    callback(dataOption);
+                });
+            });
+        }
+
+        async function setDropdownItem(el, value) {
+            el.querySelector(".dropdown-select-item").setAttribute("data-option", value);
+        }
+
+        function get(element, input) {
+            return element.querySelector(`[data-id='${input}']`);
+        }
+
+        async function setInputs(inputs, callback) {
+            inputs.forEach(i => {
+                const saveBtn = i.querySelector(".save-btn");
+                const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
+                if (saveBtn !== null) {
+                    saveBtn.addEventListener("click", () => {
+                        const dataStatus = el.getAttribute("data-status");
+                        if (dataStatus === "editing") {
+                            const inputId = i.querySelector("input") === null ? i.querySelector("textarea").getAttribute("data-id") : i.querySelector("input").getAttribute("data-id");
+                            callback(inputId);
+                        }
+                    });
+                }
+            });
         }
 
         function customerDataTaken(res) {
-            const form = document.querySelector("[data-form=customer]");
-            const Customer = res.customer;
-            //form.setAttribute("data-object-id", Customer.Id);
-            form.querySelector(".title-focus").innerHTML = Customer.Username;
-            get(form, "name").value = Customer.Username;
+            const form = document.querySelector("[data-content=customer]").querySelector(".form");
+            const Customer = res.Object;
+            form.querySelector(".title-focus").innerHTML = Customer.Account.Email;
+            get(form, "username").value = Customer.Username;
+            get(form, "name").value = Customer.FullName;
             get(form, "email").value = Customer.Account.Email;
             get(form, "cpf").value = Customer.CPF;
+            get(form, "number").value = Customer.Phone;
         }
 
         function employeeDataTaken(res) {
-            const form = document.querySelector("[data-form=employee]");
-            const Employee = res.employee;
-            form.setAttribute("data-object-id", Employee.Id);
-            form.querySelector(".title-focus").innerHTML = Employee.Name;
-            get(form, "name").value = Employee.Name;
-            get(form, "email").value = Employee.Account.Email;
-            get(form, "cpf").value = Employee.CPF;
-            get(form, "rg").value = Employee.RG + Employee.RGDig;
-            get(form, "phone").value = Employee.Phone;
-            get(form, "date").value = formatDateString(Employee.Birth.replace(" 00:00:00", '').trim());
-            get(form, "genre").setAttribute("data-option", Employee.Genre);
-            get(form, "salary").value = Employee.Salary;
+            const form = document.querySelector("[data-content=employee]").querySelector(".form");
+            const Employee = res.Object;
+            l(Employee);
+            form.setAttribute("data-object-id", Employee.Customer.Account.Id);
+            form.querySelector(".title-focus").innerHTML = Employee.Customer.FullName;
+            get(form, "custfullname").value = Employee.Customer.FullName;
+            get(form, "email").value = Employee.Customer.Account.Email;
+            get(form, "custcpf").value = Employee.Customer.CPF;
+            get(form, "emprg").value = Employee.RG;
+            get(form, "custphonenumber").value = Employee.Customer.Phone;
+            get(form, "empbirthdate").value = Employee.Birth.replace(" 00:00:00", '').trim();
+            get(form, "empsalary").value = Employee.Salary;
+            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Employee.Image));
+            setDropdownItem(get(form, "empgender"), Employee.Genre)
 
         }
 
         function packageDataTaken(res) {
-            const form = document.querySelector("[data-form=package]");
-            const Package = res.package;
+            const form = document.querySelector("[data-content=package]").querySelector(".form");
+            const Package = res.Object;
             form.setAttribute("data-object-id", Package.Id);
             const table = form.querySelector(".table-content");
             form.querySelector(".title-focus").innerHTML = Package.Name;
-            get(form, "name").value = Package.Name;
-            get(form, "desc").value = Package.Description;
-            get(form, "price").value = Package.Price;
+            get(form, "packname").value = Package.Name;
+            get(form, "packdescr").value = Package.Description;
+            get(form, "packprice").value = Package.Price;
+            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Package.Image));
 
             const servicesObj = Object.values(Package.Services);
             const services = [];
-            for (let i = 0; i < servicesObj.length; i++) services.push(servicesObj[i].Name);
+            for (let i = 0; i < servicesObj.length; i++) services.push(servicesObj[i].Id);
             table.setAttribute("data-selected-services", services);
         }
 
         function serviceDataTaken(res) {
-            const form = document.querySelector("[data-form=service]");
-            const Service = res.service;
+            const form = document.querySelector("[data-content=service]").querySelector(".form");
+            const Service = res.Object;
             form.setAttribute("data-object-id", Service.Id);
             form.querySelector(".title-focus").innerHTML = Service.Name;
-            get(form, "name").value = Service.Name;
-            get(form, "minified_desc").value = Service.MinifiedDesc;
-            get(form, "desc").innerHTML = Service.CompleteDesc;
-            get(form, "price").value = Service.Price;
-            get(form, "propper_clothing").value = Service.PropperClothing;
-            get(form, "time").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;
+            get(form, "servname").value = Service.Name;
+            get(form, "servsmalldesc").value = Service.MinifiedDesc;
+            get(form, "servdescr").innerHTML = Service.CompleteDesc;
+            get(form, "servprice").value = Service.Price;
+            get(form, "servclothing").value = Service.PropperClothing;
+            get(form, "servtime").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;
             get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Service.Image));
-            get(form, "category").querySelector(".dropdown-select-item").setAttribute("data-option", Service.Category.Id);
+            setDropdownItem(get(form, "categoryid"), Service.Category.Id)
         }
 
         function scheduleDataTaken(res) {
-            const form = document.querySelector("[data-form=schedule]");
-            const Schedule = res.schedule;
+            const form = document.querySelector("[data-content=schedule]").querySelector(".form");
+            const Schedule = res.Object;
+            form.setAttribute("data-object-id", Schedule.Id);
             form.querySelector(".title-focus").innerHTML = Schedule.Date;
-            get(form, "service").setAttribute("data-option", Schedule.Service.Name);
-            get(form, "employee").setAttribute("data-option", Schedule.Employee.Name);
+            setDropdownItem(get(form, "servid"), Schedule.Service.Id)
+            setDropdownItem(get(form, "employeeloginid"), Schedule.Employee.Id)
+            get(form, "date").value = Schedule.Date.split(' ')[0];
+            get(form, "time").value = Schedule.Date.split(' ')[1];
+            get(form, "performed").setAttribute("data-bool", Schedule.IsPerformed);
+            get(form, "customer").value = `Nome: ${Schedule.Customer.FullName} / CPF: ${Schedule.Customer.CPF}`;
         }
 
         function formatDateString(data) {
-            var dia = data.split("/")[0];
-            var mes = data.split("/")[1];
-            var ano = data.split("/")[2];
-            return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
+            var day = data.split("/")[0];
+            var month = data.split("/")[1];
+            var year = data.split("/")[2];
+            return year + '-' + ("0" + month).slice(-2) + '-' + ("0" + day).slice(-2);
+        }
+
+        function standardizeDateString(data) {
+            data = data.split(' ')[0] || data;
+            var day = data.split("-")[0];
+            var month = data.split("-")[1];
+            var year = data.split("-")[2];
+            return ("0" + day).slice(-2) + '/' + ("0" + month).slice(-2) + '/' + year;
         }
 
     </script>

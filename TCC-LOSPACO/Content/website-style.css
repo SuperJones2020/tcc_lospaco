@@ -4,6 +4,7 @@
 	--main-red: rgb(255, 50, 50);
 	--main-bezier: cubic-bezier(0,.7,.34,1);
 	--main-light-bg: rgba(0, 0, 0, .7);
+	--main-gray: rgb(160, 160, 160);
 }
 
 header {
@@ -39,6 +40,10 @@ header {
 		animation: loader 1.5s ease 0s infinite running;
 	}
 
+.table-content .data-item .data-content .value{
+	word-wrap: break-word !important;
+}
+
 @keyframes loader {
 	from {
 		transform: translateX(-100%);
@@ -58,25 +63,13 @@ header {
 	height: 5rem;
 }
 
-.main-red {
-	color: var(--main-red);
-}
-
-.main-bg-red {
-	background-color: var(--main-red);
-}
-
-.main-light-bg {
-	background-color: var(--main-light-bg);
-}
-
-.main-green {
-	color: var(--main-green);
-}
-
-.main-bg-green {
-	background-color: var(--main-green);
-}
+.main-gray {color: var(--main-gray);}
+.main-bg-gray {background-color: var(--main-gray);}
+.main-red { color: var(--main-red);}
+.main-bg-red { background-color: var(--main-red);}
+.main-light-bg { background-color: var(--main-light-bg);}
+.main-green { color: var(--main-green); }
+.main-bg-green { background-color: var(--main-green); }
 
 .aside-menu {
 	top: 50%;

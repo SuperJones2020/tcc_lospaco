@@ -18,19 +18,14 @@ namespace TCC_LOSPACO.Controllers {
             bool loginIsValid = AccountDAO.Login(email, password);
             if (loginIsValid) {
 
-                SJWT.SJWTConfig("5cnp0sod2rlt8bpi0y5g1925taileae67sp2uh6qhzncxgnm55ztfh", new {
-                    Alg = "SHA256",
-                    Typ = "SJWT",
-                    account.Id,
-                    account.Email
-                });
-                Authentication.SignIn();
+                string token = SJWT.GenerateToken(account.Id, account.Email);
+                Authentication.SignIn(account.Id, account.Email);
 
                 //if (remember_me == "true") {
                 //    Authentication.RememberMe();
                 //}
             }
-            return Json(new { isValid = loginIsValid, url = "/Home/Index", message = "Conta não existe", type = 1 });
+            return Json(new { isValid = loginIsValid, url = "/Home/Index", message = "Dados Incorretos", type = 1 });
         }
 
         [HttpPost]
@@ -45,5 +40,8 @@ namespace TCC_LOSPACO.Controllers {
             Authentication.SignOut();
             return RedirectToAction("Account");
         }
+
+        [HttpPost]
+        public ActionResult IsSigned() => Json(new { isSigned = Authentication.IsSigned() });
     }
 }

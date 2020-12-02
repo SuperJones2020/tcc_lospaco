@@ -60,5 +60,12 @@ namespace TCC_LOSPACO.DAO {
             object price = db.ReaderValue(db.ReturnCommand("select ServPrice from vw_services order by ServPrice limit 1;"));
             return (int)Math.Truncate(Convert.ToDecimal(price)); ;
         }
+
+        public static dynamic GetCartServiceByName(string name) {
+            string query = $"select ItemId, ItemName, ItemQnt, itemPrice, itemImage from vw_cart where ItemName='{name}' and Loginid = '{Security.Authentication.GetUser().Account.Id}'";
+            object[] row = db.ReaderRow(db.ReturnCommand(query));
+            if (row.Length == 0) return null;
+            return new { Id = (ushort)row[0], Name = (string)row[1], Quantity = (byte)row[2], Price = (decimal)row[3], Image = (byte[])row[4] };
+        }
     }
 }

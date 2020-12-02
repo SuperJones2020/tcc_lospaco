@@ -1,11 +1,24 @@
 ﻿using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
     public class EmployeeController : Controller {
+        Database db = new Database();
         [HttpPost]
         public ActionResult Get(uint id) {
-            return Json(new { employee = EmployeeDAO.GetById(id) });
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            JsonResult json = Json(new { Object = EmployeeDAO.GetById(id) });
+            json.MaxJsonLength = int.MaxValue;
+            return json;
+        }
+
+        [HttpPost]
+        public ActionResult Update(string table, ushort id, string column, string value) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            string query = $"update {table} set {column}='{value}' where loginid='{id}'";
+            db.ExecuteCommand(query);
+            return Json(new { Success = "Success" });
         }
     }
 }

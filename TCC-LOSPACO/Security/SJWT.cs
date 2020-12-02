@@ -3,42 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using TCC_LOSPACO.DAO;
-using TCC_LOSPACO.Models;
+using System.Web.Helpers;
 
 namespace TCC_LOSPACO {
     public static class SJWT {
-        public static Account User { get; private set; }
-        public static string CurrentSessionId { get; private set; }
-        public static string Token { get; private set; }
-        public static string Secret { get; private set; }
-        public static string Header { get; private set; }
-        public static string Payload { get; private set; }
-
-        public static void SJWTConfig(string secret, dynamic data) {
-            Header = "{\"alg\":\"" + data.Alg + "\",\"typ\":\"" + data.Typ + "\"}";
-            Payload = "{\"id\":" + data.Id + ",\"email\":\"" + data.Email + "\"}\"";
-            Secret = secret;
-            User = AccountDAO.GetById(Convert.ToUInt16(data.Id + ""));
+        public static string GenerateToken(uint id, string email) {
+            string header = "{\"alg\":\"SHA256\",\"typ\":\"SJWT\"}";
+            string payload = "{\"id\":" + id + ",\"email\":\"" + email + "\"}";
+            string Base64Header = ToBase64(GetBytes(header));
+            string Base64Payload = ToBase64(GetBytes(payload));
+            string Signature = ToBase64(GetBytes(HMAC_SHA256("5cnp0sod2rlt8bpi0y5g1925taileae67sp2uh6qhzncxgnm55ztfh", Base64Header + "." + Base64Payload)));
+            return $"{Base64Header}.{Base64Payload}.{Signature}";
         }
 
-        public static void ResetConfig() {
-            CurrentSessionId = null;
-            User = null;
-            Token = null;
-            Secret = null;
-            Header = null;
-            Payload = null;
+        public static dynamic GetTokenData(string token) {
+            string[] parts = token.Split('.');
+            string header = FromBase64(parts[0]);
+            string payload = FromBase64(parts[1]);
+            string signature = parts[2];
+            return new {
+                Header = header,
+                Payload = Json.Decode(payload),
+                Signature = signature
+            };
         }
 
-        public static void GenerateToken() {
-            string Base64Header = Base64(GetBytes(Header));
-            string Base64Payload = Base64(GetBytes(Payload));
-            string Signature = Base64(GetBytes(HMAC_SHA256(Secret, Base64Header + "." + Base64Payload)));
-            Token = $"{Base64Header}.{Base64Payload}.{Signature}";
-        }
-
-        private static byte[] GetBytes(string str) => Encoding.ASCII.GetBytes(str);
+        public static byte[] GetBytes(string str) => Encoding.ASCII.GetBytes(str);
 
         private static string GetHEX(byte[] bytes) {
             string finalHash = "";
@@ -46,7 +36,7 @@ namespace TCC_LOSPACO {
             return finalHash;
         }
 
-        private static string Base64(byte[] bytes) {
+        private static string ToBase64(byte[] bytes) {
             string base64 = Convert.ToBase64String(bytes);
             return RemoveAll(base64, '=');
         }
@@ -64,8 +54,9 @@ namespace TCC_LOSPACO {
             return new string(array.Where(x => !elements.Contains(x)).ToArray());
         }
 
-        public static void GenerateSessionId() {
-            CurrentSessionId = Guid.NewGuid().ToString();
+        public static string FromBase64(string b) {
+            while (b.Length % 4 != 0) b += "=";
+            return System.Text.ASCIIEncoding.ASCII.GetString(Convert.FromBase64String(b));
         }
     }
 }

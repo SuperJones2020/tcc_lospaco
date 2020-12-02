@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TCC_LOSPACO.Models;
 
 namespace TCC_LOSPACO.DAO {
@@ -37,16 +36,11 @@ namespace TCC_LOSPACO.DAO {
         }
 
         public static List<Service> GetServicesFromPackage(ushort id) {
-            var list = new List<string>();
-            db.ReaderRows(db.ReturnCommand($"select * from vw_PackageItems where IdPacote='{id}'"), row => {
-                list.Add(((ushort)row[1]) + "");
+            var list = new List<Service>();
+            db.ReaderRows(db.ReturnCommand($"select * from tbpackitem where packid='{id}'"), row => {
+                list.Add(ServiceDAO.GetById((ushort)row[0]));
             });
-            return list.Select(s => ServiceDAO.GetById(Convert.ToUInt16(s))).ToList();
-        }
-
-        public static string GetRating(string name) {
-            object rating = db.ReaderValue(db.ReturnProcedure("sp_getAverageStarRatingService", name)) ?? "";
-            return rating.ToString().Replace(",", ".");
+            return list; ;
         }
 
         public static int GetMaxPrice() {

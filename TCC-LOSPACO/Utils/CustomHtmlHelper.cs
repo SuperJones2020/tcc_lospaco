@@ -25,11 +25,14 @@ namespace TCC_LOSPACO.CustomHtmlHelper {
 
         }
 
-        public static IHtmlString SendRequest(string txt, string url, dynamic data, dynamic info, string htmlClass) {
-            string attrOnSuccess = Global.GetValue(info, "OnSuccess") != null ? $"data-on-success = '{Global.GetValue(info, "OnSuccess")}'" : "";
-            string attrOnFailure = Global.GetValue(info, "OnFailure") != null ? $"data-on-failure = '{Global.GetValue(info, "OnFailure")}'" : "";
-            string attrLoader = Global.GetValue(info, "Loader") != null ? $"data-loader = '{Global.GetValue(info, "Loader")}'" : "";
-            string htmlItem = $"<a action='{url}' data-params='{JObject.FromObject(data)}' {attrOnSuccess} {attrOnFailure} {attrLoader} class='{htmlClass}' data-element-request-sender='false' >{txt}</a>";
+        public static IHtmlString SendRequest(dynamic data, dynamic info, string htmlInfo) {
+            string attrOnSuccess = Global.GetValue(info, "OnSuccess") != null ? $"data-on-success='{Global.GetValue(info, "OnSuccess")}'" : "";
+            string attrOnFailure = Global.GetValue(info, "OnFailure") != null ? $"data-on-failure='{Global.GetValue(info, "OnFailure")}'" : "";
+            string attrLoader = Global.GetValue(info, "Loader") != null ? $"data-loader='{Global.GetValue(info, "Loader")}'" : "";
+            string txt = Global.GetValue(info, "Text") ?? "";
+            string action = Global.GetValue(info, "Action");
+            string method = Global.GetValue(info, "Method");
+            string htmlItem = $"<a data-action='{action}' data-method={method} data-params='{JObject.FromObject(data)}' {attrOnSuccess} {attrOnFailure} {attrLoader} {htmlInfo} data-element-request-sender='false' >{txt}</a>";
             return new MvcHtmlString(htmlItem);
         }
 
