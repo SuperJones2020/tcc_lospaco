@@ -1,0 +1,74 @@
+﻿@using TCC_LOSPACO.CustomHtmlHelper
+@using TCC_LOSPACO.DAO
+@model IEnumerable<TCC_LOSPACO.Models.Package>
+@{
+    ViewBag.Title = "Pacotes -";
+    var pckMinPrice = PackageDAO.GetMinPrice();
+    var pckMaxPrice = PackageDAO.GetMaxPrice();
+}
+
+<div class="nav-height"></div>
+<section class="container">
+    <div class="row justify-content-center overflow-hidden">
+        <header class="row m-t-6 justify-content-center max-w">Pacotes</header>
+
+        <div class="row justify-content-center col-10 l-col-12 p-1">
+            @using (Html.BeginForm("Packages", "Home", FormMethod.Get, new { @class = "m-max-w l-w" })) {
+                <div class="services-control row justify-content-center max-w" style="padding: 1rem 0 2rem 0;">
+                    <div class="row col-12-child max-w m-max-w">
+                        <div class="customized-dropdown bg-white">
+                            <div class="row no-wrap max-size">
+                                <div class="col-1 row dropdown-icon icon-input">
+                                    <i class="fas fa-sort"></i>
+                                </div>
+                                <div class="col-9 row align-items-center dropdown-select-item" data-option="" style="border: none;">Ordenar Por</div>
+                                <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-2 p-3-child"
+                                 style="height: 0px; border-top: none; top: 100%;">
+                                @CustomHtmlHelper.DropdownItem("Relevância", "Relevancia", "ordenar_por")
+                                @CustomHtmlHelper.DropdownItem("Menor&nbsp;<i class='fas fa-dollar-sign'></i>&nbsp;para Maior", "Menor Para Maior", "ordenar_por")
+                                @CustomHtmlHelper.DropdownItem("Maior&nbsp;<i class='fas fa-dollar-sign'></i>&nbsp;para Menor", "Maior Para Menor", "ordenar_por")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="specific-price justify-content-center max-w m-t-4 row align-items-center">
+                        <span class="f-2">De R$</span>
+                        <div class="price-input m-x-1 p-2-child center-elements row">
+                            <button data-anim-to-black class="bg-white cursor-pointer" type="button">
+                                <i class="f-2 fas fa-chevron-left"></i>
+                            </button>
+                            <input class="text-align-center" value="@pckMinPrice" min="@pckMinPrice" max="@pckMaxPrice" type="number" name="preco_inicial"
+                                   style="width: 70px; border: none;">
+                            <button data-anim-to-black class="bg-white cursor-pointer" type="button">
+                                <i class="f-2 fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <span class="f-2">Até R$</span>
+                        <div class="price-input m-x-1 p-2-child center-elements row">
+                            <button data-anim-to-black class="bg-white cursor-pointer" type="button">
+                                <i class="f-2 fas fa-chevron-left"></i>
+                            </button>
+                            <input class="text-align-center" value="@pckMaxPrice" min="@pckMinPrice" max="@pckMaxPrice" type="number" name="preco_final"
+                                   style="width: 70px; border: none;">
+                            <button data-anim-to-black class="bg-white cursor-pointer" type="button">
+                                <i class="f-2 fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <button type="submit" data-zoom="1.075, .3s" data-anim-to-black class="p-2 cursor-pointer bg-white">Realizar Busca</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="row col-10 xl-col-12 col-4-child xl-col-6-child m-col-12-child p-3-child p-y-5 main-services-container ">
+            @foreach (var package in Model) {
+                @Html.Partial("_PackageItem", package);
+            }
+        </div>
+        @if (Model.Count() == 0) {@Html.Raw("<h2 class='max-w font-hammer text-align-center m-b-4 f-7 m-f-4'>Nenhum Pacote encontrado!</h2>");
+    }
+    </div>
+</section>

@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 
 public class Database {
-    public MySqlConnection ReturnConnection() => new MySqlConnection(ConfigurationManager.ConnectionStrings["TCC_LOSPACO.Properties.Settings.Connection"].ConnectionString);
+    public MySqlConnection ReturnConnection() => new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ConnectionString);
     private void OpenConnection(MySqlConnection connection) {
         if (connection.State == ConnectionState.Closed)
             connection.Open();

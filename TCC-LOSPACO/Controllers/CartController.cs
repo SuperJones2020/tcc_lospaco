@@ -6,9 +6,9 @@ using TCC_LOSPACO.Security;
 namespace TCC_LOSPACO.Controllers {
     public class CartController : Controller {
         [HttpPost]
-        public ActionResult AddItemToCart(string id, byte quantity) {
+        public ActionResult AddItemToCart(string id, byte quantity, string type) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            string name = ServiceDAO.GetById(Convert.ToUInt16(id)).Name;
+            string name = type == "SERVICO" ? ServiceDAO.GetById(Convert.ToUInt16(id)).Name : PackageDAO.GetById(Convert.ToUInt16(id)).Name;
             var data = CartDAO.GetList();
             bool containsInCart = false;
             string view = null;
@@ -19,7 +19,10 @@ namespace TCC_LOSPACO.Controllers {
                 }
             }
             CartDAO.InsertItem(name, quantity);
-            if (!containsInCart) view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Service", new { Object = ServiceDAO.GetCartServiceByName(name) }, ControllerContext);
+            if (!containsInCart) {
+                if (type == "SERVICO") view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Service", new { Object = ServiceDAO.GetCartServiceByName(name) }, ControllerContext);
+                else view = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Cart/_Package", new { Object = PackageDAO.GetCartPackageByName(name) }, ControllerContext);
+            }
 
             JsonResult json = Json(new {
                 contains = containsInCart,

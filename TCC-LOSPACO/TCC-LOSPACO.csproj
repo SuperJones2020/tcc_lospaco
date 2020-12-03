@@ -654,6 +654,9 @@
     <Content Include="Views\Shared\Profile\_Package.cshtml" />
     <Content Include="Views\Shared\Profile\_Service.cshtml" />
     <Content Include="Views\Shared\Profile\_Schedule.cshtml" />
+    <Content Include="Views\Home\Packages.cshtml" />
+    <Content Include="Views\Shared\_PackageItem.cshtml" />
+    <Content Include="Views\Home\Package.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

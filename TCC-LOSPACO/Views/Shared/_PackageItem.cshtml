@@ -1,0 +1,23 @@
+﻿@using System.Drawing;
+@using System.IO;
+@using TCC_LOSPACO.CustomHtmlHelper;
+@model TCC_LOSPACO.Models.Package
+
+<div data-zoom="1.1, .7s" class="item">
+    <div class="row col-12-child m-col-6-child">
+        <a href=@Url.Action("Package", "Home", new { id = Model.Id })>
+            <img src="@CustomHtmlHelper.ImageSource(Model.Image)" class="img-img" width="100%" height="500px"
+                 alt="@Model.Name">
+        </a>
+        <div class="item-content row center-elements text-align-center-child m-2-child">
+            <div class="info">
+                <h2 class="f-4 s-f-2 m-y-2 font-rale">@Model.Name</h2>
+                <p class="s-f-0 m-b-2">@Model.MinifiedDesc</p>
+                @foreach (var s in Model.Services) {
+                    @Html.Raw($"<li class='font-jos m-y-1'><i class='fas f-0 fa-check'></i> {s.Name}</li>");
+                }
+                <div class="font-inc f-3 s-f-2 m-t-2">R$ @Model.Price</div>
+            </div>
+        </div>
+    </div>
+</div>

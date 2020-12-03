@@ -7,7 +7,7 @@ namespace TCC_LOSPACO.DAO {
         private static Database db = new Database();
         public static List<Schedule> GetList() {
             var list = new List<Schedule>();
-            db.ReaderRows(db.ReturnCommand("select * from vw_SchedulesCustomer"), row => {
+            db.ReaderRows(db.ReturnCommand("select * from vw_schedulescustomer order by scheddatetime desc"), row => {
                 uint id = Convert.ToUInt32(row[0]);
                 Employee employee = EmployeeDAO.GetById(Convert.ToUInt32(row[1]));
                 Customer customer = CustomerDAO.GetById(Convert.ToUInt32(row[2]));

@@ -4,17 +4,17 @@
 @using System.Threading.Tasks
 @using System
 
-@model TCC_LOSPACO.Models.Service
+@model TCC_LOSPACO.Models.Package
 @{
     ViewBag.Title = Model.Name + " -";
 }
 
-<popup data-id="review" class="position-fixed max-size z-2 row center-elements" style="background-color: rgba(0, 0, 0, .8);">
+<!--<popup data-id="review" class="position-fixed max-size z-2 row center-elements" style="background-color: rgba(0, 0, 0, .8);">
     <div data-close-pop-up="review" class="position-absolute max-size"></div>
     <div class="l-w s-xxl-w z-2">
         <div data-close-pop-up="review" class="nav-height"></div>
         <div class="f-6 m-f-4 p-4 font-jos bg-black white">Avaliação de João Webber</div>
-        <form method="post" action="/Query/AddReview" data-form-params='[["name", "@Model.Name"]]' data-on-success="OnReviewAdded" data-on-failure="OnReviewAdditionFailure" data-form-request-sender="true" class="p-4 bg-white">
+        <form method="post" action="/Query/AddReview" data-form-params='[["name", "Model.Name"]]' data-on-success="OnReviewAdded" data-on-failure="OnReviewAdditionFailure" data-form-request-sender="true" class="p-4 bg-white">
             <p class="m-b-2 m-f-0 max-w font-rale">
                 Os comentários podem ser editados e apagados quando você quiser, se possível, ajude-nos com
                 comentários construtivos, citando o que mais lhe agradou.
@@ -60,19 +60,15 @@
             </div>
         </form>
     </div>
-</popup>
+</popup>-->
 
 <div class="nav-height"></div>
 <section class="container">
     <div class="row justify-content-center">
         <div class="col-10 s-col-12 row">
             <div class="p-y-1-child s-d-none service-path max-w row p-3">
-                <a href=@Url.Action("Services", "Home") class="path-item">Serviços</a><span class="m-x-1">
-                    <i class="fas fa-grip-lines-vertical"></i>
-                </span>
-                <a href=@Url.Action("Services", "Home", new { categoria = Model.Category.Id }) class="path-item">@Model.Category.Name</a><span class="m-x-1">
-                    <i class="fas fa-grip-lines-vertical"></i>
-                </span>
+                <a href=@Url.Action("Packages", "Home") class="path-item">Pacotes</a>
+                <span class="m-x-1"><i class="fas fa-grip-lines-vertical"></i></span>
                 <a href="#" class="path-item">@Model.Name</a>
             </div>
             <div class="col-6 xl-col-12 m-b-1">
@@ -82,7 +78,7 @@
                 <div class="col-10 xl-col-12 s-col-11">
                     <div class="align-items-center justify-content-between row">
                         <h1 class="f-7 m-f-5 m-r-2 font-jos">@Model.Name</h1>
-                        <div data-rating="@Model.StarRating.ToString().Replace(',', '.')" data-stars-visualization
+                        <!--<div data-rating="Model.StarRating.ToString().Replace(',', '.')" data-stars-visualization
                              class="rate-container m-y-2 align-items-center row no-wrap">
                             <div class="star-item">
                                 <div class="star"></div>
@@ -100,28 +96,31 @@
                                 <div class="star"></div>
                             </div>
                             <span class="rating-view m-l-1"></span>
-                        </div>
+                        </div>-->
 
                     </div>
                     <div class="m-y-2 font-inc f-5 m-f-3">R$ @Model.Price</div>
-                    <p class="m-y-6 font-rale line-height-5">@Model.CompleteDesc</p>
+                    <p class="m-y-6 font-rale line-height-5">@Model.Description</p>
 
-                    <div class="service-info m-y-6">
-                        <hr />
-                        <div class="row m-y-2-child l-col-12-child justify-content-between">
-                            <div class="info">Tempo Médio</div>
-                            <div class="info-data">@Model.Time</div>
-                        </div>
-                        <hr />
-                        <div class="row m-y-2-child l-col-12-child justify-content-between">
-                            <div class="info">Roupas recomendadas</div>
-                            <div class="info-data">@Model.PropperClothing</div>
-                        </div>
-                        <hr />
+                    <div class="row col-12-child max-w m-y-6">
+                        <hr class="m-b-3" />
+                        @foreach (var s in PackageDAO.GetServicesFromPackage(Convert.ToUInt16(Model.Id))) {
+                            @Html.Raw($"<a target='_blank' href='/Home/Service/{s.Id}' class='font-jos max-w'><i class='fas m-y-2 f-1 fa-check'></i> {s.Name}</a>");
+                        }
+                        <!--<div class="row m-y-2-child l-col-12-child justify-content-between">
+        <div class="info">Tempo Médio</div>
+        <div class="info-data">Model.Time</div>
+    </div>
+    <hr />
+    <div class="row m-y-2-child l-col-12-child justify-content-between">
+        <div class="info">Roupas recomendadas</div>
+        <div class="info-data">Model.PropperClothing</div>
+    </div>
+    <hr />-->
                     </div>
 
                     <div class="m-b-2">
-                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["id", "@Model.Id"], ["type", "SERVICO"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true">
+                        <form class="add-item-to-cart-form max-w row" data-if-is-signed data-loader=".main-loader" method="post" data-form-params='[["id", "@Model.Id"], ["type", "PACOTE"]]' action="/Cart/AddItemToCart" data-on-success="OnItemAdded" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true">
                             <div class="p-x-1 col-2">
                                 <input type="number" value="1" class="item-input-anim max-h max-w text-align-center" required min="1" max="99" name="quantity" />
                             </div>
@@ -135,7 +134,7 @@
         </div>
     </div>
 </section>
-<section class="container m-t-6">
+<!--<section class="container m-t-6">
     <div class="row justify-content-center">
         <div class="col-10 s-col-11 row">
             <header class="max-w">
@@ -148,27 +147,27 @@
                 </button>
             </header>
             <div class="reviews max-w m-y-3">
-                @{
+                {
                     List<Review> reviewList = ReviewDAO.GetList(Model.Id);
                 }
 
-                @if (reviewList.Count() == 0) {@Html.Raw("<h2 class='f-6 font-hammer m-f-3 m-y-4'>Nenhuma Avaliação Deixada!</h2>");
+                if (reviewList.Count() == 0) {Html.Raw("<h2 class='f-6 font-hammer m-f-3 m-y-4'>Nenhuma Avaliação Deixada!</h2>");
             }
-                @for (int i = 0; i < reviewList.Count(); i++) {
+                for (int i = 0; i < reviewList.Count(); i++) {
                     var r = reviewList.ElementAt(i);
-                    @Html.Partial("_ReviewItem", r);
-                    if (i < reviewList.Count() - 1) {@Html.Raw("<hr class='max-w m-y-4 bg-black' />");
+                    Html.Partial("_ReviewItem", r);
+                    if (i < reviewList.Count() - 1) {Html.Raw("<hr class='max-w m-y-4 bg-black' />");
                 }
             }
 
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 @section scripts{
     <script>
-        function OnItemAdded(response) {
+        /*function OnItemAdded(response) {
             const cart = document.querySelector(".cart-items");
             document.querySelector(".cart-price").innerHTML = response.price;
             if (!response.contains) {
@@ -192,6 +191,6 @@
 
         function OnInsertionFailure(response) {
             createToast(response.failure, 2);
-        }
+        }*/
     </script>
 }

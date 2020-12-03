@@ -486,8 +486,12 @@ function activePriceRange() {
             const b = btns[i];
             const fac = i === 0 ? -1 : 1;
             b.onclick = () => {
-                input.value = Number(input.value) + 50 * fac;
-                if (input.value < 0) input.value = 0;
+                const value = Number(input.value) + 50 * fac;
+                const max = Number(input.getAttribute("max"));
+                const min = Number(input.getAttribute("min"));
+                input.value = value;
+                if (value > max) input.value = max;
+                else if (value < min) input.value = min;
             };
         }
     });
@@ -875,11 +879,30 @@ function activeRequestByForm() {
             });
             const formIsValid = f.getAttribute("data-form-is-valid");
             if (f.hasAttribute("data-if-is-signed") & formIsValid === "true" | f.hasAttribute("data-if-is-signed") & formIsValid === null) {
-                if (isSigned()) sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
+                if (isSigned()) {
+                    generateNewSignature().then(v => {
+                        sendRequest(method, action, formData, {
+                            Loader: loader,
+                            OnSuccess: onSuccess,
+                            OnFailure: onFailure,
+                            formRequest: true,
+                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+                        });
+                    });
+                }
                 else createToast("Você deve estar logado!", 2);
             } else {
                 if (f.getAttribute("data-form-is-valid") === "true") {
-                    sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
+                    generateNewSignature().then(v => {
+                        sendRequest(method, action, formData, {
+                            Loader: loader,
+                            OnSuccess: onSuccess,
+                            OnFailure: onFailure,
+                            formRequest: true,
+                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+                        });
+                    });
+                    //sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
                 }
             }
             evt.preventDefault();
@@ -902,7 +925,15 @@ function activeRequestByElement(element) {
         const onSuccess = element.getAttribute("data-on-success"), onFailure = element.getAttribute("data-on-failure");
         const loader = element.getAttribute("data-loader");
         element.addEventListener("click", () => {
-            sendRequest(method, action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure });
+            generateNewSignature().then(v => {
+                sendRequest(method, action, params, {
+                    Loader: loader,
+                    OnSuccess: onSuccess,
+                    OnFailure: onFailure,
+                    ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+                });
+            });
+            //sendRequest(method, action, params, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure });
         });
     }
 }
@@ -950,6 +981,10 @@ async function requestSender(method, url, data, info) {
                 xhr.setRequestHeader(h.Key, h.Value);
             }
         }
+        /*const token = await generateNewSignature();
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        //ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]*/
+
         xhr.onload = () => {
             if (xhr.status >= 400) {
                 desactiveLoader(info.Loader);
@@ -997,28 +1032,31 @@ function removeCartItemFromHtml(id) {
 
 function verifyCartMessage() {
     let isCartEmpty = false;
-    sendRequest("post", "/Cart/IsCartEmpty", { }, {
-        OnSuccess: response => {
-            isCartEmpty = Boolean(response.isEmpty);
-            const cart = document.querySelector(".cart-items");
+    generateNewSignature().then(v => {
+        sendRequest("post", "/Cart/IsCartEmpty", { }, {
+            OnSuccess: response => {
+                isCartEmpty = Boolean(response.isEmpty);
+                const cart = document.querySelector(".cart-items");
 
-            if (!isSigned()) addMessage("Você precisa estar logado!");
-            else {
-                if (isCartEmpty) addMessage("Carrinho vazio...");
-                else removeMessage();
-            }
+                if (!isSigned()) addMessage("Você precisa estar logado!");
+                else {
+                    if (isCartEmpty) addMessage("Carrinho vazio...");
+                    else removeMessage();
+                }
 
-            function addMessage(txt) {
-                const cartMessage = cart.querySelector(".cart-message");
-                if (!cartMessage) cart.innerHTML += `<div class='cart-message row justify-content-center'><div class='f-3 xxl-w font-jos'>${txt}</div></div>`;
-                else cartMessage.innerHTML = txt;
-            }
+                function addMessage(txt) {
+                    const cartMessage = cart.querySelector(".cart-message");
+                    if (!cartMessage) cart.innerHTML += `<div class='cart-message row justify-content-center'><div class='f-3 xxl-w font-jos'>${txt}</div></div>`;
+                    else cartMessage.innerHTML = txt;
+                }
 
-            function removeMessage() {
-                const cartMessage = cart.querySelector(".cart-message");
-                if (cartMessage) cartMessage.remove();
-            }
-        }
+                function removeMessage() {
+                    const cartMessage = cart.querySelector(".cart-message");
+                    if (cartMessage) cartMessage.remove();
+                }
+            },
+            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+        });
     });
 }
 
@@ -1506,14 +1544,8 @@ async function isSigned() {
     return isSigned;
 }
 
-async function getTableColumnsAsync(object, token) {
-    let columns = [];
-    await sendRequest("post", `/${object}/GetTableColumns`, {}, { OnSuccess: response => columns = response.columns, ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] });
-    return columns;
-}
-
-async function generateNewSignature(id, email) {
+async function generateNewSignature() {
     let token = null;
-    await sendRequest("post", "/SJWT/GenerateSignature", { id, email }, { OnSuccess: res => token = res.token, Loader: ".main-loader" });
+    await sendRequest("post", "/SJWT/GenerateSignature", { }, { OnSuccess: res => token = res.token, Loader: ".main-loader" });
     return token;
 }

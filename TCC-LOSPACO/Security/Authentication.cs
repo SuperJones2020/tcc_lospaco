@@ -13,7 +13,6 @@ namespace TCC_LOSPACO.Security {
                 };
                 cookie.HttpOnly = true;
                 HttpContext.Current.Response.AppendCookie(cookie);
-                HttpContext.Current.Response.Write(cookie.Name);
             }
         }
 

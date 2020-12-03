@@ -46,6 +46,7 @@
         <div class="menu-content cursor-pointer-child">
             <a href=@Url.Action("Index", "Home")><div data-follow-smoothly class="area p-5"><div class="row center-elements"><h1 class="f-5">Home</h1></div></div></a>
             <a href=@Url.Action("Services", "Home")><div data-follow-smoothly class="area p-5"><div class="row center-elements"><h1 class="f-5">Serviços</h1></div></div></a>
+            <a href=@Url.Action("Packages", "Home")><div data-follow-smoothly class="area p-5"><div class="row center-elements"><h1 class="f-5">Pacotes</h1></div></div></a>
         </div>
     </div>
     <div class="aside-cart-container close-aside position-fixed max-vh max-w" style="z-index: -1;">
@@ -130,7 +131,7 @@
             }
 
             function active(i, name) {
-                i.onchange = () => {
+                i.onchange = async () => {
                     let oldValue = i.getAttribute("data-old-value");
                     if (i.value !== oldValue) {
                         if (!i.value.match(/^([1-9]{1,2})$/)) {
@@ -138,12 +139,14 @@
                             createToast("Valor Inválido/Elevado", 1);
                         } else {
                             i.setAttribute("data-old-value", i.value);
+                            const token = await generateNewSignature();
                             sendRequest("post", "/Cart/UpdateCartItemQuantity", { name, qty: i.value }, {
                                 OnSuccess: response => {
                                     createToast(response.message, response.type);
                                     oldValue = response.itemQuantity;
                                     document.querySelector(".cart-price").innerHTML = response.price;
-                                }, Loader: ".main-loader"
+                                }, Loader: ".main-loader",
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
                             });
                         }
                     }

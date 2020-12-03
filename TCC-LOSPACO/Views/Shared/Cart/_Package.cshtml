@@ -1,27 +1,33 @@
-﻿@using TCC_LOSPACO.DAO
-@model TCC_LOSPACO.Models.Package
+﻿@using TCC_LOSPACO.CustomHtmlHelper
+@model dynamic
 
-<div data-id="@Model.Name" class="row justify-content-center cart-item">
+<div data-id="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")" class="row justify-content-center cart-item">
     <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
         <div class="s-col-12" style="width: 80px; height: 160px">
             <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
-                <i class="fas fa-times red" style="font-size: .9rem;"></i>
+                @CustomHtmlHelper.SendRequest(new { name = Global.GetValue(Global.GetValue(Model, "Object"), "Name") }, new {
+                    Action = "/Cart/RemoveCartItem",
+                    Method = "post",
+                    OnSuccess = "OnRemoveCartItem",
+                    OnFailure = "OnRemoveCartItemFailure",
+                    Loader = ".main-loader"
+                    }, "fas fa-times red")
             </div>
-            <a href=@Url.Action("Package", "Home", new { nome=Model.Name })><img src="http://picsum.photos/450/201" class="max-size img-img" alt="@Model.Name"></a>
+            <a class="max-size" href=@Url.Action("Package", "Home", new { id=TCC_LOSPACO.DAO.PackageDAO.GetByName(Global.GetValue(Global.GetValue(Model, "Object"), "Name")).Id }) target='_blank'><img src="@CustomHtmlHelper.ImageSource(Global.GetValue(Global.GetValue(Model, "Object"), "Image"))" class="max-size img-img" alt="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")"></a>
         </div>
         <div class="item-text fg-1">
             <div class="m-x-3 s-m-x-none m-y-4-child">
-                <div class="item-header font-jos f-2">@Model.Name</div>
-                <ul class="m-y-1-child">
-                    @foreach(var s in PackageDAO.GetServicesFromPackage(Convert.ToUInt16(Model.Id))) {
-                        @Html.Raw($"<li class='font-jos'><i class='fas f-0 fa-check'></i> {s}</li>");
+                <div class="item-header font-jos f-2">@Global.GetValue(Global.GetValue(Model, "Object"), "Name")</div>
+                <ul class="m-y-0-child row col-12-child">
+                    @foreach (var s in Global.GetValue(Global.GetValue(Model, "Object"), "Services")) {
+                        @Html.Raw($"<a target='_blank' href='/Home/Service/{s.Id}' class='font-jos max-w'><i class='fas m-y-2 f-0 fa-check'></i> {s.Name}</a>");
                     }
                 </ul>
-                <div class="price font-inc">R$ @Model.Price</div>
+                <div class="price font-inc">R$ @Global.GetValue(Global.GetValue(Model, "Object"), "Price")</div>
             </div>
         </div>
         <div class="row justify-content-end item-qty">
-            <input type="number" value="@ViewBag.itemQuantity" class="input-anim text-align-center" required style="width: 70px;" min="0" name="item-quantity">
+            <input type="number" value="@Global.GetValue(Global.GetValue(Model, "Object"), "Quantity")" class="input-anim item-quantity-input text-align-center" required style="width: 70px;" min="0" name="item-quantity">
         </div>
     </div>
 </div>

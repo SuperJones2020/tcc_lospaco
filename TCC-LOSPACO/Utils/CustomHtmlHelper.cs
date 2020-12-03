@@ -32,7 +32,7 @@ namespace TCC_LOSPACO.CustomHtmlHelper {
             string txt = Global.GetValue(info, "Text") ?? "";
             string action = Global.GetValue(info, "Action");
             string method = Global.GetValue(info, "Method");
-            string htmlItem = $"<a data-action='{action}' data-method={method} data-params='{JObject.FromObject(data)}' {attrOnSuccess} {attrOnFailure} {attrLoader} {htmlInfo} data-element-request-sender='false' >{txt}</a>";
+            string htmlItem = $"<a data-action='{action}' data-method={method} data-params='{JObject.FromObject(data)}' {attrOnSuccess} {attrOnFailure} {attrLoader} class='{htmlInfo}' data-element-request-sender='false' >{txt}</a>";
             return new MvcHtmlString(htmlItem);
         }
 

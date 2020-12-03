@@ -9,7 +9,7 @@ namespace TCC_LOSPACO.DAO {
             string cat = (category == null || category == "Tudo") ? "" : $"and CategoryId = '{category}'";
             startPrice = startPrice ?? 0;
             endPrice = endPrice ?? 99999;
-            string defaultStr = $"select * from vw_services where (ServPrice > {startPrice} and ServPrice < {endPrice}) {cat} order by ServPrice";
+            string defaultStr = $"select * from vw_services where (ServPrice >= {startPrice} and ServPrice <= {endPrice}) {cat} order by ServPrice";
             string[] OrderingQueries = { $"{defaultStr}", $"{defaultStr}", $"{defaultStr} desc" };
             return OrderingQueries[index];
         }

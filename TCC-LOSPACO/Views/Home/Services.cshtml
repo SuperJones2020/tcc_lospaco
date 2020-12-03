@@ -3,10 +3,8 @@
 @model IEnumerable<TCC_LOSPACO.Models.Service>
 @{
     ViewBag.Title = "Serviços -";
-    var categoryDropdown = Request.QueryString["categoria"];
-    var orderByDropdown = Request.QueryString["ordenar_por"];
-    var startPrice = Request.QueryString["preco_inicial"] ?? ServiceDAO.GetMinPrice() + "";
-    var endPrice = Request.QueryString["preco_final"] ?? ServiceDAO.GetMaxPrice() + "";
+    var servinPrice = ServiceDAO.GetMinPrice();
+    var servMaxPrice = ServiceDAO.GetMaxPrice();
 }
 
 <div class="nav-height"></div>
@@ -24,7 +22,7 @@
                                     <div class="col-1 row dropdown-icon icon-input">
                                         <i class="fas fa-stream"></i>
                                     </div>
-                                    <div class=" col-9 row align-items-center dropdown-select-item" data-option="@categoryDropdown" style="border: none;"></div>
+                                    <div class=" col-9 row align-items-center dropdown-select-item" data-option="" style="border: none;"></div>
                                     <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
                                         <i class="fas fa-chevron-down"></i>
                                     </div>
@@ -47,7 +45,7 @@
                                     <div class="col-1 row dropdown-icon icon-input">
                                         <i class="fas fa-sort"></i>
                                     </div>
-                                    <div class="col-9 row align-items-center dropdown-select-item" data-option="@orderByDropdown" style="border: none;">Ordenar Por</div>
+                                    <div class="col-9 row align-items-center dropdown-select-item" data-option="" style="border: none;">Ordenar Por</div>
                                     <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
                                         <i class="fas fa-chevron-down"></i>
                                     </div>
@@ -67,7 +65,7 @@
                             <button data-anim-to-black class="bg-white cursor-pointer" type="button">
                                 <i class="f-2 fas fa-chevron-left"></i>
                             </button>
-                            <input class="text-align-center" value="@startPrice" min="@ServiceDAO.GetMinPrice()" max="@ServiceDAO.GetMaxPrice()" type="number" name="preco_inicial"
+                            <input class="text-align-center" value="@servinPrice" min="@servinPrice" max="@servMaxPrice" type="number" name="preco_inicial"
                                    style="width: 70px; border: none;">
                             <button data-anim-to-black class="bg-white cursor-pointer" type="button">
                                 <i class="f-2 fas fa-chevron-right"></i>
@@ -78,7 +76,7 @@
                             <button data-anim-to-black class="bg-white cursor-pointer" type="button">
                                 <i class="f-2 fas fa-chevron-left"></i>
                             </button>
-                            <input class="text-align-center" value="@endPrice" min="@ServiceDAO.GetMinPrice()" max="@ServiceDAO.GetMaxPrice()" type="number" name="preco_final"
+                            <input class="text-align-center" value="@servMaxPrice" min="@servinPrice" max="@servMaxPrice" type="number" name="preco_final"
                                    style="width: 70px; border: none;">
                             <button data-anim-to-black class="bg-white cursor-pointer" type="button">
                                 <i class="f-2 fas fa-chevron-right"></i>
