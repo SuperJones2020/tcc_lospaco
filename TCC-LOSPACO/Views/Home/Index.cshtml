@@ -163,14 +163,14 @@
         </div>
     </div>
     <div class="max-w xxl-vh row services">
-        <div class="position-absolute row z-2" style="width: 400px; height: 50px;">
+        <div class="position-absolute row z-2 search-for-service-div" style="width: 400px; height: 50px;">
             <button data-follow-smoothly
                     class="col-2 row center-elements center-service-btn bg-black cursor-pointer">
                 <div class="xl-w xl-h row center-elements">
                     <i class="fas white f-3 fa-bullseye"></i>
                 </div>
             </button>
-            <input class="col-8 text-align-center search-service-input" type="text"
+            <input class="col-8 text-align-center" type="text"
                    placeholder="Procure por um serviço" style="border: solid 1px white;outline: none">
             <button data-follow-smoothly
                     class="row center-elements col-2 search-service-btn bg-black cursor-pointer">
@@ -468,15 +468,19 @@
         activeAside();
         activePackageContainer();
         homeScrollEffects();
-        titles = ["Massagem Relaxante", "Massagem Funcional", "Terapia com Pedras", "Sauna Personalizada", "Massagem Relaxante", "Massagem Funcional", "Terapia com Pedras", "Sauna Personalizada", "Massagem Relaxante", "Massagem Funcional", "Terapia com Pedras", "Sauna Personalizada"];
-        descriptions = ["Massagem visando 100% do relaxamento", "Massagem funcional, relaxando os músculos e ossos do indivíduo",
-            "Pedra quentes colocadas sobre o corpo, no qual se têm uma aura diferenciada e proverosa", "Sauna a uma temperatura média de 28°",
-            "Massagem visando 100% do relaxamento", "Massagem funcional, relaxando os músculos e ossos do indivíduo",
-            "Pedra quentes colocadas sobre o corpo, no qual se têm uma aura diferenciada e proverosa", "Sauna a uma temperatura média de 28°",
-            "Massagem visando 100% do relaxamento", "Massagem funcional, relaxando os músculos e ossos do indivíduo",
-            "Pedra quentes colocadas sobre o corpo, no qual se têm uma aura diferenciada e proverosa", "Sauna a uma temperatura média de 28°"];
 
-        generateServices(".services-content", 25, 40, titles.length, titles, descriptions);
+        generateNewSignature().then(v => {
+            sendRequest("get", "/Service/GetList", {}, {
+                Loader: ".main-loader",
+                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }],
+                OnSuccess: res => {
+                    const services = res.Services;
+                    generateServices(".services-content", 25, 40, services);
+                }
+            });
+        });
+
+
         activeCarousel({ carousel: ".main-carousel", time: .5, anim: "cubic-bezier(.73,.19,.14,.98)", interval: 5, overlap: true });
     </script>
 }

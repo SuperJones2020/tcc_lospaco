@@ -33,6 +33,10 @@ namespace TCC_LOSPACO.Controllers {
             return View(PackageDAO.GetList(index, preco_inicial, preco_final));
         }
 
+        public ActionResult Error() {
+            return View();
+        }
+
         public ActionResult Profile() {
             if (!Security.Authentication.IsSigned()) return Redirect("/Account/Account");
             return View();

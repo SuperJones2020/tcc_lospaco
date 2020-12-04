@@ -14,6 +14,13 @@ namespace TCC_LOSPACO.Controllers {
             return json;
         }
 
+        public ActionResult GetList() {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            JsonResult json = Json(new { Services = ServiceDAO.GetList() }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = int.MaxValue;
+            return json;
+        }
+
         [HttpPost]
         public ActionResult Update(ushort id, string column, string value) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });

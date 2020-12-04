@@ -822,8 +822,8 @@ function activeFormValidate() {
     const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/;
     const validations = [
         { val: "data-val-email", valFunc: (value, valueSender) => emailRegex.test(value), failure: (fieldName, vs) => `${fieldName} / Inválido` },
-        { val: "data-val-max-length", valFunc: (value, valueSender) => value.length < valueSender, failure: (fieldName, vs) => `${fieldName} / Máximo de ${vs} caracteres` },
-        { val: "data-val-min-length", valFunc: (value, valueSender) => value.length > valueSender, failure: (fieldName, vs) => `${fieldName} / Mínimo de ${vs} caracteres` },
+        { val: "data-val-max-length", valFunc: (value, valueSender) => value.length <= valueSender, failure: (fieldName, vs) => `${fieldName} / Máximo de ${vs} caracteres` },
+        { val: "data-val-min-length", valFunc: (value, valueSender) => value.length >= valueSender, failure: (fieldName, vs) => `${fieldName} / Mínimo de ${vs} caracteres` },
         { val: "data-val-regex", valFunc: (value, valueSender) => valueSender.test(value), failure: (fieldName, vs) => `${fieldName}` },
         { val: "data-val-password", valFunc: (value, valueSender) => strongPasswordRegex.test(value), failure: (fieldName, vs) => `${fieldName} / Deve conter letras maiúsculas + letras minúsculas + números` },
         { val: "data-val-equalto", valFunc: (value, valueSender) => document.querySelector(valueSender).value === value, failure: (fieldName, vs) => `Senhas Diferentes!` }
@@ -1028,6 +1028,19 @@ function removeCartItemFromHtml(id) {
             }, { once: true })
         }
     });
+}
+
+function verifyCartCount(count, type) {
+    const c = document.querySelector(".cart-count");
+    l(count);
+    l(type);
+    if (type === "add") {
+        if (count == 1) document.querySelector(".cart-count-icon").innerHTML += `<span class='cart-count black circle bg-white position-absolute row center-elements f-0 font-jos'>${count}</span>`;
+        else c.innerHTML = count;
+    } else if (type === "remove") {
+        if (count == 0) c.remove();
+        else c.innerHTML = count;
+    }
 }
 
 function verifyCartMessage() {
@@ -1285,29 +1298,29 @@ function l(x) {
     console.log(x);
 }
 
-function generateServices(element, width, height, count, a, b) {
-    const grid = getGrid(factor(count));
+function generateServices(element, width, height, services) {
+    const grid = getGrid(factor(services.length));
     const rows = grid[1];
     const columns = grid[0];
     const container = document.querySelector(element);
     for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
-            const image = `http://picsum.photos/id/${Math.round(Math.random() * 70)}/800/500`;
             const xBox = column * width;
             const yBox = row * height + (column * height);
             const i = row * columns + column;
-            const index = `box-index-${i}`;
+            const index = `data-index='${i}'`;
+            const s = services[i];
             const boxHtml = `
-            <div class="service-box row center-elements position-absolute ${index}" 
+            <a href='/Home/Service/${s.Id}' target='_blank' class="service-box row center-elements position-absolute" ${index}
             style='width: ${width}%;height: ${height}%;left: ${xBox}%; top: ${yBox}%;'>
-                <img class="img-img max-size" src='${image}' alt="${a[i]}" />
+                <img class="img-img max-size" src='${readImageFromDatabase(s.Image)}' alt="${s.Name}" />
                     <div class="white pointer-area max-size z-1 position-absolute"></div>
                     <div class="white position-absolute p-2">
-                        <h1 class="text-align-center f-6 font-jos">${a[i]}</h1>
-                        <p class="font-com">${b[i]}</p>
+                        <h1 class="text-align-center f-6 font-jos">${s.Name}</h1>
+                        <p class="font-com">${s.MinifiedDesc}</p>
                     </div>    
                 
-            </div>
+            </a>
                 `;
             container.insertAdjacentHTML("afterbegin", boxHtml);
         }
@@ -1341,12 +1354,28 @@ function generateServices(element, width, height, count, a, b) {
             }
         }
     });
-    centerServiceElement(a.length / 2);
-    const findBtn = document.querySelector(".center-service-btn");
-    findBtn.onclick = () => centerServiceElement(a.length / 2);
-    function centerServiceElement(index) {
+
+    goToService(Math.round(rows / 2) * columns + Math.round(columns / 2));
+    const search = document.querySelector(".search-for-service-div");
+    const centerBtn = search.querySelector(".center-service-btn");
+    const findBtn = search.querySelector(".search-service-btn");
+    const input = search.querySelector("input");
+    centerBtn.onclick = () => goToService(Math.round(rows / 2) * columns + Math.round(columns / 2));
+    findBtn.onclick = () => {
+        const value = input.value.toLowerCase();
+        let serviceIndex = 0;
+        for (let i = 0; i < services.length; i++) {
+            const s = services[i];
+            if (s.Name.toLowerCase() == value) {
+                serviceIndex = i;
+                break;
+            }
+        }
+        goToService(serviceIndex);
+    }
+    function goToService(index) {
         const container = document.querySelector(".services-content");
-        const dBox = container.children[index];
+        const dBox = container.querySelector(`[data-index='${index}']`);
         const dx = dBox.style.left.replace("%", "");
         const dy = dBox.style.top.replace("%", "");
         for (let i = 0; i < container.children.length; i++) {

@@ -6,7 +6,7 @@
     var user = TCC_LOSPACO.Security.Authentication.GetUser();
 }
 
-<main class="div-img" style="background-image: url('https://picsum.photos/id/615/1920/3240/?blur=5');">
+<main class="div-img" style="background-image: url('https://picsum.photos/id/53/1920/3240/?blur=3'); filter: grayscale(.125)">
     <div class="options-container row col-4-child l-col-12-child max-w">
         <div class="item">
             <div class="arrow-pointer position-absolute"><i class="fas f-6 fa-long-arrow-alt-down"></i></div>
@@ -15,15 +15,14 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-zoom="1.3, 1s" data-follow-smoothly
-                        class="open p-9 shadow-text-anim bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-fill-to="right"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-fingerprint"><br /><span>Alterar Senha</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="row col-11 align-items-center l-col-12 col-12-child max-h content-container">
                         <form action="/Query/UpdatePassword" method="post" data-form-validate="true" data-form-request-sender="true" data-on-success="(res) => {createToast(res.message, res.index)}" data-on-failure="(res) => {createToast(res.message, res.index)}">
-
                             <h1 class="f-8 text-align-center profile-title">Senha</h1>
                             <h2 class="f-4 m-y-3 label-title">Senha Atual</h2>
                             <div class="row m-t-4 customized-input max-w no-wrap">
@@ -59,45 +58,34 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="down"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-info"><br /><span>Meus Dados</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
                     <div class="row col-11 l-col-12 max-h content-container">
-                        <div class="max-w row col-12-child align-items-center">
-                            <div>
+                        <div data-content="user" class="max-w row col-12-child align-items-center">
+                            <div class="form">
                                 <h1 class="f-8 text-align-center profile-title">Dados</h1>
                                 <h2 class="f-4 label-title">Email atual</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
-                                    <div class="col-1 row icon-input"><i class="fas fa-envelope"></i></div>
-                                    <input disabled class="col-9 edit-email-input" data-id="email" type="email"
+                                    <div class="col-2 row icon-input"><i class="fas fa-envelope"></i></div>
+                                    <input disabled class="col-10 edit-email-input" data-id="email" type="email"
                                            value=@user.Account.Email />
-                                    <button data-anim-to-black
+                                    <!--<button data-anim-to-black
                                             class="col-1 cursor-pointer edit-btn row justify-content-center">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                     <button data-anim-to-black
                                             class="col-1 cursor-pointer save-btn row justify-content-center">
                                         <i class="fas fa-check"></i>
-                                    </button>
+                                    </button>-->
                                 </div>
                                 <h2 class="f-4 m-t-6 label-title">Nome Completo</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-file-contract"></i></div>
-                                    <input disabled class="col-9" type="text" data-id="name" value="@user.FullName" />
-                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
-                                        <i class="fas fa-check"></i>
-                                    </button>
-                                </div>
-                                <h2 class="f-4 m-t-6 label-title">Nome de Exibição</h2>
-                                <div class="row m-t-3 customized-input max-w no-wrap">
-                                    <div class="col-1 row icon-input"><i class="fas fa-signature"></i></div>
-                                    <input disabled class="col-9" type="text" data-id="username" value="@user.Username" />
+                                    <input disabled class="col-9" type="text" data-id="custfullname" value="@user.FullName" />
                                     <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
                                         <i class="fas fa-pen"></i>
                                     </button>
@@ -108,7 +96,7 @@
                                 <h2 class="f-4 m-t-6 label-title">CPF</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-id-card"></i></div>
-                                    <input disabled class="col-9" type="number" data-id="cpf" value="@user.CPF" />
+                                    <input disabled class="col-9" type="number" data-id="custcpf" value="@user.CPF" />
                                     <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
                                         <i class="fas fa-pen"></i>
                                     </button>
@@ -116,11 +104,10 @@
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </div>
-
                                 <h2 class="f-4 m-t-6 label-title">Número</h2>
                                 <div class="row m-t-3 customized-input max-w no-wrap">
                                     <div class="col-1 row icon-input"><i class="fas fa-id-card"></i></div>
-                                    <input disabled class="col-9" type="text" data-id="number" value="@user.Phone" />
+                                    <input disabled class="col-9" type="text" data-id="custphonenumber" value="@user.Phone" />
                                     <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
                                         <i class="fas fa-pen"></i>
                                     </button>
@@ -128,7 +115,17 @@
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </div>
-
+                                <h2 class="f-4 m-t-6 label-title">Nome de Exibição</h2>
+                                <div class="row m-t-3 customized-input max-w no-wrap">
+                                    <div class="col-1 row icon-input"><i class="fas fa-file-contract"></i></div>
+                                    <input disabled class="col-9" type="text" data-id="custusername" value="@user.Username" />
+                                    <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button data-anim-to-black class="col-1 cursor-pointer save-btn row">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,8 +138,8 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-fill-to="left"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-times"><br /><span>Sair</span></i>
                 </button>
 
@@ -170,8 +167,8 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="left"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-users"><br /><span>Usuários</span></i>
                 </button>
 
@@ -215,13 +212,12 @@
                                                     Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
                                                 </h2>
                                             </div>
-
-                                            <div class="f-3 m-t-5 label-title">Nome de Exibição</div>
+                                            <div class="f-3 m-t-5 label-title">Email</div>
                                             <div class="row m-t-3 customized-input no-wrap">
                                                 <div class="col-2 row icon-input">
-                                                    <i class="fas fa-signature"></i>
+                                                    <i class="fas fa-envelope"></i>
                                                 </div>
-                                                <input disabled class="col-10" data-id="username" type="text" />
+                                                <input disabled class="col-10" data-id="email" type="email" />
                                             </div>
                                             <div class="f-3 m-t-5 label-title">Nome Completo</div>
                                             <div class="row m-t-3 customized-input no-wrap">
@@ -230,14 +226,6 @@
                                                 </div>
                                                 <input disabled class="col-10" data-id="name" type="text" />
                                             </div>
-                                            <div class="f-3 m-t-5 label-title">Email</div>
-                                            <div class="row m-t-3 customized-input no-wrap">
-                                                <div class="col-2 row icon-input">
-                                                    <i class="fas fa-envelope"></i>
-                                                </div>
-                                                <input disabled class="col-10" data-id="email" type="email" />
-                                            </div>
-
                                             <div class="f-3 m-t-5 label-title">CPF</div>
                                             <div class="row m-t-3 customized-input no-wrap">
                                                 <div class="col-2 row icon-input">
@@ -245,7 +233,6 @@
                                                 </div>
                                                 <input disabled class="col-10" data-id="cpf" type="number" />
                                             </div>
-
                                             <div class="f-3 m-t-5 label-title">Número</div>
                                             <div class="row m-t-3 customized-input no-wrap">
                                                 <div class="col-2 row icon-input">
@@ -253,7 +240,13 @@
                                                 </div>
                                                 <input disabled class="col-10" data-id="number" type="number" />
                                             </div>
-
+                                            <div class="f-3 m-t-5 label-title">Nome de Exibição</div>
+                                            <div class="row m-t-3 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-signature"></i>
+                                                </div>
+                                                <input disabled class="col-10" data-id="username" type="text" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -270,8 +263,8 @@
                 <button class="close bg-transparent position-absolute" data-close-pop-up="employee_display_image">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="up"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-users-cog"><br /><span>Funcionários</span></i>
                 </button>
 
@@ -285,7 +278,7 @@
                                             Todos os Funcionários
                                         </h2>
                                         <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                                class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
                                             <i class="f-6 m-f-4 fas fa-plus main-green"></i>
                                         </button>
                                     </div>
@@ -304,7 +297,7 @@
                                     }
                                 </div>
                             </div>
-                            <div class="form row center-elements min-max-w max-size">
+                            <form data-loader=".main-loader" method="post" action="/Service/Insert" data-on-success="OnEmployeeInserted" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true" class="row center-elements min-max-w max-size">
                                 <popup data-id="employee_display_image" class="max-size p-4 z-10 row center-elements">
                                     <div data-close-pop-up="employee_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
                                     <div class="b-3" data-id="image_display">
@@ -315,13 +308,17 @@
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
-                                                <button data-follow-smoothly
+                                                <button type="button" data-follow-smoothly
                                                         class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
                                                     <i class="f-6 m-f-4 fas fa-chevron-left"></i>
                                                 </button>
                                                 <h2 class="f-7 font-jos text-align-center profile-title">
                                                     Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
                                                 </h2>
+                                                <button type="submit" data-follow-smoothly
+                                                        class="d-none perform-add-request-btn bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 far fa-plus-square main-green"></i>
+                                                </button>
                                             </div>
 
                                             <div class="row max-w col-6-child l-col-12-child">
@@ -331,12 +328,12 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" name="full_name" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -348,7 +345,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-envelope"></i>
                                                         </div>
-                                                        <input disabled class="col-10" data-id="email" />
+                                                        <input disabled class="col-10" data-id="email" name="email" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -360,12 +357,12 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-id-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" name="cpf" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -377,12 +374,12 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-address-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" name="rg" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -394,12 +391,12 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-phone-alt"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" name="number" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -414,12 +411,12 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-birthday-cake"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="text" name="birth" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -452,29 +449,29 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" name="file"/>
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
-                                            <button data-open-pop-up="employee_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
+                                            <button type="button" data-open-pop-up="employee_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
 
                                             <div class="f-3 m-t-5 label-title">Salário</div>
                                             <div class="row max-w m-t-1 customized-input max-w no-wrap">
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" name="salary" />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -482,7 +479,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -495,8 +492,8 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="right"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-boxes"><br /><span>Pacotes</span></i>
                 </button>
 
@@ -510,7 +507,7 @@
                                             Todos os Pacotes
                                         </h2>
                                         <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                                class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
                                             <i class="f-6 m-f-4 fas fa-plus main-green"></i>
                                         </button>
                                     </div>
@@ -565,6 +562,23 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
+                                            <div class="f-3 m-t-5 label-title">Descrição Minificada</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap"
+                                                 style="height: auto !important;">
+                                                <div class="col-1 row center-elements icon-input">
+                                                    <i class="far fa-bookmark"></i>
+                                                </div>
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="packsmalldesc" type="text"
+                                                          style="resize: none;"></textarea>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
                                             <div class="f-3 m-t-5 label-title">Descrição</div>
                                             <div class="row m-t-3 customized-input max-w no-wrap"
                                                  style="height: auto !important;">
@@ -572,7 +586,7 @@
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
                                                 <textarea disabled class="p-y-2 col-9 row" data-id="packdescr" type="text"
-                                                          style="resize: none;">Descrição com maiores detalhes do produto, ajudando o cliente a enteder melhor a proposta do mesmo!</textarea>
+                                                          style="resize: none;"></textarea>
                                                 <button data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -669,8 +683,8 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="up"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-calendar-check"><br /><span>Agendamentos</span></i>
                 </button>
 
@@ -684,7 +698,7 @@
                                             Todos os Agendamentos
                                         </h2>
                                         <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                                class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
                                             <i class="f-6 m-f-4 fas fa-plus main-green"></i>
                                         </button>
                                     </div>
@@ -830,8 +844,8 @@
                 <button class="close bg-transparent position-absolute" data-close-pop-up="service_display_image">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-item-button data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
+                <button type="button" data-item-button data-fill-to="down"
+                        class="open  bg-transparent cursor-pointer position-absolute">
                     <i class="f-10 fas fa-toolbox"><br /><span>Serviços</span></i>
                 </button>
 
@@ -845,7 +859,7 @@
                                             Todos os Serviços
                                         </h2>
                                         <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="bg-transparent cursor-pointer p-3 m-x-2 ">
+                                                class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
                                             <i class="f-6 m-f-4 fas fa-plus main-green"></i>
                                         </button>
                                     </div>
@@ -1091,9 +1105,9 @@
                 <button class="close bg-transparent position-absolute">
                     <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
                 </button>
-                <button type="button" data-follow-smoothly data-zoom="1.3, 1s"
-                        class="open shadow-text-anim p-9 bg-transparent cursor-pointer position-absolute">
-                    <i class="f-10 fas fa-calendar-alt"><br /><span>Realizar Agendamentos</span></i>
+                <button type="button" data-fill-to="up"
+                        class="open  bg-transparent cursor-pointer position-absolute">
+                    <i class="f-10 fas fa-calendar-alt"><br /><span>Agendar</span></i>
                 </button>
 
                 <div class="row center-elements content col-10 l-col-12 max-h p-1">
@@ -1419,7 +1433,9 @@
         const containers = [
             {
                 id: "employee",
-                do: async (tableContent, form) => {
+                do: async (content) => {
+                    const form = content.querySelector("form");
+                    const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Employee";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
@@ -1480,11 +1496,40 @@
                                 });
                         }
                     });
+
+                    const add = content.querySelector(".add-object-btn");
+                    if (add !== null) {
+                        add.addEventListener("click", () => {
+                            content.style.transform = "translateX(-100%)";
+
+                            clearInputs(form);
+
+                            const title = form.querySelector(".profile-title");
+                            title.innerHTML = "Adicionar Empregado";
+                            const btnRequest = form.querySelector(".perform-add-request-btn");
+                            btnRequest.classList.remove("d-none");
+
+                            btnRequest.addEventListener("click", async () => {
+                                const token = await generateNewSignature();
+                                sendRequest("post", `/${ObjectType}/Insert`,
+                                    {
+
+                                    }, {
+                                        Loader: ".main-loader",
+                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                        OnSuccess: () => {
+                                        }
+                                    });
+                            });
+                        });
+                    }
                 }
             },
             {
                 id: "package",
-                do: async (tableContent, form) => {
+                do: async (content) => {
+                    const form = content.querySelector(".form");
+                    const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Package";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
@@ -1493,7 +1538,8 @@
                         { id: "packname", data: () => get(form, data[0].id).value },
                         { id: "packdescr", data: () => get(form, data[1].id).value },
                         { id: "packprice", data: () => get(form, data[2].id).value },
-                        { id: "servdescr", data: () => get(form, data[3].id).innerHTML },
+                        { id: "packsmalldesc", data: () => get(form, data[3].id).value },
+                        { id: "packdescr", data: () => get(form, data[4].id).value },
                         { id: "packimage", data: () => sendImage() }
                     ];
 
@@ -1561,7 +1607,9 @@
             },
             {
                 id: "schedule",
-                do: async (tableContent, form) => {
+                do: async (content) => {
+                    const form = content.querySelector(".form");
+                    const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Schedule";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
@@ -1642,7 +1690,9 @@
             },
             {
                 id: "service",
-                do: async (tableContent, form) => {
+                do: async (content) => {
+                    const form = content.querySelector(".form");
+                    const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Service";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => form.getAttribute("data-object-id");
@@ -1651,7 +1701,7 @@
                         { id: "servname", data: () => get(form, data[0].id).value },
                         { id: "servprice", data: () => get(form, data[1].id).value },
                         { id: "servsmalldesc", data: () => get(form, data[2].id).value },
-                        { id: "servdescr", data: () => get(form, data[3].id).innerHTML },
+                        { id: "servdescr", data: () => get(form, data[3].id).value },
                         { id: "servtime", data: () => get(form, data[4].id).value },
                         { id: "servimage", data: () => sendImage() },
                         { id: "servclothing", data: () => get(form, data[6].id).value }
@@ -1700,6 +1750,37 @@
                         }
                     });
                 }
+            }, {
+                id: "user",
+                do: async (content) => {
+                    const form = content.querySelector(".form");
+                    const tableContent = content.querySelector(".table-content");
+                    const ObjectType = "Customer";
+                    const inputs = form.querySelectorAll(".customized-input");
+                    const objectId = () => @user.Account.Id;
+
+                    const data = [
+                        { id: "custusername", data: () => get(form, data[0].id).value },
+                        { id: "custfullname", data: () => get(form, data[1].id).value },
+                        { id: "custcpf", data: () => get(form, data[2].id).value },
+                        { id: "custphonenumber", data: () => get(form, data[3].id).value }
+                    ];
+
+                    setInputs(inputs, async inputId => {
+                        const dataValue = data.filter(x => x.id === inputId)[0].data;
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/${ObjectType}/Update`,
+                            {
+                                id: objectId(),
+                                column: inputId,
+                                value: dataValue()
+                            }, {
+                                Loader: ".main-loader",
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+                            });
+
+                    });
+                }
             }];
 
         const items = document.querySelectorAll(".item");
@@ -1707,11 +1788,9 @@
             const button = c.querySelector("[data-item-button]");
             const content = c.querySelector("[data-content]");
             if (content !== null) {
-                const form = content.querySelector(".form");
-                const tableContent = content.querySelector(".table-content");
                 const container = content.getAttribute("data-content");
                 if (containers.filter(c => c.id === container).length !== 0)
-                    button.addEventListener("click", () => containers.filter(c => c.id === container)[0].do(tableContent, form), { once: true });
+                    button.addEventListener("click", () => containers.filter(c => c.id === container)[0].do(content), { once: true });
             }
         });
 
@@ -1756,6 +1835,28 @@
             });
         }
 
+        async function clearInputs(form) {
+            const inputs = form.querySelectorAll(".customized-input");
+            inputs.forEach(i => {
+                const saveBtn = i.querySelector(".save-btn");
+                const editBtn = i.querySelector(".edit-btn");
+                const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
+                el.value = "";
+                el.removeAttribute("disabled");
+
+                const image = form.querySelector("[data-id='image_display']");
+                if (image !== null) image.setAttribute("src", "");
+                
+
+                if (saveBtn !== null & editBtn !== null) {
+                    saveBtn.style.color = "gray";
+                    editBtn.style.color = "gray";
+                    saveBtn.style.pointerEvents = 'none';
+                    editBtn.style.pointerEvents = 'none';
+                }
+            });
+        }
+
         function customerDataTaken(res) {
             const form = document.querySelector("[data-content=customer]").querySelector(".form");
             const Customer = res.Object;
@@ -1792,6 +1893,7 @@
             const table = form.querySelector(".table-content");
             form.querySelector(".title-focus").innerHTML = Package.Name;
             get(form, "packname").value = Package.Name;
+            get(form, "packsmalldesc").value = Package.MinifiedDesc;
             get(form, "packdescr").value = Package.Description;
             get(form, "packprice").value = Package.Price;
             get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Package.Image));
@@ -1809,7 +1911,7 @@
             form.querySelector(".title-focus").innerHTML = Service.Name;
             get(form, "servname").value = Service.Name;
             get(form, "servsmalldesc").value = Service.MinifiedDesc;
-            get(form, "servdescr").innerHTML = Service.CompleteDesc;
+            get(form, "servdescr").value = Service.CompleteDesc;
             get(form, "servprice").value = Service.Price;
             get(form, "servclothing").value = Service.PropperClothing;
             get(form, "servtime").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;

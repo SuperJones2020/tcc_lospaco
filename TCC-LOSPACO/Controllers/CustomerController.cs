@@ -12,5 +12,13 @@ namespace TCC_LOSPACO.Controllers {
             json.MaxJsonLength = int.MaxValue;
             return json;
         }
+
+        [HttpPost]
+        public ActionResult Update(ushort id, string column, string value) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            string query = $"update tbcustomer set {column}='{value}' where loginid='{id}'";
+            db.ExecuteCommand(query);
+            return Json(new { Success = "Success" });
+        }
     }
 }

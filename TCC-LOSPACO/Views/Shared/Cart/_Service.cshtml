@@ -5,7 +5,7 @@
 }
 <div data-id="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")" class="row justify-content-center cart-item">
     <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
-        <div class="s-col-12" style="max-width: 80px; height: 70px;">
+        <div class="s-col-12" style="max-width: 100px; height: 90px;">
             <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
                 @CustomHtmlHelper.SendRequest(new { name = Global.GetValue(Global.GetValue(Model, "Object"), "Name") }, new {
                Action = "/Cart/RemoveCartItem",
@@ -15,7 +15,9 @@
                Loader = ".main-loader"
            }, "fas fa-times red")
             </div>
-            <a class="max-size" href=@Url.Action("Service", "Home", new { id=TCC_LOSPACO.DAO.ServiceDAO.GetByName(Global.GetValue(Global.GetValue(Model, "Object"), "Name")).Id }) target="_blank"><img src="@CustomHtmlHelper.ImageSource(Global.GetValue(Global.GetValue(Model, "Object"), "Image"))" class="max-size img-img" alt="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")"></a>
+            <a class="max-size" href=@Url.Action("Service", "Home", new { id=TCC_LOSPACO.DAO.ServiceDAO.GetByName(Global.GetValue(Global.GetValue(Model, "Object"), "Name")).Id }) target="_blank">
+                <img src="@CustomHtmlHelper.ImageSource(Global.GetValue(Global.GetValue(Model, "Object"), "Image"))" class="max-size img-img" alt="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")">
+            </a>
         </div>
         <div class="item-text s-col-6 fg-1">
             <div class="m-x-3 s-m-x-none m-y-2-child">

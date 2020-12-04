@@ -30,7 +30,8 @@ namespace TCC_LOSPACO.Controllers {
                 price = "R$ " + CartDAO.GetTotalPrice(),
                 itemName = name,
                 htmlItem = view,
-                success = "Adicionado!"
+                success = "Adicionado!",
+                count = CartDAO.GetItemsCount()
             });
             json.MaxJsonLength = int.MaxValue;
 
@@ -41,7 +42,7 @@ namespace TCC_LOSPACO.Controllers {
         public ActionResult RemoveCartItem(string name) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
             object[] obj = CartDAO.RemoveItem(name);
-            return Json(new { type = obj[0], message = obj[1], name, price = "R$ " + CartDAO.GetTotalPrice() });
+            return Json(new { type = obj[0], message = obj[1], name, price = "R$ " + CartDAO.GetTotalPrice(), count = CartDAO.GetItemsCount() });
         }
         [HttpPost]
         public ActionResult UpdateCartItemQuantity(string name, byte qty) {
