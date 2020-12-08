@@ -6,7 +6,7 @@ using System.Web.Mvc;
 namespace TCC_LOSPACO.CustomHtmlHelper {
     public static class CustomHtmlHelper {
         public static IHtmlString DropdownItem(object item, object value, object name) {
-            string htmlItem = $"<label for='{value}' data-option='{value}' data-anim-to-black class='bg-white p-3'>{item}</label><input id='{value}' type='radio' class='d-none' name='{name}' value='{value}' />";
+            string htmlItem = $"<label for='{value}' data-option='{value}' data-anim-to-black class='bg-white p-3'>{item}</label><input type='radio' class='d-none' name='{name}' value='{value}' />";
             return new MvcHtmlString(htmlItem);
         }
 

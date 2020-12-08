@@ -29,5 +29,12 @@ namespace TCC_LOSPACO.Controllers {
             db.ExecuteCommand(query);
             return Json(new { Success = "Success" });
         }
+
+        [HttpPost]
+        public ActionResult Insert(string name, string price, string minified_desc, string desc, uint category_id, string time, string image, string clothing) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            db.ExecuteProcedure("sp_InsertService", name, price, minified_desc, desc, category_id, time, image, clothing);
+            return Json(new { Success = "Success" });
+        }
     }
 }

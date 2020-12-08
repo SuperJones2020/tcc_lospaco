@@ -11,4 +11,11 @@
     }
 
     static public object GetValue(object obj, string value) { return obj.GetType().GetProperty(value)?.GetValue(obj, null); }
+
+    static public string FormatDateString(this string data) {
+        var day = "0" + data.Split('/')[0];
+        var month = "0" + data.Split('/')[1];
+        var year = data.Split('/')[2];
+        return year + '-' + month.Substring(month.Length - 2) + '-' + day.Substring(day.Length - 2);
+    }
 }

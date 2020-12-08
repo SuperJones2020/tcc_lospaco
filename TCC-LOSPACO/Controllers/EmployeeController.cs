@@ -22,9 +22,10 @@ namespace TCC_LOSPACO.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Insert(string fullname, string birth, string rg, string cpf, string salary, string genre, string image) {
+        public ActionResult Insert(string full_name, string username, string email, string password, string number, string birth, string rg, string cpf, string salary, string genre, string image) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            //db.ExecuteProcedure(db.ReturnProcedure("sp_InsertEmployee", ));
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 12);
+            db.ExecuteProcedure("sp_InsertEmployee", email, passwordHash, full_name, username, birth, cpf, rg, salary, genre, number, image);
             return Json(new { Success = "Success" });
         }
     }

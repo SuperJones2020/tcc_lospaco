@@ -31,16 +31,21 @@ namespace TCC_LOSPACO.Controllers {
         [HttpPost]
         public ActionResult InsertService(ushort id, ushort servId) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            string query = $"insert into tbpackitem(servid, packid) values('{servId}', '{id}')";
-            db.ExecuteCommand(query);
+            PackageDAO.InsertService(id, servId);
             return Json(new { Success = "Success" });
         }
 
         [HttpPost]
         public ActionResult RemoveService(ushort id, ushort servId) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            string query = $"delete from tbpackitem where packid='{id}' and servid='{servId}'";
-            db.ExecuteCommand(query);
+            PackageDAO.RemoveService(id, servId);
+            return Json(new { Success = "Success" });
+        }
+
+        [HttpPost]
+        public ActionResult Insert(string name, string minified_desc, string desc, string image, string price, string services) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            PackageDAO.Insert(name, minified_desc, desc, image, price, services);
             return Json(new { Success = "Success" });
         }
     }

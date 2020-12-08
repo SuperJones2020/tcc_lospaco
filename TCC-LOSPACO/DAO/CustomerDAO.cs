@@ -23,5 +23,10 @@ namespace TCC_LOSPACO.DAO {
             return customer;
         }
 
+        public static Customer GetByCPF(string cpf) {
+            var row = db.ReaderRow(db.ReturnCommand($"select * from tbcustomer where custcpf = '{cpf}'"));
+            return new Customer(AccountDAO.GetById((uint)row[0]), (string)row[1], (string)row[2], (string)row[3], row[4] + "");
+        }
+
     }
 }

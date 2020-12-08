@@ -20,5 +20,13 @@ namespace TCC_LOSPACO.Controllers {
             db.ExecuteCommand(query);
             return Json(new { Success = "Success" });
         }
+
+        [HttpPost]
+        public ActionResult Insert(ushort id, string column, string value) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            string query = $"update tbcustomer set {column}='{value}' where loginid='{id}'";
+            db.ExecuteCommand(query);
+            return Json(new { Success = "Success" });
+        }
     }
 }

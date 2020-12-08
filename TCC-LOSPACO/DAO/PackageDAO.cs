@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TCC_LOSPACO.Models;
 
 namespace TCC_LOSPACO.DAO {
@@ -46,6 +47,27 @@ namespace TCC_LOSPACO.DAO {
                 list.Add(ServiceDAO.GetById((ushort)row[0]));
             });
             return list; ;
+        }
+
+        public static void InsertService(ushort id, params ushort[] servId) {
+            string query = $"insert into tbpackitem(servid, packid) values";
+            List<ushort> list = servId.ToList();
+            list.ForEach(x => {
+                int index = list.IndexOf(x);
+                query += index != list.Count() - 1 ? $"('{x}', '{id}')," : $"('{x}', '{id}')";
+            });
+            db.ExecuteCommand(query);
+        }
+
+        public static void RemoveService(ushort id, ushort servId) {
+            string query = $"delete from tbpackitem where packid='{id}' and servid='{servId}'";
+            db.ExecuteCommand(query);
+        }
+
+        public static void Insert(string name, string minified_desc, string desc, string image, string price, string services) {
+            db.ExecuteProcedure("sp_InsertPackage", name, minified_desc, desc, image, price);
+            ushort[] servIds = services.Split(',').ToList().Select(x => Convert.ToUInt16(x)).ToArray();
+            InsertService(GetByName(name).Id, servIds);
         }
 
         public static int GetMaxPrice() {

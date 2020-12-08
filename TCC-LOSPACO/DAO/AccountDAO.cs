@@ -22,6 +22,7 @@ namespace TCC_LOSPACO.DAO {
         }
 
         public static bool RegistrationCompleted(uint id) => db.HasRows(db.ReturnCommand($"select * from tbcustomer where loginid={id}"));
+        public static bool RegistrationCompleted(string cpf) => db.HasRows(db.ReturnCommand($"select * from tbcustomer where custcpf={cpf}"));
 
         public static dynamic Insert(string email, string password) {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 12);

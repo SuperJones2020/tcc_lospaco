@@ -9,8 +9,8 @@ namespace TCC_LOSPACO.DAO {
             string cat = (category == null || category == "Tudo") ? "" : $"and CategoryId = '{category}'";
             startPrice = startPrice ?? 0;
             endPrice = endPrice ?? 99999;
-            string defaultStr = $"select * from vw_services where (ServPrice >= {startPrice} and ServPrice <= {endPrice}) {cat} order by ServPrice";
-            string[] OrderingQueries = { $"{defaultStr}", $"{defaultStr}", $"{defaultStr} desc" };
+            string defaultStr = $"select * from vw_services where (ServPrice >= {startPrice} and ServPrice <= {endPrice}) {cat} order by ";
+            string[] OrderingQueries = { $"{defaultStr} salecount", $"{defaultStr} servprice", $"{defaultStr} servprice desc" };
             return OrderingQueries[index];
         }
 
@@ -18,9 +18,10 @@ namespace TCC_LOSPACO.DAO {
             var list = new List<Service>();
             string query = GetQuery(orderIndex, category, sp, ep);
             db.ReaderRows(db.ReturnCommand(query), row => {
-                decimal? starRating = row[9] != DBNull.Value ? Convert.ToDecimal(row[9] + "") : (decimal?)null;
+                uint salesCount = Convert.ToUInt32((decimal)row[9]);
+                decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
                 list.Add(new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
-                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], starRating));
+                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating));
             });
             return list;
         }
@@ -28,26 +29,29 @@ namespace TCC_LOSPACO.DAO {
         public static List<Service> GetList() {
             var list = new List<Service>();
             db.ReaderRows(db.ReturnCommand("select * from vw_services"), row => {
-                decimal? starRating = row[9] != DBNull.Value ? Convert.ToDecimal(row[9] + "") : (decimal?)null;
+                uint salesCount = Convert.ToUInt32((decimal)row[9]);
+                decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
                 list.Add(new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
-                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], starRating));
+                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating));
             });
             return list;
         }
 
         public static Service GetById(ushort id) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from vw_services where ServId = '{id}'"));
-            decimal? starRating = row[9] != DBNull.Value ? Convert.ToDecimal(row[9].ToString().Replace(".", ",")) : (decimal?)null;
+            uint salesCount = Convert.ToUInt32((decimal)row[9]);
+            decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
             Service service = new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
-                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], starRating);
+                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating);
             return service;
         }
 
         public static Service GetByName(string name) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from vw_services where ServName = '{name}'"));
-            decimal? starRating = row[9] != DBNull.Value ? Convert.ToDecimal(row[9] + "") : (decimal?)null;
+            uint salesCount = Convert.ToUInt32((decimal)row[9]);
+            decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
             Service service = new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
-                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], starRating);
+                     TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating);
             return service;
         }
 

@@ -297,7 +297,10 @@
                                     }
                                 </div>
                             </div>
-                            <form data-loader=".main-loader" method="post" action="/Service/Insert" data-on-success="OnEmployeeInserted" data-on-failure="() => createToast('Algo deu errado..', 2)" data-form-request-sender="true" class="row center-elements min-max-w max-size">
+                            <form data-loader=".main-loader" method="post" action="/Employee/Insert"
+                                  data-on-success="OnEmployeeInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
+                                  data-form-request-sender="true" data-form-validate="true" data-form-is-valid="false" class="row center-elements min-max-w max-size">
+
                                 <popup data-id="employee_display_image" class="max-size p-4 z-10 row center-elements">
                                     <div data-close-pop-up="employee_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
                                     <div class="b-3" data-id="image_display">
@@ -328,7 +331,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" name="full_name" />
+                                                        <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" name="full_name" required />
                                                         <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -345,7 +348,38 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-envelope"></i>
                                                         </div>
-                                                        <input disabled class="col-10" data-id="email" name="email" />
+                                                        <input disabled class="col-10" data-id="email" name="email" data-val-email data-val-field="Email" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="insert-div d-none row max-w col-4-child l-col-12-child">
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Nome de exibição</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-file-contract"></i>
+                                                        </div>
+                                                        <input disabled class="col-10" type="text" name="username" required />
+                                                    </div>
+                                                </div>
+                                                <div class="p-x-2 l-p-none">
+                                                    <div class="f-3 m-t-5 label-title">Senha</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-key"></i>
+                                                        </div>
+                                                        <input disabled class="col-10" type="password" name="password" data-val-password data-val-min-length="8" data-val-equalto="#insert-employee-confirm-password-field" data-val-field="Senha" required />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="f-3 m-t-5 label-title">Confiração de Senha</div>
+                                                    <div class="row m-t-1 customized-input no-wrap">
+                                                        <div class="col-2 row icon-input">
+                                                            <i class="fas fa-fingerprint"></i>
+                                                        </div>
+                                                        <input disabled class="col-10" type="password" name="confirm_password" id="insert-employee-confirm-password-field" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -357,7 +391,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-id-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" name="cpf" />
+                                                        <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" name="cpf" data-val-length="8" data-val-field="CPF" required />
                                                         <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -374,7 +408,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-address-card"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" name="rg" />
+                                                        <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" name="rg" data-val-length="9" data-val-field="RG" required />
                                                         <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -391,7 +425,7 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-phone-alt"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" name="number" />
+                                                        <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" name="number" data-val-max-length="11" data-val-field="Número" required />
                                                         <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -411,7 +445,7 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-birthday-cake"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="text" name="birth" />
+                                                        <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="date" name="birth" required />
                                                         <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
@@ -424,7 +458,7 @@
                                                 </div>
                                                 <div class="p-l-1">
                                                     <div class="f-3 m-t-5 label-title">Gênero</div>
-                                                    <div class="customized-dropdown m-t-1 bg-white" data-id="empgender" data-sub-id="tbemployee">
+                                                    <div class="customized-dropdown m-t-1 bg-white" data-id="empgender" data-sub-id="tbemployee" required>
                                                         <div class="row no-wrap max-size">
                                                             <div class="col-1 row dropdown-icon icon-input">
                                                                 <i class="fas fa-venus-mars"></i>
@@ -449,7 +483,7 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" name="file"/>
+                                                <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" name="file" />
                                                 <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
@@ -466,7 +500,7 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" name="salary" />
+                                                <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" name="salary" data-val-price data-val-field="Salário" required />
                                                 <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
@@ -527,7 +561,10 @@
                                     }
                                 </div>
                             </div>
-                            <div class="form row center-elements min-max-w max-size">
+                            <form data-loader=".main-loader" method="post" action="/Package/Insert"
+                                  data-on-success="OnPackageInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
+                                  data-form-request-sender="true" data-form-validate="true" data-form-is-valid="false" class="row center-elements min-max-w max-size">
+
                                 <popup data-id="package_display_image" class="max-size p-4 z-10 row center-elements">
                                     <div data-close-pop-up="package_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
                                     <div class="b-3" data-id="image_display">
@@ -538,13 +575,17 @@
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
-                                                <button data-follow-smoothly
+                                                <button type="button" data-follow-smoothly
                                                         class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
                                                     <i class="f-6 m-f-4 fas fa-chevron-left"></i>
                                                 </button>
                                                 <h2 class="f-7 font-jos text-align-center profile-title">
                                                     Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
                                                 </h2>
+                                                <button type="submit" data-follow-smoothly
+                                                        class="d-none perform-add-request-btn bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 far fa-plus-square main-green"></i>
+                                                </button>
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Nome</div>
@@ -552,12 +593,12 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-signature"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="packname" type="text" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="packname" type="text" name="name" required />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -568,13 +609,13 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="far fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" data-id="packsmalldesc" type="text"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="packsmalldesc" type="text" name="minified_desc" required
                                                           style="resize: none;"></textarea>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -585,13 +626,13 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" data-id="packdescr" type="text"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="packdescr" type="text" name="desc" required
                                                           style="resize: none;"></textarea>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -601,12 +642,12 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-money-bill-wave"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="packprice" type="text" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="packprice" type="text" name="price" data-val-price data-val-field="Preço" required />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -617,17 +658,17 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="packimage" type="file" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="packimage" type="file" name="image" />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
-                                            <button data-open-pop-up="package_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
+                                            <button type="button" data-open-pop-up="package_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
 
                                             <div class="f-3 m-t-5 label-title">Serviços do Pacote</div>
                                             <div class="row m-t-1 customized-input no-wrap"
@@ -635,8 +676,9 @@
                                                 <div class="col-2 row icon-input">
                                                     <i class="fas fa-toolbox"></i>
                                                 </div>
-                                                <textarea disabled class="col-10 p-y-2" data-id="services-input" type="text"
+                                                <textarea data-always-disabled disabled class="col-10 p-y-2" data-id="services-input" type="text"
                                                           style="resize: none;"></textarea>
+                                                <input class="d-none" data-id="services-id-input" type="text" name="services" />
                                             </div>
 
                                             <div class="max-size package-select-service-container flex direction-column">
@@ -653,7 +695,7 @@
                                                         </div>
                                                         <input class="col-10" type="text"
                                                                placeholder="Procure por Nome" />
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="f-3 fas fa-chevron-right"></i>
                                                         </button>
@@ -669,7 +711,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -697,10 +739,6 @@
                                         <h2 class="f-8 text-align-center profile-title">
                                             Todos os Agendamentos
                                         </h2>
-                                        <button data-zoom="1.3, 1s" data-follow-smoothly
-                                                class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
-                                            <i class="f-6 m-f-4 fas fa-plus main-green"></i>
-                                        </button>
                                     </div>
                                     <div class="row customized-input no-wrap" style="width: 99.5%;">
                                         <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
@@ -724,7 +762,7 @@
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
-                                                <button data-follow-smoothly
+                                                <button type="button" data-follow-smoothly
                                                         class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
                                                     <i class="f-6 m-f-4 fas fa-chevron-left"></i>
                                                 </button>
@@ -732,47 +770,29 @@
                                                     Dados do
                                                     agendamento de <b class="bolder font-jos f-7 profile-title title-focus"></b>
                                                 </h2>
+                                                <button type="submit" data-follow-smoothly
+                                                        class="d-none perform-add-request-btn bg-transparent cursor-pointer p-3 m-x-2">
+                                                    <i class="f-6 m-f-4 far fa-plus-square main-green"></i>
+                                                </button>
                                             </div>
 
+
                                             <div class="f-3 m-t-5 label-title">Serviço</div>
-                                            <div class="customized-dropdown max-w m-t-3 z-10 bg-white" data-id="servid">
-                                                <div class="row no-wrap max-size">
-                                                    <div class="col-1 row dropdown-icon icon-input">
-                                                        <i class="fas fa-toolbox"></i>
-                                                    </div>
-                                                    <div class=" col-10 row align-items-center dropdown-select-item" data-option=""
-                                                         style="border: none;"></div>
-                                                    <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
-                                                        <i class="fas fa-chevron-down"></i>
-                                                    </div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-toolbox"></i>
                                                 </div>
-                                                <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
-                                                     style="height: 0px; border-top: none; top: 100%;">
-                                                    @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
-                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(s.Name, s.Id, "service")
-                                                    }
-                                                </div>
+                                                <input disabled class="col-10" data-id="servid" type="text" />
                                             </div>
 
                                             <div class="f-3 m-t-5 label-title">Funcionário a realizar</div>
-                                            <div class="customized-dropdown max-w m-t-3 bg-white" data-id="employeeloginid">
-                                                <div class="row no-wrap max-size">
-                                                    <div class="col-1 row dropdown-icon icon-input">
-                                                        <i class="fas fa-user-tie"></i>
-                                                    </div>
-                                                    <div class=" col-10 row align-items-center dropdown-select-item" data-option=""
-                                                         style="border: none;"></div>
-                                                    <div class="col-1 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
-                                                        <i class="fas fa-chevron-down"></i>
-                                                    </div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-user-cog"></i>
                                                 </div>
-                                                <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
-                                                     style="height: 0px; border-top: none; top: 100%;">
-                                                    @foreach (var e in TCC_LOSPACO.DAO.EmployeeDAO.GetList()) {
-                                                        @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(e.Customer.FullName, e.Customer.Account.Id, "employee")
-                                                    }
-                                                </div>
+                                                <input disabled class="col-10" data-id="employeeloginid" type="text" />
                                             </div>
+
 
                                             <div class="row max-w col-6-child l-col-12-child">
                                                 <div class="p-r-1 l-p-none">
@@ -781,12 +801,12 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-calendar-alt"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="date" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="date" type="date" name="date" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -797,12 +817,12 @@
                                                     <div class="f-3 m-t-5 label-title">Hora</div>
                                                     <div class="row m-t-3 customized-input max-w no-wrap">
                                                         <div class="col-1 row icon-input"><i class="far fa-clock"></i></div>
-                                                        <input disabled class="col-9" data-id="time" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="time" type="time" name="time" required />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -813,21 +833,22 @@
                                             <div class="f-3 m-t-5 label-title">Cliente</div>
                                             <div class="row m-t-3 customized-input max-w no-wrap">
                                                 <div class="col-2 row icon-input"><i class="fas fa-user"></i></div>
-                                                <input disabled class="col-10" data-id="customer" type="text" />
+                                                <input disabled class="col-10" data-id="customer" type="text" name="customer_cpf" required />
                                             </div>
 
-                                            <div class="f-3 m-t-5 label-title">Realizado</div>
-                                            <div class="row m-t-3 p-x-5-child customized-input boolean-type no-wrap" style="border: none !important" data-bool="false" data-id="performed">
-                                                <button data-anim-to-black
-                                                        class="cursor-pointer row">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button data-anim-to-black
-                                                        class="cursor-pointer row">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                            <div class="preview-div">
+                                                <div class="f-3 m-t-5 label-title">Realizado</div>
+                                                <div class="row m-t-3 p-x-5-child customized-input boolean-type no-wrap" style="border: none !important" data-bool="false" data-id="performed">
+                                                    <button type="button" data-anim-to-black
+                                                            class="col-1 cursor-pointer row">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                    <button type="button" data-anim-to-black
+                                                            class="col-1 cursor-pointer row">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -835,7 +856,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="item">
@@ -879,7 +899,10 @@
                                     }
                                 </div>
                             </div>
-                            <div class="form row center-elements min-max-w max-size">
+                            <form data-loader=".main-loader" method="post" action="/Service/Insert"
+                                  data-on-success="OnServiceInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
+                                  data-form-request-sender="true" data-form-validate="true" data-form-is-valid="false" class="row center-elements min-max-w max-size">
+
                                 <popup data-id="service_display_image" class="max-size p-4 z-10 row center-elements">
                                     <div data-close-pop-up="service_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
                                     <div class="b-3" data-id="image_display">
@@ -891,7 +914,7 @@
                                     <div class="max-w row col-12-child align-items-center">
                                         <div>
                                             <div class="m-t-8 max-w row no-wrap center-elements">
-                                                <button data-follow-smoothly
+                                                <button type="button" data-follow-smoothly
                                                         class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
                                                     <i class="f-6 m-f-4 fas fa-chevron-left"></i>
                                                 </button>
@@ -899,7 +922,10 @@
                                                     Dados sobre
                                                     <b class="bolder font-jos f-7 profile-title title-focus"></b>
                                                 </h2>
-
+                                                <button type="submit" data-follow-smoothly
+                                                        class="d-none perform-add-request-btn bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                                    <i class="f-6 m-f-4 far fa-plus-square main-green"></i>
+                                                </button>
                                             </div>
 
                                             <div class="row max-w col-6-child l-col-12-child">
@@ -909,12 +935,12 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="fas fa-signature"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="servname" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="servname" type="text" name="name" required />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -928,12 +954,12 @@
                                                         <div class="col-1 row icon-input">
                                                             <i class="far fa-bookmark"></i>
                                                         </div>
-                                                        <input disabled class="col-9" data-id="servsmalldesc" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-9" data-id="servsmalldesc" type="text" name="minified_desc" required />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-1 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -947,13 +973,13 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-bookmark"></i>
                                                 </div>
-                                                <textarea disabled class="p-y-2 col-9 row" data-id="servdescr" type="text"
+                                                <textarea disabled class="p-y-2 col-9 row" data-id="servdescr" type="text" name="desc" required
                                                           style="resize: none;"></textarea>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -966,12 +992,12 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="fas fa-money-bill-wave"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="servprice" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-6" data-id="servprice" type="text" name="price" data-val-price data-val-field="Preço" required />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -993,7 +1019,7 @@
                                                         <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
                                                              style="height: 0px; border-top: none; top: 100%;">
                                                             @foreach (var c in TCC_LOSPACO.DAO.CategoryDAO.GetList()) {
-                                                                @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(c.Name, c.Id, "category")
+                                                                @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem(c.Name, c.Id, "category_id")
                                                             }
                                                         </div>
                                                     </div>
@@ -1004,12 +1030,12 @@
                                                         <div class="col-2 row icon-input">
                                                             <i class="far fa-clock"></i>
                                                         </div>
-                                                        <input disabled class="col-6" data-id="servtime" type="text" />
-                                                        <button data-anim-to-black
+                                                        <input disabled class="col-6" data-id="servtime" type="time" name="time" />
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer edit-btn row">
                                                             <i class="fas fa-pen"></i>
                                                         </button>
-                                                        <button data-anim-to-black
+                                                        <button type="button" data-anim-to-black
                                                                 class="col-2 cursor-pointer save-btn row">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -1022,12 +1048,12 @@
                                                 <div class="col-1 row icon-input">
                                                     <i class="fas fa-tshirt"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="servclothing" type="text" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="servclothing" type="text" name="clothing" required />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row">
                                                     <i class="fas fa-check"></i>
                                                 </button>
@@ -1078,21 +1104,21 @@
                                                 <div class="col-1 row center-elements icon-input">
                                                     <i class="fas fa-image"></i>
                                                 </div>
-                                                <input disabled class="col-9" data-id="servimage" type="file" />
-                                                <button data-anim-to-black
+                                                <input disabled class="col-9" data-id="servimage" type="file" name="image" />
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer edit-btn row center-elements bg-white">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                <button data-anim-to-black
+                                                <button type="button" data-anim-to-black
                                                         class="col-1 cursor-pointer save-btn row center-elements bg-white">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </div>
-                                            <button data-open-pop-up="service_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
+                                            <button type="button" data-open-pop-up="service_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -1121,28 +1147,27 @@
                                         </h2>
                                     </div>
                                     <div class="f-2 s-f-1 p-2 font-hammer">
-                                        Selecione o serviço para agendar o dia e hora,
+                                        Selecione o serviço/pacote para agendar o dia e hora,
                                         escolhendo também o(a) funcionário(a) desejado para sua realização!
                                     </div>
                                 </div>
 
                                 <div class="table-content text-align-center-child max-w fg-1">
-                                    <div class="data-item vertical-align-top">
-                                        <div data-zoom="1.02, .5s"
-                                             class="data-content cursor-pointer row center-elements bg-white max-size">
-                                            <div class="row col-12-child m-y-2-child">
-                                                <div class="f-3">Massagem com Pedras</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="data-item vertical-align-top">
-                                        <div data-zoom="1.02, .5s"
-                                             class="data-content cursor-pointer row center-elements bg-white max-size">
-                                            <div class="row col-12-child m-y-2-child">
-                                                <div class="f-3">Sauna Moderna</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @{
+
+                                        var list = TCC_LOSPACO.DAO.CartDAO.GetList();
+                                        foreach (dynamic item in list) {
+                                            string name = Global.GetValue(item, "Name");
+                                            string type = Global.GetValue(item, "Type");
+                                            string quantity = Global.GetValue(item, "Qnt");
+                                            for(int i =0; i < int.Parse(quantity); i++) {
+                                                if (type == "SERVICO") { @Html.Partial("Profile/_Service", TCC_LOSPACO.DAO.ServiceDAO.GetByName(name));
+                                                } else if (type == "PACOTE") { @Html.Partial("Profile/_Package", TCC_LOSPACO.DAO.PackageDAO.GetByName(name)) }
+                                            }
+                                    }
+                                
+                                    }
+
                                 </div>
                             </div>
                             <div class="row center-elements min-max-w max-size">
@@ -1443,7 +1468,7 @@
                     const data = [
                         { id: "custfullname", data: () => get(form, data[0].id).value },
                         { id: "custcpf", data: () => get(form, data[1].id).value },
-                        { id: "empbirthdate", data: () => formatDateString(get(form, data[2].id).value) },
+                        { id: "empbirthdate", data: () => get(form, data[2].id).value },
                         { id: "emprg", data: () => get(form, data[3].id).innerHTML },
                         { id: "empsalary", data: () => get(form, data[4].id).value },
                         { id: "custphonenumber", data: () => get(form, data[5].id).value },
@@ -1497,38 +1522,13 @@
                         }
                     });
 
-                    const add = content.querySelector(".add-object-btn");
-                    if (add !== null) {
-                        add.addEventListener("click", () => {
-                            content.style.transform = "translateX(-100%)";
-
-                            clearInputs(form);
-
-                            const title = form.querySelector(".profile-title");
-                            title.innerHTML = "Adicionar Empregado";
-                            const btnRequest = form.querySelector(".perform-add-request-btn");
-                            btnRequest.classList.remove("d-none");
-
-                            btnRequest.addEventListener("click", async () => {
-                                const token = await generateNewSignature();
-                                sendRequest("post", `/${ObjectType}/Insert`,
-                                    {
-
-                                    }, {
-                                        Loader: ".main-loader",
-                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
-                                        OnSuccess: () => {
-                                        }
-                                    });
-                            });
-                        });
-                    }
+                    configInsertBtn(content, "Adicionar Funcionário");
                 }
             },
             {
                 id: "package",
                 do: async (content) => {
-                    const form = content.querySelector(".form");
+                    const form = content.querySelector("form");
                     const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Package";
                     const inputs = form.querySelectorAll(".customized-input");
@@ -1577,32 +1577,36 @@
                         }
                     });
 
-                    const container = document.querySelector(".package-select-service-container");
+                    const container = form.querySelector(".package-select-service-container");
                     const tc = container.querySelector(".table-content");
                     const items = tc.querySelectorAll(".data-item");
                     items.forEach(x => {
                         x.addEventListener("click", async () => {
-                            const isSelected = x.getAttribute("data-selected");
-                            const token = await generateNewSignature();
-                            if (isSelected === "true") {
-                                sendRequest("post", `/${ObjectType}/InsertService`, {
-                                    id: objectId(),
-                                    servId: x.getAttribute("data-id")
-                                }, {
-                                        Loader: ".main-loader",
-                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
-                                    });
-                            } else {
-                                sendRequest("post", `/${ObjectType}/RemoveService`, {
-                                    id: objectId(),
-                                    servId: x.getAttribute("data-id")
-                                }, {
-                                        Loader: ".main-loader",
-                                        ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
-                                    });
+                            if (!tc.hasAttribute("data-cannot-send-request")) {
+                                const isSelected = x.getAttribute("data-selected");
+                                const token = await generateNewSignature();
+                                if (isSelected === "true") {
+                                    sendRequest("post", `/${ObjectType}/InsertService`, {
+                                        id: objectId(),
+                                        servId: x.getAttribute("data-id")
+                                    }, {
+                                            Loader: ".main-loader",
+                                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+                                        });
+                                } else {
+                                    sendRequest("post", `/${ObjectType}/RemoveService`, {
+                                        id: objectId(),
+                                        servId: x.getAttribute("data-id")
+                                    }, {
+                                            Loader: ".main-loader",
+                                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+                                        });
+                                }
                             }
                         });
                     });
+
+                    configInsertBtn(content, "Adicionar Pacote");
                 }
             },
             {
@@ -1615,34 +1619,14 @@
                     const objectId = () => form.getAttribute("data-object-id");
 
                     const data = [
-                        { id: "employeeloginid", data: () => get(form, data[0].id).value },
-                        { id: "servid", data: () => get(form, data[1].id).value },
                         {
                             id: "scheddatetime", data: () => {
                                 const dateTime = get(form, "date").value;
-                                return formatDateString(dateTime) + " " + get(form, "time").value;
+                                return dateTime + " " + get(form, "time").value;
                             }
                         },
-                        { id: "performed", data: () => get(form, data[3].id).getAttribute("data-bool") }
+                        { id: "performed", data: () => get(form, data[1].id).getAttribute("data-bool") }
                     ];
-
-                    setDropdownOnClick(get(form, "servid"), async dataOption => {
-                        const token = await generateNewSignature();
-                        sendRequest("post", `/${ObjectType}/Update`, {
-                            id: objectId(),
-                            column: get(form, "servid").getAttribute("data-id"),
-                            value: dataOption
-                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
-                    });
-
-                    setDropdownOnClick(get(form, "employeeloginid"), async dataOption => {
-                        const token = await generateNewSignature();
-                        sendRequest("post", `/${ObjectType}/Update`, {
-                            id: objectId(),
-                            column: get(form, "employeeloginid").getAttribute("data-id"),
-                            value: dataOption
-                        }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
-                    });
 
                     const boolType = get(form, "performed");
                     boolType.addEventListener("click", async () => {
@@ -1678,7 +1662,7 @@
                                 ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
                                 OnSuccess: () => {
                                     if (inputId === "scheddatetime") {
-                                        const date = standardizeDateString(dataValue());
+                                        const date = standardizeDateString(dataValue().split(' ')[0]);
                                         const time = dataValue().split(' ')[1];
                                         form.querySelector(".title-focus").innerHTML = date + " " + time;
                                         searchTableItem(tableContent, objectId(), x => x.querySelector(".date").innerHTML = date + " " + time);
@@ -1686,12 +1670,13 @@
                                 }
                             });
                     });
+                    configInsertBtn(content, "Adicionar Agendamento");
                 }
             },
             {
                 id: "service",
                 do: async (content) => {
-                    const form = content.querySelector(".form");
+                    const form = content.querySelector("form");
                     const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Service";
                     const inputs = form.querySelectorAll(".customized-input");
@@ -1720,11 +1705,12 @@
 
                     setDropdownOnClick(get(form, "categoryid"), async dataOption => {
                         const token = await generateNewSignature();
-                        sendRequest("post", `/${ObjectType}/Update`, {
-                            id: objectId(),
-                            column: get(form, "categoryid").getAttribute("data-id"),
-                            value: dataOption
+                            sendRequest("post", `/${ObjectType}/Update`, {
+                                id: objectId(),
+                                column: get(form, "categoryid").getAttribute("data-id"),
+                                value: dataOption
                         }, { Loader: ".main-loader", ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }] })
+
                     });
 
                     setInputs(inputs, async inputId => {
@@ -1749,12 +1735,13 @@
                                 });
                         }
                     });
+
+                    configInsertBtn(content, "Adicionar Serviço");
                 }
             }, {
                 id: "user",
                 do: async (content) => {
                     const form = content.querySelector(".form");
-                    const tableContent = content.querySelector(".table-content");
                     const ObjectType = "Customer";
                     const inputs = form.querySelectorAll(".customized-input");
                     const objectId = () => @user.Account.Id;
@@ -1794,6 +1781,17 @@
             }
         });
 
+        function configInsertBtn(content, txt) {
+            const form = content.querySelector("form");
+            const add = content.querySelector(".add-object-btn");
+            if (add !== null) {
+                add.addEventListener("click", () => {
+                    content.style.transform = "translateX(-100%)";
+                    configInputs(form, "insertion", txt, "");
+                });
+            }
+        }
+
         function searchTableItem(tableContent, id, callback) {
             const items = tableContent.querySelectorAll(".data-item");
             items.forEach(x => {
@@ -1806,13 +1804,18 @@
             dropContent.forEach(o => {
                 const dataOption = o.getAttribute("data-option")
                 o.addEventListener("click", () => {
-                    callback(dataOption);
+                    const canRequest = dropdown.hasAttribute("data-cannot-send-request");
+                    if (!canRequest) callback(dataOption);
                 });
             });
         }
 
-        async function setDropdownItem(el, value) {
+        function setDropdownItem(el, value) {
             el.querySelector(".dropdown-select-item").setAttribute("data-option", value);
+        }
+
+        async function setImageSrc(el, value) {
+            el.querySelector("img").setAttribute("src", value);
         }
 
         function get(element, input) {
@@ -1835,26 +1838,68 @@
             });
         }
 
-        async function clearInputs(form) {
+        async function configInputs(form, type, ft, st) {
+            const previewMode = type === "preview" ? true : false;
+            const color = previewMode ? "black" : "gray";
+            const eventConfig = previewMode ? "auto" : "none";
             const inputs = form.querySelectorAll(".customized-input");
+
+            const insertDiv = form.querySelector(".insert-div");
+            const previewDiv = form.querySelector(".preview-div");
+            const btnRequest = form.querySelector(".perform-add-request-btn");
+            const packageTableServicesSelector = form.querySelector(".package-select-service-container");
+            let table = null;
+            if (packageTableServicesSelector !== null) table = packageTableServicesSelector.querySelector(".table-content");
+
+            if (btnRequest !== null) {
+                if (previewMode) {
+                    btnRequest.classList.add("d-none");
+                    if (insertDiv !== null) insertDiv.classList.add("d-none");
+                    if (previewDiv !== null) previewDiv.classList.remove("d-none");
+                    if (table !== null) {
+                        table.removeAttribute("data-cannot-send-request");
+                    }
+                } else {
+                    btnRequest.classList.remove("d-none");
+                    if (insertDiv !== null) insertDiv.classList.remove("d-none");
+                    if (previewDiv !== null) previewDiv.classList.add("d-none");
+                    if (table !== null) {
+                        table.setAttribute("data-cannot-send-request", "");
+                        table.setAttribute("data-selected-services", "");
+                    }
+                }
+            }
+
+
+            const title = form.querySelector(".profile-title");
+            title.innerHTML = `${ft} <b class="bolder font-jos f-7 profile-title title-focus">${st}</b>`;
+
+            const dropdowns = form.querySelectorAll(".customized-dropdown");
+            if (!previewMode && dropdowns !== null) dropdowns.forEach(d => d.setAttribute("data-cannot-send-request", ""));
+            else if (previewMode && dropdowns !== null) dropdowns.forEach(d => d.removeAttribute("data-cannot-send-request"));
+
+            const image = get(form, "image_display");
+            if (image !== null) image.querySelector("img").setAttribute("src", "");
+
             inputs.forEach(i => {
                 const saveBtn = i.querySelector(".save-btn");
                 const editBtn = i.querySelector(".edit-btn");
                 const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
-                el.value = "";
-                el.removeAttribute("disabled");
-
-                const image = form.querySelector("[data-id='image_display']");
-                if (image !== null) image.setAttribute("src", "");
-                
+                if (el !== null) el.value = "";
+                if (previewMode && el !== null) {
+                    el.setAttribute("disabled", "");
+                } else {
+                    if (el !== null && !el.hasAttribute("data-always-disabled")) el.removeAttribute("disabled");
+                }
 
                 if (saveBtn !== null & editBtn !== null) {
-                    saveBtn.style.color = "gray";
-                    editBtn.style.color = "gray";
-                    saveBtn.style.pointerEvents = 'none';
-                    editBtn.style.pointerEvents = 'none';
+                    saveBtn.style.color = color;
+                    editBtn.style.color = color;
+                    saveBtn.style.pointerEvents = eventConfig;
+                    editBtn.style.pointerEvents = eventConfig;
                 }
             });
+
         }
 
         function customerDataTaken(res) {
@@ -1869,34 +1914,33 @@
         }
 
         function employeeDataTaken(res) {
-            const form = document.querySelector("[data-content=employee]").querySelector(".form");
+            const form = document.querySelector("[data-content=employee]").querySelector("form");
             const Employee = res.Object;
-            l(Employee);
+            configInputs(form, "preview", "Dados de ", Employee.Customer.FullName);
             form.setAttribute("data-object-id", Employee.Customer.Account.Id);
-            form.querySelector(".title-focus").innerHTML = Employee.Customer.FullName;
             get(form, "custfullname").value = Employee.Customer.FullName;
             get(form, "email").value = Employee.Customer.Account.Email;
             get(form, "custcpf").value = Employee.Customer.CPF;
             get(form, "emprg").value = Employee.RG;
             get(form, "custphonenumber").value = Employee.Customer.Phone;
-            get(form, "empbirthdate").value = Employee.Birth.replace(" 00:00:00", '').trim();
+            get(form, "empbirthdate").value = formatDateString(Employee.Birth.replace(" 00:00:00", '').trim());
             get(form, "empsalary").value = Employee.Salary;
-            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Employee.Image));
+            setImageSrc(get(form, "image_display"), readImageFromDatabase(Employee.Image));
             setDropdownItem(get(form, "empgender"), Employee.Genre)
 
         }
 
         function packageDataTaken(res) {
-            const form = document.querySelector("[data-content=package]").querySelector(".form");
+            const form = document.querySelector("[data-content=package]").querySelector("form");
             const Package = res.Object;
+            configInputs(form, "preview", "Dados de ", Package.Name);
             form.setAttribute("data-object-id", Package.Id);
             const table = form.querySelector(".table-content");
-            form.querySelector(".title-focus").innerHTML = Package.Name;
             get(form, "packname").value = Package.Name;
             get(form, "packsmalldesc").value = Package.MinifiedDesc;
             get(form, "packdescr").value = Package.Description;
             get(form, "packprice").value = Package.Price;
-            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Package.Image));
+            setImageSrc(get(form, "image_display"), readImageFromDatabase(Package.Image));
 
             const servicesObj = Object.values(Package.Services);
             const services = [];
@@ -1905,17 +1949,17 @@
         }
 
         function serviceDataTaken(res) {
-            const form = document.querySelector("[data-content=service]").querySelector(".form");
+            const form = document.querySelector("[data-content=service]").querySelector("form");
             const Service = res.Object;
             form.setAttribute("data-object-id", Service.Id);
-            form.querySelector(".title-focus").innerHTML = Service.Name;
+            configInputs(form, "preview", "Dados sobre ", Service.Name);
             get(form, "servname").value = Service.Name;
             get(form, "servsmalldesc").value = Service.MinifiedDesc;
             get(form, "servdescr").value = Service.CompleteDesc;
             get(form, "servprice").value = Service.Price;
             get(form, "servclothing").value = Service.PropperClothing;
-            get(form, "servtime").value = `${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`;
-            get(form, "image_display").querySelector("img").setAttribute("src", readImageFromDatabase(Service.Image));
+            get(form, "servtime").value = formatTime(`${Service.Time.Hours}:${Service.Time.Minutes}:${Service.Time.Seconds}`);
+            setImageSrc(get(form, "image_display"), readImageFromDatabase(Service.Image));
             setDropdownItem(get(form, "categoryid"), Service.Category.Id)
         }
 
@@ -1923,28 +1967,35 @@
             const form = document.querySelector("[data-content=schedule]").querySelector(".form");
             const Schedule = res.Object;
             form.setAttribute("data-object-id", Schedule.Id);
-            form.querySelector(".title-focus").innerHTML = Schedule.Date;
-            setDropdownItem(get(form, "servid"), Schedule.Service.Id)
-            setDropdownItem(get(form, "employeeloginid"), Schedule.Employee.Id)
-            get(form, "date").value = Schedule.Date.split(' ')[0];
+            configInputs(form, "preview", "Dados sobre ", Schedule.Date);
+            get(form, "servid").value = Schedule.Service.Name;
+            get(form, "employeeloginid").value = Schedule.Employee.Customer.FullName;
+            get(form, "date").value = formatDateString(Schedule.Date.split(' ')[0]);
             get(form, "time").value = Schedule.Date.split(' ')[1];
             get(form, "performed").setAttribute("data-bool", Schedule.IsPerformed);
             get(form, "customer").value = `Nome: ${Schedule.Customer.FullName} / CPF: ${Schedule.Customer.CPF}`;
         }
 
         function formatDateString(data) {
-            var day = data.split("/")[0];
-            var month = data.split("/")[1];
-            var year = data.split("/")[2];
+            const day = data.split("/")[0];
+            const month = data.split("/")[1];
+            const year = data.split("/")[2];
             return year + '-' + ("0" + month).slice(-2) + '-' + ("0" + day).slice(-2);
         }
 
         function standardizeDateString(data) {
             data = data.split(' ')[0] || data;
-            var day = data.split("-")[0];
-            var month = data.split("-")[1];
-            var year = data.split("-")[2];
+            const day = data.split("-")[2];
+            const month = data.split("-")[1];
+            const year = data.split("-")[0];
             return ("0" + day).slice(-2) + '/' + ("0" + month).slice(-2) + '/' + year;
+        }
+
+        function formatTime(data) {
+            const hour = data.split(":")[0];
+            const min = data.split(":")[1];
+            const sec = data.split(":")[2];
+            return ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2) + ':' + ("0" + sec).slice(-2);
         }
 
     </script>

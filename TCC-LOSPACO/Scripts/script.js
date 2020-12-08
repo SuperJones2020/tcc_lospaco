@@ -166,6 +166,7 @@ function activeProfileUI() {
                 const tableContent = selectServiceContainer.querySelector(".table-content");
                 const serviceItems = tableContent.querySelectorAll(".data-item");
                 const inputServices = pop.querySelector("[data-id=services-input]");
+                const inputServicesId = pop.querySelector("[data-id=services-id-input]");
                 let selectedServices = tableContent.getAttribute("data-selected-services").split(",");
 
                 var observer = new MutationObserver(function (mutations) {
@@ -186,7 +187,8 @@ function activeProfileUI() {
                                         servicesName.push(s.getAttribute("data-name"));
                                     };
                                 }
-                                inputServices.innerHTML = servicesName.join(", ");
+                                inputServices.value = servicesName.join(", ");
+                                inputServicesId.value = selectedServices.join(", ");
                                 if (s.getAttribute("data-selected") === "true") {
                                     s.children[0].classList.add("main-bg-green");
                                 } else if (s.getAttribute("data-selected") === "false") {
@@ -203,11 +205,11 @@ function activeProfileUI() {
                     s.onclick = () => {
                         const selected = s.getAttribute("data-selected");
                         if (selected === "false") {
-                            const curSelected = tableContent.getAttribute("data-selected-services").split(",");
+                            const curSelected = tableContent.getAttribute("data-selected-services").split(",").filter(x => x !== "");
                             curSelected.push(serviceId)
                             tableContent.setAttribute("data-selected-services", curSelected);
                         } else {
-                            let curSelected = tableContent.getAttribute("data-selected-services").split(",");
+                            let curSelected = tableContent.getAttribute("data-selected-services").split(",").filter(x => x !== "");
                             curSelected = curSelected.filter(x => x !== serviceId);
                             tableContent.setAttribute("data-selected-services", curSelected);
                         }
@@ -818,21 +820,27 @@ function activeAside() {
 
 activeFormValidate();
 function activeFormValidate() {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const priceRegex = /^\d+(\.\d{ 1, 2 })?$/;
     const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/;
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
     const validations = [
         { val: "data-val-email", valFunc: (value, valueSender) => emailRegex.test(value), failure: (fieldName, vs) => `${fieldName} / Inválido` },
         { val: "data-val-max-length", valFunc: (value, valueSender) => value.length <= valueSender, failure: (fieldName, vs) => `${fieldName} / Máximo de ${vs} caracteres` },
         { val: "data-val-min-length", valFunc: (value, valueSender) => value.length >= valueSender, failure: (fieldName, vs) => `${fieldName} / Mínimo de ${vs} caracteres` },
-        { val: "data-val-regex", valFunc: (value, valueSender) => valueSender.test(value), failure: (fieldName, vs) => `${fieldName}` },
+        { val: "data-val-regex", valFunc: (value, valueSender) => valueSender.test(value), failure: (fieldName, vs) => `${fieldName} / Inválido` },
+        { val: "data-val-date", valFunc: (value, valueSender) => dateRegex.test(value), failure: (fieldName, vs) => `${fieldName} / Inválida` },
         { val: "data-val-password", valFunc: (value, valueSender) => strongPasswordRegex.test(value), failure: (fieldName, vs) => `${fieldName} / Deve conter letras maiúsculas + letras minúsculas + números` },
-        { val: "data-val-equalto", valFunc: (value, valueSender) => document.querySelector(valueSender).value === value, failure: (fieldName, vs) => `Senhas Diferentes!` }
+        { val: "data-val-equalto", valFunc: (value, valueSender) => document.querySelector(valueSender).value === value, failure: (fieldName, vs) => `Senhas Diferentes!` },
+        { val: "data-val-length", valFunc: (value, valueSender) => valueSender == value.length, failure: (fieldName, vs) => `${fieldName} deve ter ${vs} caracteres` },
+        { val: "data-val-price", valFunc: (value, valueSender) => priceRegex.test(value), failure: (fieldName, vs) => `${fieldName} não é um preço válido` }
     ];
 
     const forms = document.querySelectorAll("[data-form-validate]");
     forms.forEach(form => {
         form.setAttribute("data-form-is-valid", false);
         form.addEventListener("submit", evt => {
+            evt.preventDefault();
             const inputs = form.querySelectorAll("input");
             inputs.forEach(input => {
                 let isValid = false;
@@ -842,6 +850,9 @@ function activeFormValidate() {
                     if (input.hasAttribute(v.val)) {
                         const valueSender = input.getAttribute(v.val);
                         const fieldName = input.getAttribute("data-val-field");
+                        l(fieldName);
+                        l(valueSender);
+                        l(input.value);
                         storeValData.push({ valName: v.val, valFailure: v.failure(fieldName, valueSender), valBool: v.valFunc(input.value, valueSender) });
                     }
                 });
@@ -859,7 +870,7 @@ function activeFormValidate() {
                 }
             }
             form.setAttribute("data-form-is-valid", formIsValid);
-            evt.preventDefault();
+            return false;
         });
     });
 }
@@ -869,6 +880,7 @@ function activeRequestByForm() {
     const forms = document.querySelectorAll("[data-form-request-sender]");
     forms.forEach((f) => {
         f.addEventListener("submit", evt => {
+            evt.preventDefault();
             const method = f.getAttribute("method"), action = f.getAttribute("action");
             const onSuccess = f.getAttribute("data-on-success"), onFailure = f.getAttribute("data-on-failure");
             const formData = new FormData(f);
@@ -877,8 +889,9 @@ function activeRequestByForm() {
             if (params) JSON.parse(params).forEach(data => {
                 formData.append(data[0], data[1]);
             });
+            //if (f.hasAttribute("data-if-is-signed") & formIsValid === "true" | f.hasAttribute("data-if-is-signed") & formIsValid === null | !f.hasAttribute("data-if-is-signed") & formIsValid === null) {
             const formIsValid = f.getAttribute("data-form-is-valid");
-            if (f.hasAttribute("data-if-is-signed") & formIsValid === "true" | f.hasAttribute("data-if-is-signed") & formIsValid === null) {
+            if (formIsValid === "true" | formIsValid === null) {
                 if (isSigned()) {
                     generateNewSignature().then(v => {
                         sendRequest(method, action, formData, {
@@ -891,21 +904,8 @@ function activeRequestByForm() {
                     });
                 }
                 else createToast("Você deve estar logado!", 2);
-            } else {
-                if (f.getAttribute("data-form-is-valid") === "true") {
-                    generateNewSignature().then(v => {
-                        sendRequest(method, action, formData, {
-                            Loader: loader,
-                            OnSuccess: onSuccess,
-                            OnFailure: onFailure,
-                            formRequest: true,
-                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
-                        });
-                    });
-                    //sendRequest(method, action, formData, { Loader: loader, OnSuccess: onSuccess, OnFailure: onFailure, formRequest: true });
-                }
             }
-            evt.preventDefault();
+            return false;
         });
     });
 }
