@@ -1159,8 +1159,8 @@
                                         foreach (dynamic item in list) {
                                             string name = Global.GetValue(item, "Name");
                                             string type = Global.GetValue(item, "Type");
-                                            string quantity = Global.GetValue(item, "Qnt");
-                                            for(int i =0; i < int.Parse(quantity); i++) {
+                                            byte quantity = Global.GetValue(item, "Qnt");
+                                            for(byte i =0; i < quantity; i++) {
                                                 if (type == "SERVICO") { @Html.Partial("Profile/_Service", TCC_LOSPACO.DAO.ServiceDAO.GetByName(name));
                                                 } else if (type == "PACOTE") { @Html.Partial("Profile/_Package", TCC_LOSPACO.DAO.PackageDAO.GetByName(name)) }
                                             }

@@ -7,17 +7,17 @@ namespace TCC_LOSPACO.DAO {
         private static Database db = new Database();
         public static Account GetByEmail(string email) {
             var row = db.ReaderRow(db.ReturnCommand($"select * from tbLogin where LoginEmail = '{email}'"));
-            return new Account((uint)row[0], (string)row[1], RoleDAO.GetById((byte)row[3]));
+            return new Account((uint)row[0], (string)row[1], (string)row[2], RoleDAO.GetById((byte)row[3]));
         }
 
         public static Account GetById(uint id) {
             var row = db.ReaderRow(db.ReturnCommand($"select * from tbLogin where LoginId = '{id}'"));
-            return new Account((uint)row[0], (string)row[1], RoleDAO.GetById((byte)row[3]));
+            return new Account((uint)row[0], (string)row[1], (string)row[2], RoleDAO.GetById((byte)row[3]));
         }
 
         public static List<Account> GetList() {
             var list = new List<Account>();
-            db.ReaderRows(db.ReturnCommand("select * from tblogin"), row => list.Add(new Account((uint)row[0], (string)row[1], RoleDAO.GetById((byte)row[3]))));
+            db.ReaderRows(db.ReturnCommand("select * from tblogin"), row => list.Add(new Account((uint)row[0], (string)row[1], (string)row[2], RoleDAO.GetById((byte)row[3]))));
             return list;
         }
 

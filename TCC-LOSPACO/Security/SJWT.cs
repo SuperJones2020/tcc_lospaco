@@ -7,9 +7,9 @@ using System.Web.Helpers;
 
 namespace TCC_LOSPACO {
     public static class SJWT {
-        public static string GenerateToken(uint id, string email) {
+        public static string GenerateToken(uint id, string email, string password) {
             string header = "{\"alg\":\"SHA256\",\"typ\":\"SJWT\"}";
-            string payload = "{\"id\":" + id + ",\"email\":\"" + email + "\"}";
+            string payload = "{\"id\":\"" + id + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\"}";
             string Base64Header = ToBase64(GetBytes(header));
             string Base64Payload = ToBase64(GetBytes(payload));
             string Signature = ToBase64(GetBytes(HMAC_SHA256("5cnp0sod2rlt8bpi0y5g1925taileae67sp2uh6qhzncxgnm55ztfh", Base64Header + "." + Base64Payload)));

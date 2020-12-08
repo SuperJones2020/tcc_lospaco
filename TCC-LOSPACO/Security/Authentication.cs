@@ -6,9 +6,9 @@ using TCC_LOSPACO.Models;
 namespace TCC_LOSPACO.Security {
     public class Authentication {
         private static Database db = new Database();
-        public static void SignIn(uint id, string email) {
+        public static void SignIn(uint id, string email, string password) {
             if (!IsSigned()) {
-                HttpCookie cookie = new HttpCookie("sjwt", SJWT.GenerateToken(id, email)) {
+                HttpCookie cookie = new HttpCookie("sjwt", SJWT.GenerateToken(id, email, password)) {
                     Expires = DateTime.MaxValue
                 };
                 cookie.HttpOnly = true;
@@ -46,8 +46,7 @@ namespace TCC_LOSPACO.Security {
             dynamic data = SJWT.GetTokenData(token.Value);
             dynamic payload = data.Payload;
             object id = payload.id;
-            Customer customer = CustomerDAO.GetById(Convert.ToUInt32(id));
-            return customer;
+            return CustomerDAO.GetById(Convert.ToUInt32(id));
         }
 
         public static bool IsSigned() => GetToken() != null;

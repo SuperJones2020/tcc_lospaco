@@ -17,9 +17,7 @@ namespace TCC_LOSPACO.Controllers {
             if (Authentication.IsSigned()) return Redirect("/Home/Index");
             bool loginIsValid = AccountDAO.Login(email, password);
             if (loginIsValid) {
-
-                string token = SJWT.GenerateToken(account.Id, account.Email);
-                Authentication.SignIn(account.Id, account.Email);
+                Authentication.SignIn(account.Id, account.Email, account.Password);
 
                 //if (remember_me == "true") {
                 //    Authentication.RememberMe();

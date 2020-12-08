@@ -470,7 +470,7 @@
         homeScrollEffects();
 
         generateNewSignature().then(v => {
-            sendRequest("get", "/Service/GetList", {}, {
+            sendRequest("post", "/Service/GetList", {}, {
                 Loader: ".main-loader",
                 ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }],
                 OnSuccess: res => {
