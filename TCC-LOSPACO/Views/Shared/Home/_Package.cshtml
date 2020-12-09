@@ -1,0 +1,58 @@
+﻿@using TCC_LOSPACO.CustomHtmlHelper
+@model TCC_LOSPACO.Models.Package
+
+<div class="package-card l-vh">
+    <div class="content card l-t-none row align-items-end max-size">
+        <img class="max-size img-img position-absolute center-absolute" src="@CustomHtmlHelper.ImageSource(Model.Image)">
+        <div class="xxl-w p-4 content m-d-none">
+            <div class="font-hammer" style="font-size: 7rem;">#@ViewBag.PackageIndex</div>
+            <hr class="xl-w bg-black">
+            <div class="f-8 font-rale">@Model.Name</div>
+        </div>
+
+        <div class="row m-d-block p-8 m-p-4 d-none justify-content-center max-size">
+            <div class="xxl-w max-h row align-items-center">
+                <div>
+                    <div class="font-hammer f-5">#@ViewBag.PackageIndex</div>
+                    <hr class="bg-black">
+                    <div class="f-4 font-rale anim-sequence">@Model.Name</div>
+                </div>
+                <div class="m-y-5-child">
+                    <p class="f-1 font-jos anim-sequence">
+                        @Model.Description
+                    </p>
+                    <ul class="m-y-2-child anim-sequence row col-12-child">
+                        @foreach (var s in Model.Services) {
+                            @Html.Raw($"<a target='_blank' href='/Home/Service/{s.Id}' class='font-jos f-2'><i class='fas m-y-2 f-1 fa-check'></i> {s.Name}</a>");
+                        }
+                    </ul>
+                </div>
+
+                <a href="/Home/Package/@Model.Id" target='_blank' class="bg-transparent b-0 p-3">Saiba Mais!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-d-none l-max-w justify-content-center position-absolute center-absolute card-hover" style="overflow-y: auto">
+        <div class="xxl-w p-y-8">
+            <div>
+                <div class="font-hammer" style="font-size: 7rem;">#@ViewBag.PackageIndex</div>
+                <hr class="bg-black max-w line">
+                <div class="f-8 font-rale anim-sequence">@Model.Name</div>
+            </div>
+            <div class="m-t-6 m-y-3-child">
+                <p class="f-3 font-jos anim-sequence">
+                    @Model.Description
+                </p>
+                <ul class="m-y-2-child anim-sequence row col-12-child">
+                    @foreach (var s in Model.Services) {
+                        @Html.Raw($"<a target='_blank' href='/Home/Service/{s.Id}' class='font-jos f-2'><i class='fas m-y-2 f-1 fa-check'></i> {s.Name}</a>");
+                    }
+                </ul>
+            </div>
+            <div data-follow-smoothly class="p-4 anim-sequence bg-transparent d-inline-block">
+                <a href="/Home/Package/@Model.Id" target='_blank' class="bg-transparent b-0 p-3">Saiba Mais!</a>
+            </div>
+        </div>
+    </div>
+</div>

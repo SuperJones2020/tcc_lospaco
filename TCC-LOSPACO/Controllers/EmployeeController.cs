@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.IO;
+using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Models;
 using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
@@ -22,11 +25,31 @@ namespace TCC_LOSPACO.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Insert(string full_name, string username, string email, string password, string number, string birth, string rg, string cpf, string salary, string genre, string image) {
+        public ActionResult InsertService(ushort id, ushort servId) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 12);
-            db.ExecuteProcedure("sp_InsertEmployee", email, passwordHash, full_name, username, birth, cpf, rg, salary, genre, number, image);
+            EmployeeDAO.InsertService(id, servId);
             return Json(new { Success = "Success" });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveService(ushort id, ushort servId) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            EmployeeDAO.RemoveService(id, servId);
+            return Json(new { Success = "Success" });
+        }
+
+        [HttpPost]
+        public ActionResult Insert(string full_name, string username, string email, string password, string number, string birth, string rg, string cpf, string salary, string genre, System.Web.HttpPostedFileWrapper image, string services) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            string base64Image = null;
+            if (image != null) {
+                BinaryReader br = new BinaryReader(image.InputStream);
+                byte[] bytes = br.ReadBytes((Int32)image.InputStream.Length);
+                base64Image = Convert.ToBase64String(bytes);
+            }
+            EmployeeDAO.Insert(full_name, username, email, password, number, birth, rg, cpf, salary, genre, base64Image, services);
+            Employee e = EmployeeDAO.GetByRG(rg);
+            return Json(new { e.Customer.Account.Id, Employee = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Profile/TableItem/_Employee", e, ControllerContext) });
         }
     }
 }

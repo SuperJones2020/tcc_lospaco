@@ -1,0 +1,316 @@
+﻿@{
+    var user = TCC_LOSPACO.Security.Authentication.GetUser();
+}
+<div class="item">
+    <div class="nav-height"></div>
+    <div class="row center-elements" style="height: calc(100% - 5rem);">
+        <button class="close bg-transparent position-absolute">
+            <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+        </button>
+        <button type="button" data-fill-to="up"
+                class="open  bg-transparent cursor-pointer position-absolute">
+            <i class="f-10 fas fa-calendar-alt"><br /><span>Agendar</span></i>
+        </button>
+
+        <div class="row center-elements content col-10 l-col-12 max-h p-1">
+            <div class="overflow-hidden max-size">
+                <div class="content-slider max-size">
+                    <div class="min-max-w max-size flex direction-column">
+                        <div class="header fg-0">
+                            <div class="row no-wrap center-elements m-b-3">
+                                <h2 class="f-8 text-align-center profile-title">
+                                    Items do Carrinho
+                                </h2>
+                            </div>
+                            <div class="f-2 s-f-1 p-2 font-hammer">
+                                Selecione o serviço/pacote para agendar o dia e hora,
+                                escolhendo também o(a) funcionário(a) desejado para sua realização!
+                            </div>
+                        </div>
+
+                        <div class="table-content text-align-center-child max-w fg-1">
+                            @{
+
+                                var userSale = TCC_LOSPACO.DAO.SaleDAO.GetById(user.Account.Id);
+                                foreach (var sale in userSale.Sales) {
+                                    @Html.Partial("Profile/TableItem/_Sale", sale);
+
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="row center-elements min-max-w max-size">
+                        <div class="row col-11 l-col-12 max-h p-1 content-container">
+                            <popup data-id="date" class="z-5 p-2 l-w m-max-w"
+                                   style="background-color: rgba(0, 0, 0, .5);">
+                                <div class="date-container bg-white shadow max-w b-0">
+                                    <div class="row max-w justify-content-end">
+                                        <i data-close-pop-up="date"
+                                           class="f-4 p-2 rotate-anim cursor-pointer z-5 fas fa-times"></i>
+                                    </div>
+                                    <div class="date-ui justify-content-evenly row">
+                                        <div class="control max-w row justify-content-between align-items-center">
+                                            <button type="button"
+                                                    class="cursor-pointer prev-container-date">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <div class="months">
+                                                <select style="border: none;"></select>
+                                            </div>
+                                            <button type="button"
+                                                    class="cursor-pointer next-container-date">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="text-align-center days-of-week"
+                                             style="font-weight: bolder; padding: .5rem 0 .75rem 0; color: gray">
+                                        </div>
+                                    </div>
+                                    <div class="bg-black date-content overflow-hidden">
+                                        <div class="date-content-slider"></div>
+                                    </div>
+                                </div>
+                            </popup>
+                            <div class="max-w row col-12-child align-items-center">
+                                <div>
+                                    <div class="m-t-8 max-w row no-wrap center-elements">
+                                        <button data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                            <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                        </button>
+                                        <h2 class="f-7 font-jos text-align-center profile-title">
+                                            Dados sobre
+                                            <b class="bolder font-jos f-7 profile-title">Item Name</b>
+                                        </h2>
+                                    </div>
+
+                                    <div class="row m-t-4 center-elements service-info col-12">
+                                        <div class="max-w p-x-3">
+                                            <div class="align-items-center justify-content-between row">
+                                                <h1 class="f-7 m-f-5 m-y-2 white font-jos">Service Name</h1>
+                                                <div data-rating="4.33" data-stars-visualization
+                                                     class="rate-container align-items-center row no-wrap">
+                                                    <div class="star-item">
+                                                        <div class="star"></div>
+                                                    </div>
+                                                    <div class="star-item">
+                                                        <div class="star"></div>
+                                                    </div>
+                                                    <div class="star-item">
+                                                        <div class="star"></div>
+                                                    </div>
+                                                    <div class="star-item">
+                                                        <div class="star"></div>
+                                                    </div>
+                                                    <div class="star-item">
+                                                        <div class="star"></div>
+                                                    </div>
+                                                    <span class="rating-view m-l-1"></span>
+                                                </div>
+                                            </div>
+                                            <div class="m-y-2 font-inc f-5 white m-f-3">R$ 45.00</div>
+                                            <div class="row max-w m-t-4">
+                                                <div class="row max-w max-h no-wrap">
+                                                    <button data-open-pop-up="date"
+                                                            class="col-2 bg-white cursor-pointer row center-elements b-0 icon-input"
+                                                            style="border-right: none;">
+                                                        <i class="far fa-calendar"></i>
+                                                    </button>
+                                                    <input class="input-date bg-white p-3 col-10 row-input b-0"
+                                                           disabled type="text" name="password"
+                                                           placeholder="Clique no ícone para AGENDAR"
+                                                           style="border-left: none;" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row white col-12-child m-t-3">
+                                                <label class="m-y-1" for="employee">
+                                                    Funcionário para
+                                                    realização do serviço:
+                                                </label>
+                                                <div class="customized-input row no-wrap max-w">
+                                                    <div class="col-2 row icon-input">
+                                                        <i class="fas black fa-user-tie"></i>
+                                                    </div>
+                                                    <input class="col-10 p-3 input-employee-selection"
+                                                           type="text" name="employee"
+                                                           value="Selecione um Funcionário abaixo!" disabled
+                                                           id="employee">
+                                                </div>
+                                            </div>
+
+                                            <div class="employee-carousel m-t-3 carousel-container">
+                                                <button type="button"
+                                                        class="white follow-smoothly prev-item p-3 m-l-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                        style="left: 0;">
+                                                    <i class="fas f-3 fa-chevron-left"></i>
+                                                </button>
+                                                <button type="button"
+                                                        class="white follow-smoothly prox-item p-3 m-r-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                        style="right: 0;">
+                                                    <i class="fas f-3 fa-chevron-right"></i>
+                                                </button>
+                                                <div class="carousel-slider" style="height: 300px">
+                                                    <div class="bg-white justify-content-around carousel-item row col-4-child">
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 data-employee-name="employee-name"
+                                                                        class="employee-name-selection text-align-center">
+                                                                        Employee Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 class="text-align-center">
+                                                                        Employee
+                                                                        Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 class="text-align-center">
+                                                                        Employee
+                                                                        Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-white carousel-item justify-content-around row col-4-child">
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 class="text-align-center">
+                                                                        Employee
+                                                                        Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 class="text-align-center">
+                                                                        Employee
+                                                                        Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex direction-column employee-container">
+                                                            <div class="fg-1">
+                                                                <a href="#">
+                                                                    <img src="https://picsum.photos/600/300"
+                                                                         class="img-img max-size"
+                                                                         alt="employee-name">
+                                                                </a>
+                                                            </div>
+                                                            <div class="row center-elements">
+                                                                <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
+                                                                    <h2 class="text-align-center">
+                                                                        Employee
+                                                                        Name
+                                                                    </h2>
+                                                                    <div data-zoom="1.05, .6s"
+                                                                         class="p-2 cursor-pointer">
+                                                                        <button class="select-employee-btn bg-white cursor-pointer bolder"
+                                                                                type="button">
+                                                                            Selecionar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

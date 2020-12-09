@@ -94,11 +94,11 @@ header {
 }
 
 .cart-count {
-    right: 0;
-    top: 0;
-    transform: translateY(-70%);
-    width: 15px;
-    height: 15px;
+	right: 0;
+	top: 0;
+	transform: translateY(-70%);
+	width: 15px;
+	height: 15px;
 }
 
 .cart-item .content {
@@ -500,67 +500,67 @@ popup {
 }
 
 button[data-fill-to] {
-    width: 200px;
-    height: 200px;
-    padding: 2.25rem;
-    overflow: hidden;
-    /*border-radius: 100%;*/
+	width: 200px;
+	height: 200px;
+	padding: 2.25rem;
+	overflow: hidden;
+	/*border-radius: 100%;*/
 }
 
 button[data-fill-to] i {
-    mix-blend-mode: difference;
-    color: white;
+	mix-blend-mode: difference;
+	color: white;
 }
 
 button[data-fill-to='left']:hover::before {
-    left: 0;
-    width: 100%;
+	left: 0;
+	width: 100%;
 }
 button[data-fill-to='up']:hover::before {
-    top: 0;
-    height: 100%;
+	top: 0;
+	height: 100%;
 }
 button[data-fill-to='right']:hover::before {
-    width: 100%;
+	width: 100%;
 }
 button[data-fill-to='down']:hover::before {
-    height: 100%;
+	height: 100%;
 }
 
 button[data-fill-to]::before{
-    content: '';
-    transition: all .4s var(--main-bezier);
-    position: absolute;
-    background-color: white;
-    z-index: -1;
+	content: '';
+	transition: all .4s var(--main-bezier);
+	position: absolute;
+	background-color: white;
+	z-index: -1;
 }
 
 button[data-fill-to='left']::before {
-    top: 0;
-    left: 100%;
-    width: 0%;
-    height: 100%;
+	top: 0;
+	left: 100%;
+	width: 0%;
+	height: 100%;
 }
 
 button[data-fill-to='up']::before {
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 0;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 0;
 }
 
 button[data-fill-to='right']::before {
-    top: 0;
-    width: 0;
-    left: 0;
-    height: 100%;
+	top: 0;
+	width: 0;
+	left: 0;
+	height: 100%;
 }
 
 button[data-fill-to='down']::before {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0;
 }
 
 
@@ -657,6 +657,10 @@ button[data-fill-to='down']::before {
 		height: 300vh;
 	}
 
+	.item .image-item {
+		height: 300px !important;
+	}
+
 	.options-container-2 {
 		height: 200vh !important;
 	}
@@ -698,6 +702,10 @@ button[data-fill-to='down']::before {
 }
 
 @media (max-width: 576px) {
+	.cart-item .image-div{
+		height: 90px !important;
+	}
+
 	.options-container .profile-title {
 		font-size: 1.6rem !important;
 	}

@@ -59,6 +59,16 @@ namespace TCC_LOSPACO.Security {
             return token == GetToken().Value;
         }
 
+        public static bool VerifyTokenMobile() {
+            var headerToken = HttpContext.Current.Request.Headers["Authorization"];
+            if (headerToken == null || headerToken == "null") return false;
+            string token = headerToken.Split(' ')[1];
+            dynamic data = SJWT.GetTokenData(token);
+            Customer c = CustomerDAO.GetById(Convert.ToUInt32(data.Payload.id));
+            string newToken = SJWT.GenerateToken(c.Account.Id, c.Account.Email, c.Account.Password);
+            return token == newToken;
+        }
+
         public static bool IsValid() {
             return IsSigned() && VerifyToken();
         }

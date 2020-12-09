@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.IO;
+using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Models;
 using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
@@ -23,6 +26,10 @@ namespace TCC_LOSPACO.Controllers {
         [HttpPost]
         public ActionResult Update(ushort id, string column, string value) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            if (column == "packname") {
+                db.ExecuteProcedure("sp_updatepackagename", id, value);
+                return Json(new { Success = "Success" });
+            }
             string query = $"update tbpackage set {column}='{value}' where packid='{id}'";
             db.ExecuteCommand(query);
             return Json(new { Success = "Success" });
@@ -43,10 +50,17 @@ namespace TCC_LOSPACO.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Insert(string name, string minified_desc, string desc, string image, string price, string services) {
+        public ActionResult Insert(string name, string minified_desc, string desc, System.Web.HttpPostedFileWrapper image, string price, string services) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            PackageDAO.Insert(name, minified_desc, desc, image, price, services);
-            return Json(new { Success = "Success" });
+            string base64Image = null;
+            if (image != null) {
+                BinaryReader br = new BinaryReader(image.InputStream);
+                byte[] bytes = br.ReadBytes((Int32)image.InputStream.Length);
+                base64Image = Convert.ToBase64String(bytes);
+            }
+            PackageDAO.Insert(name, minified_desc, desc, base64Image, price, services);
+            Package p = PackageDAO.GetByName(name);
+            return Json(new { p.Id, Package = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Profile/TableItem/_Package", p, ControllerContext) });
         }
     }
 }

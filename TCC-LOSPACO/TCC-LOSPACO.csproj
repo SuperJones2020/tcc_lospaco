@@ -578,6 +578,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\SJWTController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -585,6 +586,9 @@
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="DAO\SaleDAO.cs" />
+    <Compile Include="Models\ItemSale.cs" />
+    <Compile Include="Models\Sale.cs" />
     <Compile Include="Utils\CustomHtmlHelper.cs" />
     <Compile Include="DAO\RoleDAO.cs" />
     <Compile Include="DAO\CartDAO.cs" />
@@ -644,18 +648,32 @@
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Shared\_ServiceItem.cshtml" />
     <Content Include="Views\Shared\_ReviewItem.cshtml" />
-    <Content Include="Views\Shared\Profile\_Costumer.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Costumer.cshtml" />
     <Content Include="Views\Shared\Cart\_Service.cshtml" />
     <Content Include="Views\Shared\Cart\_Package.cshtml" />
     <Content Include="Views\Shared\Cart\_Content.cshtml" />
     <Content Include="Views\Account\Account.cshtml" />
-    <Content Include="Views\Shared\Profile\_Employee.cshtml" />
-    <Content Include="Views\Shared\Profile\_Package.cshtml" />
-    <Content Include="Views\Shared\Profile\_Service.cshtml" />
-    <Content Include="Views\Shared\Profile\_Schedule.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Employee.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Package.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Service.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Schedule.cshtml" />
     <Content Include="Views\Home\Packages.cshtml" />
     <Content Include="Views\Shared\_PackageItem.cshtml" />
     <Content Include="Views\Home\Package.cshtml" />
+    <Content Include="Views\Shared\Home\_Package.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Sale.cshtml" />
+    <Content Include="Views\Shared\Profile\TableItem\_Category.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_MyAppointments.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Categories.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Schedule.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_ChangePassword.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_MyData.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Logout.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Users.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Employees.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Packages.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Schedules.cshtml" />
+    <Content Include="Views\Shared\Profile\Containers\_Services.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

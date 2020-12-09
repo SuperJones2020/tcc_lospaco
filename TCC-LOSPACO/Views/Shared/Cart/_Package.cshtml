@@ -3,7 +3,7 @@
 
 <div data-id="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")" class="row justify-content-center cart-item">
     <div class="row no-wrap s-wrap content align-items-center xxl-w p-3">
-        <div class="s-col-12" style="max-width: 100px; height: 100%">
+        <div class="s-col-12 image-div" style="max-width: 100px; height: 100%">
             <div class="circle bg-white cursor-pointer delete-item-btn z-1 row center-elements position-absolute">
                 @CustomHtmlHelper.SendRequest(new { name = Global.GetValue(Global.GetValue(Model, "Object"), "Name") }, new {
                     Action = "/Cart/RemoveCartItem",
@@ -17,7 +17,7 @@
                 <img src="@CustomHtmlHelper.ImageSource(Global.GetValue(Global.GetValue(Model, "Object"), "Image"))" class="max-size img-img" alt="@Global.GetValue(Global.GetValue(Model, "Object"), "Name")">
             </a>
         </div>
-        <div class="item-text fg-1">
+        <div class="item-text s-col-6 fg-1">
             <div class="m-x-3 s-m-x-none m-y-4-child">
                 <div class="item-header font-jos f-2">@Global.GetValue(Global.GetValue(Model, "Object"), "Name")</div>
                 <ul class="m-y-0-child row col-12-child">
@@ -28,7 +28,7 @@
                 <div class="price font-inc">R$ @Global.GetValue(Global.GetValue(Model, "Object"), "Price")</div>
             </div>
         </div>
-        <div class="row justify-content-end item-qty">
+        <div class="row justify-content-end item-qty s-col-6">
             <input type="number" value="@Global.GetValue(Global.GetValue(Model, "Object"), "Quantity")" class="input-anim item-quantity-input text-align-center" required style="width: 70px;" min="0" name="item-quantity">
         </div>
     </div>

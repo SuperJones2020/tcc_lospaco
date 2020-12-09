@@ -7,19 +7,19 @@ namespace TCC_LOSPACO.DAO {
         public static List<Category> GetList() {
             var list = new List<Category>();
             db.ReaderRows(db.ReturnCommand("select * from tbCategories"), row => {
-                list.Add(new Category((byte)row[0], (string)row[1]));
+                list.Add(new Category((byte)row[0], (string)row[1], (byte[])row[2]));
             });
             return list;
         }
 
         public static Category GetByName(string name) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from tbCategories where catname = '{name}'"));
-            return new Category((byte)row[0], (string)row[1]);
+            return new Category((byte)row[0], (string)row[1], (byte[])row[2]);
         }
 
         public static Category GetById(byte id) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from tbCategories where categoryid = '{id}'"));
-            return new Category((byte)row[0], (string)row[1]);
+            return new Category((byte)row[0], (string)row[1], (byte[])row[2]);
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿<div class="item">
+    <div class="nav-height"></div>
+    <div class="row center-elements" style="height: calc(100% - 5rem);">
+        <button class="close bg-transparent position-absolute">
+            <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+        </button>
+        <button type="button" data-fill-to="left"
+                class="open  bg-transparent cursor-pointer position-absolute">
+            <i class="f-10 fas fa-times"><br /><span>Sair</span></i>
+        </button>
+
+        <div class="row center-elements content col-10 l-col-12 max-h p-1">
+            <div class="row col-11 l-col-12 max-h content-container">
+                <div class="max-w row col-12-child align-items-center">
+                    <div class="row col-12-child">
+                        <h1 class="f-8 text-align-center profile-title">Deseja mesmo sair?</h1>
+                        <a href=@Url.Action("Logout", "Account") data-anim-to="var(--main-red)"
+                           class="p-y-3 b-0 text-align-center cursor-pointer m-t-3 max-w bg-white">
+                            <color>Sair!</color>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

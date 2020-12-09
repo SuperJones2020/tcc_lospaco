@@ -18,7 +18,7 @@ namespace TCC_LOSPACO.DAO {
             var list = new List<Service>();
             string query = GetQuery(orderIndex, category, sp, ep);
             db.ReaderRows(db.ReturnCommand(query), row => {
-                uint salesCount = Convert.ToUInt32((decimal)row[9]);
+                uint salesCount = Convert.ToUInt32(row[9] + "");
                 decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
                 list.Add(new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
                      TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating));
@@ -29,7 +29,7 @@ namespace TCC_LOSPACO.DAO {
         public static List<Service> GetList() {
             var list = new List<Service>();
             db.ReaderRows(db.ReturnCommand("select * from vw_services"), row => {
-                uint salesCount = Convert.ToUInt32((decimal)row[9]);
+                uint salesCount = Convert.ToUInt32(row[9] + "");
                 decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
                 list.Add(new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
                      TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating));
@@ -39,7 +39,7 @@ namespace TCC_LOSPACO.DAO {
 
         public static Service GetById(ushort id) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from vw_services where ServId = '{id}'"));
-            uint salesCount = Convert.ToUInt32((decimal)row[9]);
+            uint salesCount = Convert.ToUInt32(row[9] + "");
             decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
             Service service = new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
                      TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating);
@@ -48,7 +48,7 @@ namespace TCC_LOSPACO.DAO {
 
         public static Service GetByName(string name) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from vw_services where ServName = '{name}'"));
-            uint salesCount = Convert.ToUInt32((decimal)row[9]);
+            uint salesCount = Convert.ToUInt32(row[9] + "");
             decimal? starRating = row[10] != DBNull.Value ? Convert.ToDecimal(row[10].ToString().Replace('.', ',') + "") : (decimal?)null;
             Service service = new Service((ushort)row[0], (string)row[1], (decimal)row[2], (string)row[3], (string)row[4], CategoryDAO.GetById((byte)row[5]),
                      TimeSpan.Parse(row[6].ToString()), (byte[])row[7], (string)row[8], salesCount, starRating);

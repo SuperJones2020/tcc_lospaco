@@ -151,6 +151,34 @@ function setExplosionAnim(obj) {
 activeNav();
 activeAsideCart();
 
+function setTableItemAsRequestSender(contentSlider, dataItems) {
+    const objs = [
+        { obj: "Customer", action: "/Customer/Get", id: item => item.getAttribute("data-id"), onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
+        { obj: "Employee", action: "/Employee/Get", id: item => item.getAttribute("data-id"), onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
+        { obj: "Package", action: "/Package/Get", id: item => item.getAttribute("data-id"), onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
+        { obj: "Service", action: "/Service/Get", id: item => item.getAttribute("data-id"), onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
+        { obj: "Schedule", action: "/Schedule/Get", id: item => item.getAttribute("data-id"), onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },
+        { obj: "Category", action: "/Category/Get", id: item => item.getAttribute("data-id"), onSuccess: "categoryDataTaken", onFailure: "categoryDataFail" }
+    ]
+    dataItems.forEach(item => {
+        item.onclick = () => {
+            generateNewSignature().then(v => {
+                objs.forEach(o => {
+                    if (item.getAttribute("data-table-of") === o.obj) {
+                        sendRequest("post", o.action, { id: o.id(item) }, {
+                            Loader: ".main-loader", OnSuccess: o.onSuccess, OnFailure: o.onFailure,
+                            ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
+                        });
+                    }
+                });
+                contentSlider.style.transform = "translateX(-100%)";
+            });
+        }
+
+    });
+
+}
+
 function activeProfileUI() {
     const profileOptionsContainer = document.querySelectorAll(".options-container");
     profileOptionsContainer.forEach(pop => {
@@ -161,82 +189,69 @@ function activeProfileUI() {
             const backBtn = content.querySelector(".back-to-data-btn");
             const contentSlider = content.querySelector(".content-slider");
 
-            const selectServiceContainer = content.querySelector(".package-select-service-container");
-            if (selectServiceContainer !== null) {
-                const tableContent = selectServiceContainer.querySelector(".table-content");
-                const serviceItems = tableContent.querySelectorAll(".data-item");
-                const inputServices = pop.querySelector("[data-id=services-input]");
-                const inputServicesId = pop.querySelector("[data-id=services-id-input]");
-                let selectedServices = tableContent.getAttribute("data-selected-services").split(",");
+            const cc = content.querySelectorAll(".content-container");
+            cc.forEach(x => {
+                const ssc = x.querySelector(".select-items-container");
+                if (ssc !== null) {
+                    const tableContent = ssc.querySelector(".table-content");
+                    const serviceItems = tableContent.querySelectorAll(".data-item");
+                    const inputServices = x.querySelector("[data-id=items-input]");
+                    const inputServicesId = x.querySelector("[data-id=items-id-input]");
+                    let selectedServices = tableContent.getAttribute("data-selected-items").split(",");
 
-                var observer = new MutationObserver(function (mutations) {
-                    mutations.forEach(function (mutation) {
-                        if (mutation.type == "attributes" & mutation.attributeName == "data-selected-services") {
-                            selectedServices = tableContent.getAttribute("data-selected-services").split(",");
-                            const servicesName = [];
-                            serviceItems.forEach(s => {
-                                const servId = s.getAttribute("data-id");
-                                for (let j = 0; j < selectedServices.length; j++) {
-                                    const ss = selectedServices[j];
-                                    if (ss !== servId & s.getAttribute("data-selected") === "true") s.setAttribute("data-selected", false);
-                                }
-                                for (let j = 0; j < selectedServices.length; j++) {
-                                    const ss = selectedServices[j];
-                                    if (ss === servId) {
-                                        s.setAttribute("data-selected", true)
-                                        servicesName.push(s.getAttribute("data-name"));
-                                    };
-                                }
-                                inputServices.value = servicesName.join(", ");
-                                inputServicesId.value = selectedServices.join(", ");
-                                if (s.getAttribute("data-selected") === "true") {
-                                    s.children[0].classList.add("main-bg-green");
-                                } else if (s.getAttribute("data-selected") === "false") {
-                                    s.children[0].classList.remove("main-bg-green");
-                                }
-                            });
-                        }
-                    });
-                });
-                observer.observe(tableContent, { attributes: true });
-
-                serviceItems.forEach(s => {
-                    const serviceId = s.getAttribute("data-id");
-                    s.onclick = () => {
-                        const selected = s.getAttribute("data-selected");
-                        if (selected === "false") {
-                            const curSelected = tableContent.getAttribute("data-selected-services").split(",").filter(x => x !== "");
-                            curSelected.push(serviceId)
-                            tableContent.setAttribute("data-selected-services", curSelected);
-                        } else {
-                            let curSelected = tableContent.getAttribute("data-selected-services").split(",").filter(x => x !== "");
-                            curSelected = curSelected.filter(x => x !== serviceId);
-                            tableContent.setAttribute("data-selected-services", curSelected);
-                        }
-                    }
-                })
-            }
-
-            if (contentSlider !== null) {
-                const dataItems = contentSlider.querySelector(".table-content").querySelectorAll(".data-item");
-                contentSlider.style.transition = "transform .7s var(--main-bezier)";
-                dataItems.forEach(item => item.onclick = () => {
-                    generateNewSignature().then(v => {
-                        const objs = [{ obj: "Customer", action: "/Customer/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "customerDataTaken", onFailure: "customerDataFail" },
-                            { obj: "Employee", action: "/Employee/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "employeeDataTaken", onFailure: "employeeDataFail" },
-                            { obj: "Package", action: "/Package/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
-                            { obj: "Service", action: "/Service/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
-                            { obj: "Schedule", action: "/Schedule/Get", params: { id: item.getAttribute("data-id") }, onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },]
-
-                        objs.forEach(o => {
-                            if (item.getAttribute("data-table-of") === o.obj) sendRequest("post", o.action, o.params, {
-                                Loader: ".main-loader", OnSuccess: o.onSuccess, OnFailure: o.onFailure,
-                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${v}` }]
-                            });
+                    var observer = new MutationObserver(function (mutations) {
+                        mutations.forEach(function (mutation) {
+                            if (mutation.type == "attributes" & mutation.attributeName == "data-selected-items") {
+                                selectedServices = tableContent.getAttribute("data-selected-items").split(",");
+                                const servicesName = [];
+                                serviceItems.forEach(s => {
+                                    const servId = s.getAttribute("data-id");
+                                    for (let j = 0; j < selectedServices.length; j++) {
+                                        const ss = selectedServices[j];
+                                        if (ss !== servId & s.getAttribute("data-selected") === "true") s.setAttribute("data-selected", false);
+                                    }
+                                    for (let j = 0; j < selectedServices.length; j++) {
+                                        const ss = selectedServices[j];
+                                        if (ss === servId) {
+                                            s.setAttribute("data-selected", true)
+                                            servicesName.push(s.getAttribute("data-name"));
+                                        };
+                                    }
+                                    inputServices.value = servicesName.join(", ");
+                                    inputServicesId.value = selectedServices.join(", ");
+                                    if (s.getAttribute("data-selected") === "true") {
+                                        s.children[0].classList.add("main-bg-green");
+                                    } else if (s.getAttribute("data-selected") === "false") {
+                                        s.children[0].classList.remove("main-bg-green");
+                                    }
+                                });
+                            }
                         });
                     });
-                    contentSlider.style.transform = "translateX(-100%)";
-                });
+                    observer.observe(tableContent, { attributes: true });
+
+                    serviceItems.forEach(s => {
+                        const serviceId = s.getAttribute("data-id");
+                        s.onclick = () => {
+                            const selected = s.getAttribute("data-selected");
+                            if (selected === "false") {
+                                const curSelected = tableContent.getAttribute("data-selected-items").split(",").filter(x => x !== "");
+                                curSelected.push(serviceId)
+                                tableContent.setAttribute("data-selected-items", curSelected);
+                            } else {
+                                let curSelected = tableContent.getAttribute("data-selected-items").split(",").filter(x => x !== "");
+                                curSelected = curSelected.filter(x => x !== serviceId);
+                                tableContent.setAttribute("data-selected-items", curSelected);
+                            }
+                        }
+                    })
+                }
+            });
+
+            if (contentSlider !== null) {
+                contentSlider.style.transition = "transform .7s var(--main-bezier)";
+                const dataItems = contentSlider.querySelector(".table-content").querySelectorAll(".data-item");
+                setTableItemAsRequestSender(contentSlider, dataItems);
                 backBtn.onclick = () => contentSlider.style.transform = "translateX(0)";
             }
 
@@ -588,7 +603,7 @@ function activeDropDown() {
         });
 
         observer.observe(input, {
-            attributes: true 
+            attributes: true
         });
 
         items.forEach(item => {
@@ -976,7 +991,7 @@ async function requestSender(method, url, data, info) {
         }
 
         if (info.ContentHeaders) {
-            for (let i = 0; i < info.ContentHeaders.length; i++){
+            for (let i = 0; i < info.ContentHeaders.length; i++) {
                 const h = info.ContentHeaders[i];
                 xhr.setRequestHeader(h.Key, h.Value);
             }
@@ -1046,7 +1061,7 @@ function verifyCartCount(count, type) {
 function verifyCartMessage() {
     let isCartEmpty = false;
     generateNewSignature().then(v => {
-        sendRequest("post", "/Cart/IsCartEmpty", { }, {
+        sendRequest("post", "/Cart/IsCartEmpty", {}, {
             OnSuccess: response => {
                 isCartEmpty = Boolean(response.isEmpty);
                 const cart = document.querySelector(".cart-items");
@@ -1575,6 +1590,6 @@ async function isSigned() {
 
 async function generateNewSignature() {
     let token = null;
-    await sendRequest("post", "/SJWT/GenerateSignature", { }, { OnSuccess: res => token = res.token, Loader: ".main-loader" });
+    await sendRequest("post", "/SJWT/GenerateSignature", {}, { OnSuccess: res => token = res.token, Loader: ".main-loader" });
     return token;
 }

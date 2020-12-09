@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
+using TCC_LOSPACO.Models;
 using TCC_LOSPACO.Security;
 
 namespace TCC_LOSPACO.Controllers {
@@ -24,17 +26,27 @@ namespace TCC_LOSPACO.Controllers {
         [HttpPost]
         public ActionResult Update(ushort id, string column, string value) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            if (column == "servname") db.ExecuteCommand($"call sp_updateservicename('{id}','{value}')");
+            if (column == "servname") {
+                db.ExecuteProcedure("sp_updateservicename", id, value);
+                return Json(new { Success = "Success" });
+            }
             string query = $"update tbservices set {column}='{value}' where servid='{id}'";
             db.ExecuteCommand(query);
             return Json(new { Success = "Success" });
         }
 
         [HttpPost]
-        public ActionResult Insert(string name, string price, string minified_desc, string desc, uint category_id, string time, string image, string clothing) {
+        public ActionResult Insert(string name, string price, string minified_desc, string desc, uint category_id, string time, System.Web.HttpPostedFileWrapper image, string clothing) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            db.ExecuteProcedure("sp_InsertService", name, price, minified_desc, desc, category_id, time, image, clothing);
-            return Json(new { Success = "Success" });
+            string base64Image = null;
+            if (image != null) {
+                BinaryReader br = new BinaryReader(image.InputStream);
+                byte[] bytes = br.ReadBytes((Int32)image.InputStream.Length);
+                base64Image = Convert.ToBase64String(bytes);
+            }
+            db.ExecuteProcedure("sp_InsertService", name, price, minified_desc, desc, category_id, time, base64Image, clothing);
+            Service s = ServiceDAO.GetByName(name);
+            return Json(new { s.Id, Service = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Profile/TableItem/_Service", s, ControllerContext) });
         }
     }
 }

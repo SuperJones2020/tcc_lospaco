@@ -1,0 +1,305 @@
+﻿<div class="item">
+    <div class="nav-height"></div>
+    <div class="row center-elements" style="height: calc(100% - 5rem);">
+        <button class="close bg-transparent position-absolute" data-close-pop-up="employee_display_image">
+            <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+        </button>
+        <button type="button" data-item-button data-fill-to="up"
+                class="open  bg-transparent cursor-pointer position-absolute">
+            <i class="f-10 fas fa-users-cog"><br /><span>Funcionários</span></i>
+        </button>
+
+        <div class="row center-elements content col-10 l-col-12 max-h p-1">
+            <div class="overflow-hidden max-size">
+                <div data-content="employee" class="content-slider max-size">
+                    <div class="min-max-w max-size flex direction-column">
+                        <div class="header fg-0">
+                            <div class="row no-wrap center-elements m-b-3">
+                                <h2 class="f-8 text-align-center profile-title">
+                                    Todos os Funcionários
+                                </h2>
+                                <button data-zoom="1.3, 1s" data-follow-smoothly
+                                        class="add-object-btn bg-transparent cursor-pointer p-3 m-x-2 ">
+                                    <i class="f-6 m-f-4 fas fa-plus main-green"></i>
+                                </button>
+                            </div>
+                            <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                <input class="col-10" type="text" name="name"
+                                       placeholder="Procure por Nome ou CPF" />
+                                <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                    <i class="f-3 fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-content text-align-center-child max-w fg-1">
+                            @foreach (var e in TCC_LOSPACO.DAO.EmployeeDAO.GetList()) {
+                                @Html.Partial("Profile/TableItem/_Employee", e);
+                            }
+                        </div>
+                    </div>
+                    <form data-loader=".main-loader" method="post" action="/Employee/Insert"
+                          data-on-success="OnEmployeeInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
+                          data-form-request-sender="true" data-form-validate="true" data-form-is-valid="false" class="row center-elements min-max-w max-size">
+
+                        <popup data-id="employee_display_image" class="max-size p-8 z-10 row center-elements">
+                            <div data-close-pop-up="employee_display_image" class="max-size center-absolute position-absolute" style="background-color: rgba(0, 0, 0, .9)"></div>
+                            <div class="b-3 max-size" data-id="image_display">
+                                <img src="" class="img-img max-size">
+                            </div>
+                        </popup>
+                        <div class="row col-11 l-col-12 max-h p-1 content-container">
+                            <div class="max-w row col-12-child align-items-center">
+                                <div>
+                                    <div class="m-t-8 max-w row no-wrap center-elements">
+                                        <button type="button" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                            <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                        </button>
+                                        <h2 class="f-7 font-jos text-align-center profile-title">
+                                            Dados de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                        </h2>
+                                        <button type="submit" data-follow-smoothly
+                                                class="d-none perform-add-request-btn bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                            <i class="f-6 m-f-4 far fa-plus-square main-green"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="row max-w col-6-child l-col-12-child">
+                                        <div class="p-r-1 l-p-none">
+                                            <div class="f-3 m-t-5 label-title">Nome</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-signature"></i>
+                                                </div>
+                                                <input disabled class="col-9" data-id="custfullname" data-sub-id="tbcustomer" type="text" name="full_name" required />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="p-l-1">
+                                            <div class="f-3 m-t-5 label-title">Email</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-envelope"></i>
+                                                </div>
+                                                <input disabled class="col-10" data-id="email" name="email" data-val-email data-val-field="Email" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="insert-div d-none row max-w col-4-child l-col-12-child">
+                                        <div>
+                                            <div class="f-3 m-t-5 label-title">Nome de exibição</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-file-contract"></i>
+                                                </div>
+                                                <input disabled class="col-10" type="text" name="username" required />
+                                            </div>
+                                        </div>
+                                        <div class="p-x-2 l-p-none">
+                                            <div class="f-3 m-t-5 label-title">Senha</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-key"></i>
+                                                </div>
+                                                <input disabled class="col-10" type="password" name="password" data-val-password data-val-min-length="8" data-val-equalto="#insert-employee-confirm-password-field" data-val-field="Senha" required />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="f-3 m-t-5 label-title">Confiração de Senha</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-fingerprint"></i>
+                                                </div>
+                                                <input disabled class="col-10" type="password" name="confirm_password" id="insert-employee-confirm-password-field" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row max-w col-4-child l-col-12-child">
+                                        <div>
+                                            <div class="f-3 m-t-5 label-title">CPF</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-id-card"></i>
+                                                </div>
+                                                <input disabled class="col-6" data-id="custcpf" data-sub-id="tbcustomer" type="number" name="cpf" data-val-length="8" data-val-field="CPF" required />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="p-x-2 l-p-none">
+                                            <div class="f-3 m-t-5 label-title">RG</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-address-card"></i>
+                                                </div>
+                                                <input disabled class="col-6" data-id="emprg" data-sub-id="tbemployee" type="number" name="rg" data-val-length="9" data-val-field="RG" required />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="f-3 m-t-5 label-title">Número</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-phone-alt"></i>
+                                                </div>
+                                                <input disabled class="col-6" data-id="custphonenumber" data-sub-id="tbcustomer" type="number" name="number" data-val-max-length="11" data-val-field="Número" required />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" data-anim-to-black
+                                                        class="col-2 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row max-w col-6-child l-col-12-child">
+                                        <div class="p-r-1 l-p-none">
+                                            <div class="f-3 m-t-5 label-title">Nascimento</div>
+                                            <div class="row m-t-1 customized-input no-wrap">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                                <input disabled class="col-9" data-id="empbirthdate" data-sub-id="tbemployee" type="date" name="birth" required />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" data-anim-to-black
+                                                        class="col-1 cursor-pointer save-btn row">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="p-l-1">
+                                            <div class="f-3 m-t-5 label-title">Gênero</div>
+                                            <div class="customized-dropdown m-t-1 bg-white" data-id="empgender" data-sub-id="tbemployee" required>
+                                                <div class="row no-wrap max-size">
+                                                    <div class="col-1 row dropdown-icon icon-input">
+                                                        <i class="fas fa-venus-mars"></i>
+                                                    </div>
+                                                    <div class="col-9 row align-items-center dropdown-select-item" data-option=""
+                                                         style="border: none;">Masculino</div>
+                                                    <div class="col-2 cursor-pointer row dropdown-icon open-dropdown justify-content-center icon-input">
+                                                        <i class="fas fa-chevron-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-content col-12-child row cursor-pointer-child b-0 position-absolute max-w z-3 p-3-child"
+                                                     style="height: 0px; border-top: none; top: 100%;">
+                                                    @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem("Masculino", "M", "genre")
+                                                    @TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.DropdownItem("Feminino", "F", "genre")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="f-3 m-t-5 label-title">Imagem de Perfil</div>
+                                    <div class="row max-w m-t-1 customized-input no-wrap">
+                                        <div class="col-1 row center-elements icon-input">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                        <input disabled class="col-9" data-id="empimage" data-sub-id="tbemployee" type="file" name="file" />
+                                        <button type="button" data-anim-to-black
+                                                class="col-1 cursor-pointer edit-btn row center-elements bg-white">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button type="button" data-anim-to-black
+                                                class="col-1 cursor-pointer save-btn row center-elements bg-white">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                    <button type="button" data-open-pop-up="employee_display_image" class="p-3 m-t-2 bg-transparent white cursor-pointer b-0" style="border-color: white">Ver imagem atual</button>
+
+                                    <div class="f-3 m-t-5 label-title">Salário</div>
+                                    <div class="row max-w m-t-1 customized-input max-w no-wrap">
+                                        <div class="col-1 row icon-input">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <input disabled class="col-9" data-id="empsalary" data-sub-id="tbemployee" type="text" name="salary" data-val-price data-val-field="Salário" required />
+                                        <button type="button" data-anim-to-black
+                                                class="col-1 cursor-pointer edit-btn row">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button type="button" data-anim-to-black
+                                                class="col-1 cursor-pointer save-btn row">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="f-3 m-t-5 label-title">Serviços</div>
+                                    <div class="row m-t-1 customized-input no-wrap"
+                                         style="height: auto !important;">
+                                        <div class="col-2 row icon-input">
+                                            <i class="fas fa-toolbox"></i>
+                                        </div>
+                                        <textarea data-always-disabled disabled class="col-10 p-y-2" data-id="items-input" type="text"
+                                                  style="resize: none;"></textarea>
+                                        <input class="d-none" data-id="items-id-input" type="text" name="services" />
+                                    </div>
+
+                                    <div class="max-size select-items-container flex direction-column">
+                                        <div class="m-y-4 fg-0">
+                                            <div class="row no-wrap center-elements m-b-1">
+                                                <h2 class="f-5 text-align-center profile-title">
+                                                    Selecione os
+                                                    serviços para este funcionários
+                                                </h2>
+                                            </div>
+                                            <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                                <div class="col-1 row icon-input">
+                                                    <i class="fas f-3 fa-bullseye"></i>
+                                                </div>
+                                                <input class="col-10" type="text"
+                                                       placeholder="Procure por Nome" />
+                                                <button type="button" data-anim-to-black
+                                                        class="col-1 cursor-pointer edit-btn row">
+                                                    <i class="f-3 fas fa-chevron-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-content text-align-center-child max-w fg-1" data-selected-items="">
+                                            @foreach (var s in TCC_LOSPACO.DAO.ServiceDAO.GetList()) {
+                                                @Html.Partial("Profile/TableItem/_Service", s);
+                                            }
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

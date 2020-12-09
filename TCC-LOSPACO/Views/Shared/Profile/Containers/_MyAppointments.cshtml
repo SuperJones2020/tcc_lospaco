@@ -1,0 +1,117 @@
+﻿@{
+    var user = TCC_LOSPACO.Security.Authentication.GetUser();
+}
+
+<div class="item">
+    <div class="nav-height"></div>
+    <div class="row center-elements" style="height: calc(100% - 5rem);">
+        <button class="close bg-transparent position-absolute">
+            <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
+        </button>
+        <button type="button" data-item-button data-fill-to="up"
+                class="open  bg-transparent cursor-pointer position-absolute">
+            <i class="f-10 fas fa-user-clock"><br /><span>Compromissos</span></i>
+        </button>
+
+        <div class="row center-elements content col-10 l-col-12 max-h p-1">
+            <div class="overflow-hidden max-size">
+                <div data-content="appointments" class="content-slider max-size">
+                    <div class="min-max-w max-size flex direction-column">
+                        <div class="header fg-0">
+                            <div class="row no-wrap center-elements m-b-3">
+                                <h2 class="f-8 text-align-center profile-title">
+                                    Agendamentos de @user.FullName
+                                </h2>
+                            </div>
+                            <div class="row customized-input no-wrap" style="width: 99.5%;">
+                                <div class="col-1 row icon-input"><i class="fas f-3 fa-bullseye"></i></div>
+                                <input class="col-10" type="text" name="name"
+                                       placeholder="Procure Data ou Nome do Serviço" />
+                                <button data-anim-to-black class="col-1 cursor-pointer edit-btn row">
+                                    <i class="f-3 fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-content text-align-center-child max-w fg-1">
+                            @foreach (var s in TCC_LOSPACO.DAO.ScheduleDAO.GetList()) {
+                                @Html.Partial("Profile/TableItem/_Schedule", s)
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form row center-elements min-max-w max-size">
+                        <div class="row col-11 l-col-12 max-h p-1 content-container">
+                            <div class="max-w row col-12-child align-items-center">
+                                <div>
+                                    <div class="m-t-8 max-w row no-wrap center-elements">
+                                        <button type="button" data-follow-smoothly
+                                                class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
+                                            <i class="f-6 m-f-4 fas fa-chevron-left"></i>
+                                        </button>
+                                        <h2 class="f-7 font-jos text-align-center profile-title">
+                                            Dados do
+                                            agendamento de <b class="bolder font-jos f-7 profile-title title-focus"></b>
+                                        </h2>
+                                    </div>
+
+
+                                    <div class="f-3 m-t-5 label-title">Serviço</div>
+                                    <div class="row m-t-3 customized-input max-w no-wrap">
+                                        <div class="col-2 row icon-input">
+                                            <i class="fas fa-toolbox"></i>
+                                        </div>
+                                        <input disabled class="col-10" data-id="servid" type="text" />
+                                    </div>
+
+                                    <div class="f-3 m-t-5 label-title">Funcionário a realizar</div>
+                                    <div class="row m-t-3 customized-input max-w no-wrap">
+                                        <div class="col-2 row icon-input">
+                                            <i class="fas fa-user-cog"></i>
+                                        </div>
+                                        <input disabled class="col-10" data-id="employeeloginid" type="text" />
+                                    </div>
+
+
+                                    <div class="row max-w col-6-child l-col-12-child">
+                                        <div class="p-r-1 l-p-none">
+                                            <div class="f-3 m-t-5 label-title">Data</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-2 row icon-input">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </div>
+                                                <input disabled class="col-10" data-id="date" type="date" name="date" />
+                                            </div>
+                                        </div>
+
+                                        <div class="p-l-1">
+                                            <div class="f-3 m-t-5 label-title">Hora</div>
+                                            <div class="row m-t-3 customized-input max-w no-wrap">
+                                                <div class="col-2 row icon-input"><i class="far fa-clock"></i></div>
+                                                <input disabled class="col-10" data-id="time" type="time" name="time" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="preview-div">
+                                        <div class="f-3 m-t-5 label-title">Realizado</div>
+                                        <div class="row m-t-3 p-x-5-child customized-input boolean-type no-wrap" style="border: none !important" data-bool="false" data-id="performed">
+                                            <button type="button" data-anim-to-black
+                                                    class="col-1 cursor-pointer row">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                            <button type="button" data-anim-to-black
+                                                    class="col-1 cursor-pointer row">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
