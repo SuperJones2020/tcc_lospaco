@@ -904,7 +904,6 @@ function activeRequestByForm() {
             if (params) JSON.parse(params).forEach(data => {
                 formData.append(data[0], data[1]);
             });
-            //if (f.hasAttribute("data-if-is-signed") & formIsValid === "true" | f.hasAttribute("data-if-is-signed") & formIsValid === null | !f.hasAttribute("data-if-is-signed") & formIsValid === null) {
             const formIsValid = f.getAttribute("data-form-is-valid");
             if (formIsValid === "true" | formIsValid === null) {
                 if (isSigned()) {
@@ -1326,9 +1325,9 @@ function generateServices(element, width, height, services) {
             const index = `data-index='${i}'`;
             const s = services[i];
             const boxHtml = `
-            <a href='/Home/Service/${s.Id}' target='_blank' class="service-box row center-elements position-absolute" ${index}
+            <a href='/Home/Service/${s.Id}' target='_blank' class="service-box row center-elements position-absolute overflow-hidden" ${index}
             style='width: ${width}%;height: ${height}%;left: ${xBox}%; top: ${yBox}%;'>
-                <img class="img-img max-size" src='${readImageFromDatabase(s.Image)}' alt="${s.Name}" />
+                <img class="img-img max-size" src='${readImageFromDatabase(s.Image)}' style='filter: brightness(0.825) blur(3px); transform: scale(1.1)' alt="${s.Name}" />
                     <div class="white pointer-area max-size z-1 position-absolute"></div>
                     <div class="white position-absolute p-2">
                         <h1 class="text-align-center f-6 font-jos">${s.Name}</h1>

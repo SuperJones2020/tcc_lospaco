@@ -75,7 +75,7 @@
                     <h2 class="font-jos f-2"><span class='f-2 cart-price font-inc'>R$ @{ if (TCC_LOSPACO.Security.Authentication.IsSigned()) { @CartDAO.GetTotalPrice();
                 } } </span></h2>
                 </div>
-                <a href="#" data-zoom="1.2, 1s" data-anim-to-white type="button" class="p-2 text-align-center bg-black white cursor-pointer">Comprar Items</a>
+                <a href="#" data-zoom="1.2, 1s" data-anim-to-white type="button" class="p-2 buy-items text-align-center bg-black white cursor-pointer">Comprar Items</a>
             </footer>
         </aside>
     </div>
@@ -161,6 +161,22 @@
                     }
                 }
             }
+        }
+        const cart = document.querySelector(".aside-cart");
+        const buyBtn = cart.querySelector(".buy-items");
+        buyBtn.onclick = async () => {
+            const token = await generateNewSignature();
+            sendRequest("post", "/Sale/BuyItems", {}, {
+                Loader: ".main-loader",
+                OnSuccess: res => {
+                    if (res.Error) {
+                        createToast("Usuário NÃO Autenticado", 1)
+                        return;
+                    }
+                    createToast("Items comprados, verifique seus compromissos em sua Conta", 0)
+                },
+                OnFailure: () => createToast("Falha ao comprar items", 2), ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }]
+            })
         }
     </script>
     @RenderSection("scripts", required: false)

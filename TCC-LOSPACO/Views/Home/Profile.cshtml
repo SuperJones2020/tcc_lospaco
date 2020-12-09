@@ -511,7 +511,6 @@
                 }
             }
 
-
             const title = form.querySelector(".profile-title");
             title.innerHTML = `${ft} <b class="bolder font-jos f-7 profile-title title-focus">${st}</b>`;
 
@@ -523,6 +522,7 @@
             if (image !== null) image.querySelector("img").setAttribute("src", "");
 
             inputs.forEach(i => {
+                i.setAttribute("data-status", "idle");
                 const saveBtn = i.querySelector(".save-btn");
                 const editBtn = i.querySelector(".edit-btn");
                 const el = i.querySelector("input") === null ? i.querySelector("textarea") : i.querySelector("input");
@@ -639,6 +639,16 @@
             form.setAttribute("data-object-id", Category.Id);
             configInputs(form, "preview", "Dados sobre ", Category.Name);
             get(form, "catname").value = Category.Name;
+            setImageSrc(get(form, "image_display"), readImageFromDatabase(Category.Image));
+        }
+
+        function saleDataTaken(res) {
+            const form = document.querySelector("[data-content=sale]").querySelector("form");
+            const ItemSale = res.Object;
+            form.setAttribute("data-object-id", ItemSale.Id);
+            //configInputs(form, "preview", "Dados sobre ", Category.Name);
+            get(form, "name").innerHTML = ItemSale.Name;
+            get(form, "price").innerHTML = ItemSale.Price;
             setImageSrc(get(form, "image_display"), readImageFromDatabase(Category.Image));
         }
 

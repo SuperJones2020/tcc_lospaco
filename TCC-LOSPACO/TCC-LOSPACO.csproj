@@ -579,6 +579,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Controllers\SJWTController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -674,6 +675,7 @@
     <Content Include="Views\Shared\Profile\Containers\_Packages.cshtml" />
     <Content Include="Views\Shared\Profile\Containers\_Schedules.cshtml" />
     <Content Include="Views\Shared\Profile\Containers\_Services.cshtml" />
+    <Content Include="Views\Shared\Profile\_EmployeeCarouselItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
