@@ -36,9 +36,7 @@
 @section scripts{
     <script>
         activeProfileUI();
-        activeEmployeeSelection();
         activeDateInput();
-        activeCarousel({ prev: ".prev-item", next: ".prox-item", carousel: ".employee-carousel", time: .5, anim: "cubic-bezier(.73,.19,.14,.98)" });
 
         const containers = [
             {
@@ -377,6 +375,42 @@
 
                     configInsertBtn(content, "Adicionar Categoria");
                 }
+            }, {
+                id: "sale",
+                do: async (content) => {
+                    const form = content.querySelector("form");
+                    const search = form.querySelector(".search-for-employees");
+                    get(form, "date").style.pointerEvents = 'none';
+                    search.onclick = async () => {
+                        const token = await generateNewSignature();
+                        sendRequest("post", `/Employee/GetEmpsAvaible`,
+                            {
+                                datetime: `${formatDateString(get(form, "date").value)} ${get(form, "time").value}`,
+                                servname: form.getAttribute("data-object-id")
+                            }, {
+                                Loader: ".main-loader",
+                                ContentHeaders: [{ Key: "Authorization", Value: `Bearer ${token}` }],
+                                OnSuccess: (res) => {
+                                    const empCarousel = form.querySelector(".employee-carousel");
+                                    const cs = empCarousel.querySelector(".carousel-slider");
+                                    cs.innerHTML = res.CarouselItems;
+                                    activeEmployeeSelection();
+                                    const ci = cs.querySelectorAll(".carousel-item");
+                                    const prevBtn = empCarousel.querySelector(".prev-item");
+                                    const proxBtn = empCarousel.querySelector(".prox-item");
+                                    if (ci.length > 1) {
+                                        prevBtn.removeAttribute("d-none");
+                                        proxBtn.removeAttribute("d-none");
+                                        activeCarousel({ prev: ".prev-item", next: ".prox-item", carousel: ".employee-carousel", time: .5, anim: "cubic-bezier(.73,.19,.14,.98)" });
+                                    } else {
+                                        prevBtn.addAttribute("d-none");
+                                        proxBtn.addAttribute("d-none");
+                                    }
+                                    createToast("Employees encontrados => ", 0);
+                                }
+                            });
+                    }
+                }
             }];
 
         const items = document.querySelectorAll(".item");
@@ -645,11 +679,11 @@
         function saleDataTaken(res) {
             const form = document.querySelector("[data-content=sale]").querySelector("form");
             const ItemSale = res.Object;
-            form.setAttribute("data-object-id", ItemSale.Id);
-            //configInputs(form, "preview", "Dados sobre ", Category.Name);
+            form.setAttribute("data-form-params", `[["servname", "${ItemSale.Name}"],["itemsaleid", "${ItemSale.Id}"]]`);
+            form.setAttribute("data-object-id", ItemSale.Name);
+            form.querySelector(".profile-title").innerHTML = ItemSale.Name;
             get(form, "name").innerHTML = ItemSale.Name;
-            get(form, "price").innerHTML = ItemSale.Price;
-            setImageSrc(get(form, "image_display"), readImageFromDatabase(Category.Image));
+            get(form, "price").innerHTML = `R$ ${ItemSale.Price}`;
         }
 
         function OnCategoryInserted(res) {

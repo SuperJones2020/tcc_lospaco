@@ -15,6 +15,14 @@ namespace TCC_LOSPACO.DAO {
             return sales;
         }
 
+        public static List<ItemSale> GetItemSales() {
+            var items = new List<ItemSale>();
+            db.ReaderRows(db.ReturnCommand($"select * from tbsale where loginid = '{Authentication.GetUser().Account.Id}'"), row => {
+                db.ReaderRows(db.ReturnCommand($"select * from tbitemsale where SaleId = '{(uint)row[0]}'"), data => items.Add(new ItemSale((uint)data[0], (string)data[1], (decimal)data[3])));
+            });
+            return items;
+        }
+
         public static ItemSale GetItemSaleById(uint id) {
             object[] row = db.ReaderRow(db.ReturnCommand($"select * from tbitemsale where itemsaleid = '{id}'"));
             return new ItemSale((uint)row[0], (string)row[1], (decimal)row[3]);

@@ -22,9 +22,10 @@ namespace TCC_LOSPACO.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Insert(string customer_cpf, uint service, uint employee, string date, string time) {
+        public ActionResult Insert(uint employee_id, string servname, string date, uint itemsaleid, string time) {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
-            db.ExecuteProcedure("sp_InsertShed", CustomerDAO.GetByCPF(customer_cpf), employee, service, $"{date} {time}");
+            string datetime = $"{Global.FormatDateString(date)} {time}";
+            db.ExecuteProcedure("sp_InsertSched", Authentication.GetUser().Account.Id, employee_id, ServiceDAO.GetByName(servname).Id, itemsaleid, datetime);
             return Json(new { Success = "Success" });
         }
     }

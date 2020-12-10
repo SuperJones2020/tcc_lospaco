@@ -9,7 +9,10 @@ namespace TCC_LOSPACO.DAO {
         public static List<Employee> GetList() {
             var list = new List<Employee>();
             string query = "select * from tbEmployee";
-            db.ReaderRows(db.ReturnCommand(query), row => list.Add(new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", row[2] + "", (decimal)row[3], Convert.ToChar(row[4]), (byte[])row[5], GetServices((uint)row[0]))));
+            db.ReaderRows(db.ReturnCommand(query), row => {
+                byte[] bytes = row[5] == DBNull.Value ? new byte[0] : (byte[])row[5];
+                list.Add(new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", row[2] + "", (decimal)row[3], Convert.ToChar(row[4]), bytes, GetServices((uint)row[0])));
+            });
             return list;
         }
 
@@ -37,12 +40,14 @@ namespace TCC_LOSPACO.DAO {
 
         public static Employee GetById(uint id) {
             var row = db.ReaderRow(db.ReturnCommand($"select * from tbEmployee where LoginId = '{id}'"));
-            return new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", (string)row[2], (decimal)row[3], Convert.ToChar(row[4]), (byte[])row[5], GetServices((uint)row[0]));
+            byte[] bytes = row[5] == DBNull.Value ? new byte[0] : (byte[])row[5];
+            return new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", (string)row[2], (decimal)row[3], Convert.ToChar(row[4]), bytes, GetServices((uint)row[0]));
         }
 
         public static Employee GetByRG(string rg) {
             var row = db.ReaderRow(db.ReturnCommand($"select * from tbEmployee where emprg = '{rg}'"));
-            return new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", (string)row[2], (decimal)row[3], Convert.ToChar(row[4]), (byte[])row[5], GetServices((uint)row[0]));
+            byte[] bytes = row[5] == DBNull.Value ? new byte[0] : (byte[])row[5];
+            return new Employee(CustomerDAO.GetById((uint)row[0]), row[1] + "", (string)row[2], (decimal)row[3], Convert.ToChar(row[4]), bytes, GetServices((uint)row[0]));
         }
 
         public static void Insert(string full_name, string username, string email, string password, string number, string birth, string rg, string cpf, string salary, string genre, string image, string services) {
@@ -50,6 +55,16 @@ namespace TCC_LOSPACO.DAO {
             db.ExecuteProcedure("sp_InsertEmployee", email, passwordHash, full_name, username, birth, cpf, rg, salary, genre, number, image);
             ushort[] servIds = services.Split(',').ToList().Select(x => Convert.ToUInt16(x)).ToArray();
             InsertService(GetByRG(rg).Customer.Account.Id, servIds);
+        }
+
+        public static List<Employee> GetEmployeesAvaible(string datetime, uint servid) {
+            var list = new List<Employee>();
+            db.ReaderRows(db.ReturnProcedure("sp_GetEmpsAvailable", datetime, servid), row => {
+                uint id = (uint)row[1];
+                Employee emp = GetById(id);
+                list.Add(emp);
+            });
+            return list;
         }
     }
 }

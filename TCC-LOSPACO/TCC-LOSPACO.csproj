@@ -675,6 +675,7 @@
     <Content Include="Views\Shared\Profile\Containers\_Packages.cshtml" />
     <Content Include="Views\Shared\Profile\Containers\_Schedules.cshtml" />
     <Content Include="Views\Shared\Profile\Containers\_Services.cshtml" />
+    <Content Include="Views\Shared\Profile\_EmployeeCarousel.cshtml" />
     <Content Include="Views\Shared\Profile\_EmployeeCarouselItem.cshtml" />
   </ItemGroup>
   <ItemGroup>

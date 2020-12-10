@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using TCC_LOSPACO.DAO;
@@ -50,6 +51,14 @@ namespace TCC_LOSPACO.Controllers {
             EmployeeDAO.Insert(full_name, username, email, password, number, birth, rg, cpf, salary, genre, base64Image, services);
             Employee e = EmployeeDAO.GetByRG(rg);
             return Json(new { e.Customer.Account.Id, Employee = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Profile/TableItem/_Employee", e, ControllerContext) });
+        }
+
+        [HttpPost]
+        public ActionResult GetEmpsAvaible(string datetime, string servname) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            Service s = ServiceDAO.GetByName(servname);
+            List<Employee> emps = EmployeeDAO.GetEmployeesAvaible(datetime, s.Id);
+            return Json(new { CarouselItems = CustomHtmlHelper.CustomHtmlHelper.RenderPartialToString("Profile/_EmployeeCarousel", emps, ControllerContext) });
         }
     }
 }

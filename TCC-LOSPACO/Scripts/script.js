@@ -158,7 +158,8 @@ function setTableItemAsRequestSender(contentSlider, dataItems) {
         { obj: "Package", action: "/Package/Get", id: item => item.getAttribute("data-id"), onSuccess: "packageDataTaken", onFailure: "packageDataFail" },
         { obj: "Service", action: "/Service/Get", id: item => item.getAttribute("data-id"), onSuccess: "serviceDataTaken", onFailure: "serviceDataFail" },
         { obj: "Schedule", action: "/Schedule/Get", id: item => item.getAttribute("data-id"), onSuccess: "scheduleDataTaken", onFailure: "scheduleDataFail" },
-        { obj: "Category", action: "/Category/Get", id: item => item.getAttribute("data-id"), onSuccess: "categoryDataTaken", onFailure: "categoryDataFail" }
+        { obj: "Category", action: "/Category/Get", id: item => item.getAttribute("data-id"), onSuccess: "categoryDataTaken", onFailure: "categoryDataFail" },
+        { obj: "Sale", action: "/Sale/Get", id: item => item.getAttribute("data-id"), onSuccess: "saleDataTaken", onFailure: "saleDataFail" }
     ]
     dataItems.forEach(item => {
         item.onclick = () => {
@@ -1433,12 +1434,17 @@ function factor(nr) {
 }
 
 function activeEmployeeSelection() {
-    const employee = document.querySelector(".employee-container");
-    const btn = employee.querySelector(".select-employee-btn");
-    const input = document.querySelector(".input-employee-selection");
-    const name = employee.querySelector(".employee-name-selection");
-    btn.onclick = () => {
-        input.value = name.getAttribute("data-employee-name");
+    const employees = document.querySelectorAll(".employee-container");
+    if (employees.length !== 0) {
+        employees.forEach(x => {
+            const btn = x.querySelector(".select-employee-btn");
+            const input = document.querySelector("[data-id=employee_name]");
+            const inputId = document.querySelector("[data-id=employee_id]");
+            btn.onclick = () => {
+                input.value = x.getAttribute("data-name");
+                inputId.value = x.getAttribute("data-id");
+            }
+        });
     }
 }
 

@@ -1,22 +1,22 @@
 ﻿
 @model TCC_LOSPACO.Models.Employee
 
-<div class="flex direction-column employee-container" data-id="@Model.Customer.Account.Id">
-    <div class="fg-1">
+<div class="flex direction-column employee-container max-h"data-id="@Model.Customer.Account.Id" data-name="@Model.Customer.FullName">
+    <div style="height: 80%">
         <a href="#">
             <img src="@TCC_LOSPACO.CustomHtmlHelper.CustomHtmlHelper.ImageSource(Model.Image)"
                  class="img-img max-size"
                  alt="@Model.Customer.FullName">
         </a>
     </div>
-    <div class="row center-elements">
+    <div style="height: 20%" class="row center-elements">
         <div class="m-t-2 col-12-child row text-align-center-child m-y-1-child">
-            <h2 class="text-align-center">
+            <h2 class="text-align-center white f-2">
                 @Model.Customer.FullName
             </h2>
             <div data-zoom="1.05, .6s"
                  class="p-2 cursor-pointer">
-                <button class="select-employee-btn bg-white cursor-pointer bolder"
+                <button data-anim-to-white class="select-employee-btn bg-transparent cursor-pointer bolder p-1 white"
                         type="button">
                     Selecionar
                 </button>

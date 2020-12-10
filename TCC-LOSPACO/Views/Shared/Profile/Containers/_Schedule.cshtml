@@ -7,7 +7,7 @@
         <button class="close bg-transparent position-absolute">
             <i class="f-5 rotate-anim cursor-pointer fas fa-times z-20"></i>
         </button>
-        <button type="button" data-fill-to="up"
+        <button type="button" data-fill-to="up" data-item-button
                 class="open  bg-transparent cursor-pointer position-absolute">
             <i class="f-10 fas fa-calendar-alt"><br /><span>Agendar</span></i>
         </button>
@@ -45,22 +45,22 @@
 
                         </div>
                     </div>
-                    <form data-loader=".main-loader" method="post" action="/Package/Insert"
-                          data-on-success="OnPackageInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
+                    <form data-loader=".main-loader" method="post" action="/Schedule/Insert"
+                          data-on-success="OnScheduleInserted" data-on-failure="() => createToast('Algo deu errado..', 2)"
                           data-form-request-sender="true" data-form-validate="true" data-form-is-valid="false" class="row center-elements min-max-w max-size">
 
                         <div class="row col-11 l-col-12 max-h p-1 content-container">
 
-                            <popup data-id="date" class="z-5 p-2 l-w m-max-w"
+                            <popup data-id="input-date-popup" class="z-5 p-2 l-w m-max-w"
                                    style="background-color: rgba(0, 0, 0, .5);">
                                 <div class="date-container bg-white shadow max-w b-0">
                                     <div class="row max-w justify-content-end">
-                                        <i data-close-pop-up="date"
+                                        <i data-close-pop-up="input-date-popup"
                                            class="f-4 p-2 rotate-anim cursor-pointer z-5 fas fa-times"></i>
                                     </div>
                                     <div class="date-ui justify-content-evenly row">
                                         <div class="control max-w row justify-content-between align-items-center">
-                                            <button type="button"
+                                            <button type="button" type="button"
                                                     class="cursor-pointer prev-container-date">
                                                 <i class="fas fa-chevron-left"></i>
                                             </button>
@@ -85,7 +85,7 @@
                             <div class="max-w row col-12-child align-items-center">
                                 <div>
                                     <div class="m-t-8 max-w row no-wrap center-elements">
-                                        <button data-follow-smoothly
+                                        <button type="button" data-follow-smoothly
                                                 class="bg-transparent cursor-pointer p-3 m-x-2 back-to-data-btn">
                                             <i class="f-6 m-f-4 fas fa-chevron-left"></i>
                                         </button>
@@ -98,7 +98,7 @@
                                         <div class="max-w p-x-3">
                                             <div class="align-items-center justify-content-between row">
                                                 <h1 class="f-7 m-f-5 m-y-2 white font-jos" data-id="name"></h1>
-                                                <div data-rating="4.33" data-stars-visualization
+                                                <!--<div data-rating="4.33" data-stars-visualization
                                                      class="rate-container align-items-center row no-wrap">
                                                     <div class="star-item">
                                                         <div class="star"></div>
@@ -116,21 +116,35 @@
                                                         <div class="star"></div>
                                                     </div>
                                                     <span class="rating-view m-l-1"></span>
-                                                </div>
+                                                </div>-->
+                                                <div class="m-y-2 font-inc f-5 white m-f-3" data-id="price"></div>
                                             </div>
-                                            <div class="m-y-2 font-inc f-5 white m-f-3" data-id="price"></div>
                                             <div class="row max-w m-t-4">
-                                                <div class="row max-w max-h no-wrap">
-                                                    <button data-open-pop-up="date"
-                                                            class="col-2 bg-white cursor-pointer row center-elements b-0 icon-input"
-                                                            style="border-right: none;">
-                                                        <i class="far fa-calendar"></i>
-                                                    </button>
-                                                    <input class="input-date bg-white p-3 col-10 row-input b-0"
-                                                           disabled type="text" name="password"
-                                                           placeholder="Clique no ícone para AGENDAR"
-                                                           style="border-left: none;" />
+                                                <div class="row max-w col-6-child l-col-12-child">
+                                                    <div class="p-r-1 l-p-none">
+                                                        <div class="f-3 m-t-5 label-title">Data</div>
+                                                        <div class="row m-t-3 max-w no-wrap">
+                                                            <button type="button" data-open-pop-up="input-date-popup"
+                                                                    class="col-2 bg-white cursor-pointer row center-elements b-0 icon-input"
+                                                                    style="border-right: none;">
+                                                                <i class="far fa-calendar"></i>
+                                                            </button>
+                                                            <input class="input-date bg-white p-3 col-10 row-input b-0"
+                                                                   type="text" name="date" required
+                                                                   placeholder="Clique no ícone para Agendar" data-id="date"
+                                                                   style="border-left: none;" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-l-1">
+                                                        <div class="f-3 m-t-5 label-title">Hora</div>
+                                                        <div class="row m-t-3 customized-input max-w no-wrap">
+                                                            <div class="col-2 row icon-input"><i class="far fa-clock"></i></div>
+                                                            <input class="col-10" data-id="time" type="time" name="time" required />
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+                                                <button type="button" data-anim-to-white class="search-for-employees p-3 cursor-pointer bg-black white b-0">Procurar por Funcionários</button>
                                             </div>
 
                                             <div class="row white col-12-child m-t-3">
@@ -142,34 +156,32 @@
                                                     <div class="col-2 row icon-input">
                                                         <i class="fas black fa-user-tie"></i>
                                                     </div>
-                                                    <input class="col-10 p-3 input-employee-selection"
-                                                           type="text" name="employee"
+                                                    <input class="col-10 p-3" data-id="employee_name" required
+                                                           type="text" 
                                                            value="Selecione um Funcionário abaixo!" disabled
                                                            id="employee">
+                                                    <input class="col-10 p-3 d-none" data-id="employee_id"
+                                                           type="text" name="employee_id">
                                                 </div>
                                             </div>
 
                                             <div class="employee-carousel m-t-3 carousel-container">
                                                 <button type="button"
-                                                        class="white follow-smoothly prev-item p-3 m-l-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                        class="white d-none follow-smoothly prev-item p-3 m-l-1 bg-transparent cursor-pointer position-absolute z-10"
                                                         style="left: 0;">
                                                     <i class="fas f-3 fa-chevron-left"></i>
                                                 </button>
                                                 <button type="button"
-                                                        class="white follow-smoothly prox-item p-3 m-r-1 bg-transparent cursor-pointer position-absolute z-10"
+                                                        class="white d-none follow-smoothly prox-item p-3 m-r-1 bg-transparent cursor-pointer position-absolute z-10"
                                                         style="right: 0;">
                                                     <i class="fas f-3 fa-chevron-right"></i>
                                                 </button>
-                                                <div class="carousel-slider" style="height: 300px">
-                                                    <div class="bg-white justify-content-around carousel-item row col-4-child">
-                                                        //3 carousel items
-                                                    </div>
-                                                    <div class="bg-white carousel-item justify-content-around row col-4-child">
-                                                                //3 carousel items
-                                                    </div>
-
+                                                <div class="carousel-slider row center-elements" style="height: 400px">
+                                                    <div class='f-6 font-jos'>Procure por Funcionários</div>
                                                 </div>
                                             </div>
+
+                                            <button data-zoom="1.1, .6s" data-anim-to-black type="submit" class="p-4 m-t-2 cursor-pointer bg-white black">Realizar Agendamento!</button>
                                         </div>
                                     </div>
                                 </div>

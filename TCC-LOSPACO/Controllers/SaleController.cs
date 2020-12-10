@@ -28,6 +28,14 @@ namespace TCC_LOSPACO.Controllers {
             return Json(new { Success = "Success" });
         }
 
+
+        [HttpPost]
+        public ActionResult GetEmployees(string date, uint servid) {
+            if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
+            var emps = EmployeeDAO.GetEmployeesAvaible(date, servid);
+            return Json(new { Success = "Success" });
+        }
+
         /*public ActionResult GetList() {
             if (!Authentication.IsValid()) return Json(new { Error = "Not Authenticated" });
             JsonResult json = Json(new { Services = ServiceDAO.GetList() }, JsonRequestBehavior.AllowGet);
